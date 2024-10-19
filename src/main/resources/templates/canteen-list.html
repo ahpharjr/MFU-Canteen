@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Canteen List</title>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            table, th, td {
+                border: 1px solid black;
+            }
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+            img {
+                width: 100px;
+                height: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>List of Canteens</h1>
+        <p><a th:href="@{/canteen/add}">Add Canteen</a></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="canteen : ${canteens}">
+                    <td th:text="${canteen.name}">Canteen Name</td>
+                    <td th:text="${canteen.location}">Canteen Location</td>
+
+                    <td><a th:href="@{'/canteen/shops/' + ${canteen.canteenId}}">View Shops</a></td>
+                    <td><a th:href="@{'/canteen/edit/' + ${canteen.canteenId}}">Edit</a></td>
+                    <td>
+                        <form th:action="@{'/canteen/delete/'+ ${canteen.canteenId}}" method="post" onsubmit="return confirm('Are you sure you want to delete?');">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

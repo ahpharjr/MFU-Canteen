@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<head>
+    <title>Add Canteen</title>
+</head>
+
+<body>
+    <h1>Add New Canteen</h1>
+    <form th:action="@{/canteen/add}" th:object="${canteen}" method="post">
+        <label>Canteen Name</label>
+        <input type="text" th:field="*{name}" placeholder="Enter canteen name"><br><br>
+
+        <label>Canteen Location</label>
+        <input type="text" th:field="*{location}" placeholder="Enter Location"><br><br>
+
+        <button type="submit">Submit</button>
+        <button type="button" onclick="window.location.href='/canteens';">Cancel</button>
+    </form>
+</body>

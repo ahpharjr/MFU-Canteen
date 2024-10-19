@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Shops in Canteen</title>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        img {
+            width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Shops in [[${canteen.name}]]</h1>
+
+<p><a th:href="@{'/shop/add/' + ${canteen.canteenId}}">Add Shop</a></p>
+<table>
+    <thead>
+        <tr>
+            <th>Shop Picture</th>
+            <!-- <th>Picture Url</th> -->
+            <th>Shop Name</th>
+            <th>Shop Number</th>
+            <th>Description</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="shop : ${shops}">
+            <!-- Assuming shop.picture holds only the file name -->
+            <td>
+                <img th:src="@{${shop.picture}}" alt="Shop Picture" style="width:100px;height:100px;">
+            </td>
+            <!-- <td th:text="${shop.picture}">Picture Url</td> -->
+            <td th:text="${shop.name}">Shop Name</td>
+            <td th:text="${shop.shopNum}">Shop Number</td>
+            <td th:text="${shop.description}">Description</td>
+            <td th:text="${shop.phNum}">Phone Number</td>
+
+            <td>
+                <form th:action="@{'/shop/delete/' + ${shop.shopId}}" method="post" onsubmit="return confirm('Are you aure you want to delete this shop?')">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+            <td>
+                <a th:href="@{'/shop/edit/' + ${shop.shopId}}">Edit</a>
+            </td>
+        </tr>
+    </tbody>    
+</table>
+
+<p><a th:href="@{/canteens}">Back to Canteens</a></p>
+
+</body>
+</html>
