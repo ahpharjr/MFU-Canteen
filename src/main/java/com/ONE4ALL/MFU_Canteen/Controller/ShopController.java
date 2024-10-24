@@ -183,7 +183,6 @@ public class ShopController {
         model.addAttribute("canteenId", canteenId);  // Add canteenId to the model
         return "edit-shop";  // Return the edit-shop template
     }
-    
 
     @PostMapping("/shop/edit/{shopId}")
     public String updateShop(@PathVariable Long shopId,
