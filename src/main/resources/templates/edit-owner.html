@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form th:action="@{/owner/edit/{ownerId}(ownerId=${owner.ownerId})}" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" th:value="${owner.name}" required>
+        <br>
+    
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" th:value="${owner.email}" required>
+        <br>
+    
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" th:value="${owner.password}" required>
+        <br>
+    
+        <label for="phNum">Phone Number:</label>
+        <input type="text" id="phNum" name="phNum" th:value="${owner.phNum}" required>
+        <br>
+    
+        <label for="profilePicture">Profile Picture URL:</label>
+        <input type="text" id="profilePicture" name="profilePicture" th:value="${owner.profilePicture}">
+        <br>
+    
+        <button type="submit">Update Owner</button>
+        <button type="button" onclick="window.location.href='/canteens';">Cancel</button>
+    </form>
+    
+</body>
+</html>

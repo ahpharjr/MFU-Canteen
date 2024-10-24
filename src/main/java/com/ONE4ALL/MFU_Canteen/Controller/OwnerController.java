@@ -41,6 +41,34 @@ public class OwnerController {
         return "redirect:/canteens";
     }
 
+    @PostMapping("/owner/delete/{ownerId}")
+    public String deleteOwner(@PathVariable Long ownerId){
+        ownerService.deleteOwner(ownerId);
+
+        return "redirect:/canteens";
+
+    }
+
+    @GetMapping("/owner/edit/{ownerId}")
+    public String showEditOwnerForm(@PathVariable Long ownerId, Model model){
+        Owner owner = ownerService.getOwnerById(ownerId);
+        model.addAttribute("owner", owner);
+
+        return "edit-owner";
+
+    }
+
+    @PostMapping("/owner/edit/{ownerId}")
+    public String updateOwner(@PathVariable Long ownerId,
+                              @ModelAttribute Owner owner){
+        
+        owner.setOwnerId(ownerId);
+        ownerService.updateOwner(owner);
+
+        return "redirect:/canteens";
+
+    }
+
     @GetMapping("/shop/assignOwner/{shopId}")
     public String showAssignOwnerForm(@PathVariable Long shopId, Model model) {
         Shop shop = shopService.getShopById(shopId);
