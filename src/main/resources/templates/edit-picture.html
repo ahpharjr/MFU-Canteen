@@ -9,10 +9,17 @@
         <label for="name">Picture Name:</label>
         <input type="text" id="name" name="pictureName" th:value="${picture.pictureName}" required>
         <br>
+        <div>
+            <img th:src="@{'/uploads/' + ${picture.fileName}}" alt="Shop Picture" style="width:100px;height:100px;">
+        </div>
         <label for="file">Upload New Picture (optional):</label>
         <input type="file" id="file" name="file">
         <br>
         <button type="submit">Update Picture</button>
+
+        <a th:href="@{'/pictures'}">
+            <button type="button">Cancel</button>
+        </a>
     </form>
 </body>
 </html>
