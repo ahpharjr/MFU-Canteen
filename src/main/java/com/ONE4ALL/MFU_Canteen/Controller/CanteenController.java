@@ -15,6 +15,7 @@ import com.ONE4ALL.MFU_Canteen.Entity.Canteen;
 import com.ONE4ALL.MFU_Canteen.Entity.Shop;
 import com.ONE4ALL.MFU_Canteen.Repository.CanteenRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.ShopRepository;
+import com.ONE4ALL.MFU_Canteen.Service.OwnerService;
 
 @Controller
 public class CanteenController {
@@ -25,9 +26,13 @@ public class CanteenController {
     @Autowired
     private ShopRepository shopRepo;
 
+    @Autowired
+    private OwnerService ownerService;
+
     @GetMapping("/canteens")
     public String showCanteen(Model model){
         model.addAttribute("canteens", canteenRepo.findAll());
+        model.addAttribute("owners", ownerService.getAllOwners());
 
         return "canteen-list";
     }
