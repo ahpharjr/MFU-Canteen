@@ -3,6 +3,7 @@ package com.ONE4ALL.MFU_Canteen.Controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ONE4ALL.MFU_Canteen.Entity.Canteen;
+import com.ONE4ALL.MFU_Canteen.Entity.Owner;
 import com.ONE4ALL.MFU_Canteen.Entity.Shop;
 import com.ONE4ALL.MFU_Canteen.Repository.CanteenRepository;
+import com.ONE4ALL.MFU_Canteen.Repository.OwnerRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.ShopRepository;
 import com.ONE4ALL.MFU_Canteen.Service.FileStorageService;
 import com.ONE4ALL.MFU_Canteen.Service.ShopService;
@@ -37,116 +40,68 @@ public class ShopController {
     @Autowired
     private FileStorageService fileStorageService;
 
+    @Autowired
+    private OwnerRepository ownerRepo;
+
     // @Value("${file.upload-dir}")
     // private String uploadDir;
 
 
     @GetMapping("/shop/add/{canteenId}")
     public String showShopForm(@PathVariable("canteenId") Long canteenId, Model model){
-        Optional<Canteen> canteenOpt= canteenRepo.findById(canteenId);
-        if(canteenOpt.isPresent()){
+        Optional<Canteen> canteenOpt = canteenRepo.findById(canteenId);
+        if (canteenOpt.isPresent()) {
             Shop shop = new Shop();
             shop.setCanteen(canteenOpt.get());
+
+            // Fetch all owners and add them to the model
+            List<Owner> owners = ownerRepo.findAll();
+            model.addAttribute("owners", owners);
+
             model.addAttribute("shop", shop);
             model.addAttribute("canteenId", canteenId);
             return "add-shop";
-        }else{
+        } else {
             return "redirect:/canteens";
         }
     }
 
-    // @PostMapping("/shop/add/{canteenId}")
-    // public String addShop(@PathVariable Long canteenId, 
-    //                       @ModelAttribute Shop shop,
-    //                       @RequestParam("pictureFile") MultipartFile pictureFile,
-    //                       RedirectAttributes redirectAttributes){
-    
-    //     System.out.println("-------------------------1-----------------------");
-    
-    //     Optional<Canteen> canteenOpt = canteenRepo.findById(canteenId);
-    //     if (canteenOpt.isPresent()) {
-    //         System.out.println("-------------------------2-----------------------");
-    //         if (!pictureFile.isEmpty()) {
-    //             System.out.println("-------------------------3-----------------------");
-    //             try {
-    //                 // Set the external directory where the files will be saved
-    //                 // String uploadDir = new File("src/main/resources/static/uploads/").getAbsolutePath();
-    //                 String uploadDir = new File("C:/uploads/").getAbsolutePath();  // External directory path
-    
-    //                 File uploadDirFile = new File(uploadDir);
-    
-    //                 // Ensure the directory exists, if not create it
-    //                 if (!uploadDirFile.exists()) {
-    //                     uploadDirFile.mkdirs();  // Create the directory if it doesn't exist
-    //                 }
-    
-    //                 String fileName = pictureFile.getOriginalFilename();
-    //                 File uploadFile = new File(uploadDirFile, fileName);  // Create the full path for the file
-    
-    //                 System.out.println("-------------------------4-----------------------");
-    //                 pictureFile.transferTo(uploadFile);  // Transfer the uploaded file to the specified directory
-    
-    //                 // Log the absolute path for debugging
-    //                 System.out.println(uploadFile);
-    
-    //                 // Save only the relative path or filename in the database
-    //                 shop.setPicture("/uploads/"+fileName);  // Save only the file name, not the full path
-    //             } catch (IOException e) {
-    //                 e.printStackTrace();
-    //                 redirectAttributes.addFlashAttribute("errorMessages", "File upload failed.");
-    //                 return "redirect:/shop/add/" + canteenId;
-    //             }
-    //         }
-    
-    //         System.out.println("-------------------------5-----------------------");
-    //         shop.setCanteen(canteenOpt.get());
-    //         shopRepo.save(shop);
-    
-    //         return "redirect:/canteen/shops/" + canteenId;
-    //     } else {
-    //         return "redirect:/canteens";
-    //     }
-    // }
-    
-    
-
     @PostMapping("/shop/add/{canteenId}")
-    public String addShop(@PathVariable Long canteenId, 
-                        @ModelAttribute Shop shop,
-                        @RequestParam("pictureFile") MultipartFile pictureFile,
-                        RedirectAttributes redirectAttributes){
+    public String addShop(@PathVariable Long canteenId,
+                          @ModelAttribute Shop shop,
+                          @RequestParam("ownerId") Long ownerId,  // Capture selected owner ID
+                          @RequestParam("pictureFile") MultipartFile pictureFile,
+                          RedirectAttributes redirectAttributes) {
 
-            Optional<Canteen> canteenOpt = canteenRepo.findById(canteenId);
-            if (canteenOpt.isPresent()) {
-                if (!pictureFile.isEmpty()) {
-                    try {
-                        // Resolve the static folder path at runtime
-                        String uploadDir = new File("src/main/resources/static/uploads/").getAbsolutePath();
-                        File uploadDirFile = new File(uploadDir);
+        Optional<Canteen> canteenOpt = canteenRepo.findById(canteenId);
+        Optional<Owner> ownerOpt = ownerRepo.findById(ownerId);  // Fetch the selected owner
 
-                        // Ensure the directory exists
-                        if (!uploadDirFile.exists()) {
-                            uploadDirFile.mkdirs();  // Create the directory if it doesn't exist
-                        }
+        if (canteenOpt.isPresent() && ownerOpt.isPresent()) {
+            shop.setCanteen(canteenOpt.get());
+            shop.setOwner(ownerOpt.get());  // Assign the selected owner
 
-                        String fileName = pictureFile.getOriginalFilename();
-                        File uploadFile = new File(uploadDirFile, fileName);  // Create the full path for the file
-                        pictureFile.transferTo(uploadFile);  // Transfer the uploaded file to the specified directory
-                        
-                        // Log the absolute path for debugging
-                        // System.out.println(uploadFile.getAbsolutePath());
-                        shop.setPicture("/uploads/" + fileName);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            redirectAttributes.addFlashAttribute("errorMessages", "File upload failed.");
-                            return "redirect:/shop/add/" + canteenId;
-                        }
+            if (!pictureFile.isEmpty()) {
+                try {
+                    // Store the picture as before
+                    String uploadDir = new File("src/main/resources/static/uploads/").getAbsolutePath();
+                    File uploadDirFile = new File(uploadDir);
+                    if (!uploadDirFile.exists()) {
+                        uploadDirFile.mkdirs(); 
+                    }
+                    String fileName = pictureFile.getOriginalFilename();
+                    File uploadFile = new File(uploadDirFile, fileName);
+                    pictureFile.transferTo(uploadFile);
+                    shop.setPicture("/uploads/" + fileName);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    redirectAttributes.addFlashAttribute("errorMessages", "File upload failed.");
+                    return "redirect:/shop/add/" + canteenId;
                 }
-                shop.setCanteen(canteenOpt.get());
-                shopRepo.save(shop);
+            }
 
-                return "redirect:/canteen/shops/" + canteenId;
-            } else {
+            shopRepo.save(shop);  // Save the shop with the assigned owner
+            return "redirect:/canteen/shops/" + canteenId;
+        } else {
             return "redirect:/canteens";
         }
     }

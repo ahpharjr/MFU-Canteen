@@ -7,44 +7,45 @@
 <body>
 
 <h1>Add Shop to [[${shop.canteen.name}]]</h1>
-
-<!-- Form to add a new shop -->
-<form th:action="@{'/shop/add/' + ${canteenId}}" method="post" enctype="multipart/form-data">
-    <div>
-        <label for="name">Shop Name:</label>
-        <input type="text" id="name" name="name" th:value="${shop.name}">
-    </div>
-    <div>
-        <label for="shop_no">Shop Number:</label>
-        <input type="text" id="shop_no" name="shopNum" th:value="${shop.shopNum}">
-    </div>
-    <div>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" th:text="${shop.description}"></textarea>
-    </div>
-    <div>
-        <label for="ph_no">Phone Number:</label>
-        <input type="text" id="ph_no" name="phNum" th:value="${shop.phNum}">
-    </div>
-    <div>
-        <label for="pictureFile">Upload Shop Picture: </label>
-        <input type="file" id="pictureFile" name="pictureFile" >
-    </div>
     
-    <!-- <div>
-        <label for="owner">Assign Owner:</label>
-        <select id="owner" name="ownerId">
-            <option th:each="owner : ${owners}" th:value="${owner.id}" th:text="${owner.name}"></option>
-        </select>
-    </div> -->
-
-    <div>
-        <button type="submit">Add Shop</button>
-    </div>
-</form>
-
-<!-- Back to shop list -->
-<p><a th:href="@{'/canteen/shops/' + ${canteenId}}">Back to Shop List</a></p>
+    <!-- Form to add a new shop -->
+    <form th:action="@{'/shop/add/' + ${canteenId}}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="name">Shop Name:</label>
+            <input type="text" id="name" name="name" th:value="${shop.name}" required>
+        </div>
+        <div>
+            <label for="shop_no">Shop Number:</label>
+            <input type="text" id="shop_no" name="shopNum" th:value="${shop.shopNum}" required>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" th:text="${shop.description}"></textarea>
+        </div>
+        <div>
+            <label for="ph_no">Phone Number:</label>
+            <input type="text" id="ph_no" name="phNum" th:value="${shop.phNum}" required>
+        </div>
+        <div>
+            <label for="pictureFile">Upload Shop Picture: </label>
+            <input type="file" id="pictureFile" name="pictureFile">
+        </div>
+    
+        <!-- Dropdown to select the owner -->
+        <div>
+            <label for="owner">Assign Owner:</label>
+            <select id="owner" name="ownerId" required>
+                <option th:each="owner : ${owners}" th:value="${owner.ownerId}" th:text="${owner.name}"></option>
+            </select>
+        </div>
+    
+        <div>
+            <button type="submit">Add Shop</button>
+        </div>
+    </form>
+    
+    <!-- Back to shop list -->
+    <p><a th:href="@{'/canteen/shops/' + ${canteenId}}">Back to Shop List</a></p>
 
 </body>
 </html>
