@@ -25,7 +25,10 @@
 
 <h1>Shops in [[${canteen.name}]]</h1>
 
-<p><a th:href="@{'/shop/add/' + ${canteen.canteenId}}">Add Shop</a></p>
+<p>
+    <a th:href="@{'/shop/add/' + ${canteen.canteenId}}">Add Shop</a> /
+    <a th:href="@{/canteens}">Back to Canteens</a>
+</p>
 <table>
     <thead>
         <tr>
@@ -60,8 +63,6 @@
         </tr>
     </tbody>    
 </table>
-
-<p><a th:href="@{/canteens}">Back to Canteens</a></p>
 
 </body>
 </html>

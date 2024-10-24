@@ -180,8 +180,6 @@ public class ShopController {
         Shop shop = shopService.getShopById(shopId);
         Long canteenId = shop.getCanteen() != null ? shop.getCanteen().getCanteenId() : null;  // Retrieve the canteenId
         model.addAttribute("shop", shop);
-        System.out.println(canteenId);
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++");
         model.addAttribute("canteenId", canteenId);  // Add canteenId to the model
         return "edit-shop";  // Return the edit-shop template
     }
