@@ -18,11 +18,6 @@ public class ItemService {
     @Autowired 
     private ShopRepository shopRepository;
 
-
-    // public void saveItem(Item item){
-    //     itemRepository.save(item);
-    // }
-
     public void saveItem(Item item, Long shopId) {
     // Find the shop by ID
     Shop shop = shopRepository.findById(shopId)
@@ -39,6 +34,19 @@ public class ItemService {
 
     public List<Item> getItemsByShop(Long shopId) {
         return itemRepository.findByShop_ShopId(shopId); // Assuming you have this method in your ItemRepository
+    }
+
+    public Item getItemById(Long itemId) {
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("Item not found with ID: " + itemId));
+    }
+
+    public void updateItem(Item updatedItem) {
+        itemRepository.save(updatedItem);
+    }
+    
+    public void deleteItem(Long itemId){
+        itemRepository.deleteById(itemId);
     }
 
 }

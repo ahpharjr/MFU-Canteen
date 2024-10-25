@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,22 +76,69 @@ public class ItemController {
     @PostMapping("/item/add/{shopId}")
         public String addItem(@PathVariable Long shopId, Item item, @RequestParam("image") MultipartFile imageFile) {
 
-            System.out.println("----------------------------1-----------------------------");
             try {
-                System.out.println("----------------------------2-----------------------------");
                 // Upload file and set file path
                 String imageUrl = fileUploadService.uploadFile(imageFile);
-                System.out.println("imageUrl::"+ imageUrl);
-                System.out.println("----------------------------3-----------------------------");
                 item.setImageUrl(imageUrl);
-                System.out.println("----------------------------4-----------------------------");
+                
                 // Save the item with image URL
                 itemService.saveItem(item, shopId);
-                System.out.println("----------------------------5-----------------------------");
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("----------------------------5-----------------------------");
+        return "redirect:/owner/shop/" + shopId + "/items";
+    }
+
+    @GetMapping("/item/edit/{itemId}")
+    public String showEditItemForm(@PathVariable Long itemId, Model model) {
+        Item item = itemService.getItemById(itemId);
+        Long shopId = item.getShop().getShopId(); // Fetch shopId directly from the item
+        
+        model.addAttribute("item", item);
+        model.addAttribute("shopId", shopId);
+
+        return "edit-item";
+    }
+    
+
+    @PostMapping("/item/edit/{itemId}")
+    public String updateItem(@PathVariable Long itemId, 
+                            Item item, 
+                            @RequestParam Long shopId, 
+                            @RequestParam("image") MultipartFile imageFile) {
+
+        try {
+            // Get the existing item
+            Item existingItem = itemService.getItemById(itemId);
+
+            // Update image if a new file is provided
+            if (!imageFile.isEmpty()) {
+                String imageUrl = fileUploadService.uploadFile(imageFile);
+                existingItem.setImageUrl(imageUrl); // Set new image URL
+            }
+
+            // Update other fields
+            existingItem.setName(item.getName());
+            existingItem.setPrice(item.getPrice());
+            existingItem.setAvailability(item.isAvailability());
+            existingItem.setCategory(item.getCategory());
+
+            // Save updates
+            itemService.updateItem(existingItem);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/owner/shop/" + shopId + "/items";
+    }
+
+
+    @PostMapping("/item/delete/{itemId}")
+    public String deleteItem(@PathVariable Long itemId, @RequestParam Long shopId){
+        itemService.deleteItem(itemId);
+
         return "redirect:/owner/shop/" + shopId + "/items";
     }
 }

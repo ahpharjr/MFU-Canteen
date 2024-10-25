@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Item</title>
+</head>
+<body>
+    <h1>Edit Item</h1>
+    <form th:action="@{'/owner/item/edit/' + ${item.itemId}}" th:object="${item}" method="post" enctype="multipart/form-data">
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required/>
+        <br/>
+
+        <label>Price:</label>
+        <input type="number" step="0.01" th:field="*{price}" required/>
+        <br/>
+
+        <label>Availability:</label>
+        <input type="checkbox" th:field="*{availability}"/>
+        <br/>
+
+        <label>Category:</label>
+        <input type="text" th:field="*{category}" required/>
+        <br/>
+
+        <!-- Display current image -->
+        <div>
+            <img th:src="${item.imageUrl}" alt="Item Picture" style="width:100px;height:100px;">
+        </div>
+
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image"/>
+        <br/>
+
+        <input type="hidden" name="shopId" th:value="${shopId}" />
+        <button type="submit">Update Item</button>
+        <a th:href="@{'/owner/shop/' + ${shopId} + '/items'}">
+            <button type="button">Cancel</button>
+        </a>
+    </form>
+</body>
+
+</html>

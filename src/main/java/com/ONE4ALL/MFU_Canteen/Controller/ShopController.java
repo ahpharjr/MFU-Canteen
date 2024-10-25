@@ -127,7 +127,6 @@ public class ShopController {
 
             shopRepo.delete(shop); // Remove the shop from the database
 
-            // Optionally, delete the shop's picture file if it exists
             String pictureFilePath = "src/main/resources/static/uploads/" + shop.getPicture();
             File pictureFile = new File(pictureFilePath);
             if (pictureFile.exists()) {
@@ -135,10 +134,10 @@ public class ShopController {
             }
 
             redirectAttributes.addFlashAttribute("successMessage", "Shop deleted successfully.");
-            return "redirect:/ad/canteen/shops/" + canteenId;  // Redirect to the list of shops
+            return "redirect:/ad/canteen/shops/" + canteenId;  
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Shop not found.");
-            return "redirect:/ad/canteens"; // Redirect to the canteens page if shop not found
+            return "redirect:/ad/canteens";
         }
     }
 
