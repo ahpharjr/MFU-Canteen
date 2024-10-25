@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-// import jakarta.persistence.OneToOne;
 
 @Entity
 public class Shop {
@@ -27,13 +26,12 @@ public class Shop {
     private String phNum;
 
     @ManyToOne
-    // @JoinColumn(name = "canteenId", nullable = false)
     @JoinColumn(name = "ownerId", nullable = false)
-    private Canteen canteen;
+    private Owner owner;
 
     @ManyToOne
     @JoinColumn(name = "canteenId", nullable = false)
-    private Owner owner;
+    private Canteen canteen;
 
     public Long getShopId() {
         return shopId;

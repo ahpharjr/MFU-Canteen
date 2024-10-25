@@ -1,5 +1,6 @@
 package com.ONE4ALL.MFU_Canteen.Service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,19 @@ public class ShopService {
         return shopRepository.findById(shopId).orElseThrow(() -> new IllegalArgumentException("Invalid shop ID"));
     }
 
+    public List<Shop> getShopsByOwner(Long ownerId) {
+        return shopRepository.findByOwner_OwnerId(ownerId); // Ensure this method is correctly defined
+    }
+
     public void updateShop(Long shopId, Shop updateShop){
         Shop existingShop = getShopById(shopId);
         existingShop.setName(updateShop.getName());
         existingShop.setDescription(updateShop.getDescription());
         existingShop.setPhNum(updateShop.getPhNum());
         existingShop.setShopNum(updateShop.getShopNum());
-        // existingShop.setPicture(updateShop.getPicture());
 
         shopRepository.save(existingShop);
     }
+
+
 }

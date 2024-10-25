@@ -2,7 +2,6 @@ package com.ONE4ALL.MFU_Canteen.Entity;
 
 
 import java.util.List;
-import java.util.ArrayList;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -24,7 +23,7 @@ public class Owner {
     private String profilePicture;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Shop> shops = new ArrayList<>();
+    private List<Shop> shops;
     
     public Owner() {}
 
