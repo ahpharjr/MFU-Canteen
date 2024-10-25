@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ONE4ALL.MFU_Canteen.Entity.Canteen;
 import com.ONE4ALL.MFU_Canteen.Entity.Shop;
@@ -18,6 +19,7 @@ import com.ONE4ALL.MFU_Canteen.Repository.ShopRepository;
 import com.ONE4ALL.MFU_Canteen.Service.OwnerService;
 
 @Controller
+@RequestMapping("/ad")
 public class CanteenController {
     
     @Autowired
@@ -49,7 +51,7 @@ public class CanteenController {
 
         canteenRepo.save(canteen);
 
-        return "redirect:/canteens"; // Redirect to the canteen list page
+        return "redirect:/ad/canteens"; // Redirect to the canteen list page
     }
 
     @GetMapping("/canteen/edit/{id}")
@@ -60,7 +62,7 @@ public class CanteenController {
             model.addAttribute("canteen", canteen.get());
             return "edit-canteen";
         }else{
-            return "redirect:/canteens";
+            return "redirect:/ad/canteens";
         }
     }
 
@@ -70,7 +72,7 @@ public class CanteenController {
         canteen.setCanteenId(id);
         canteenRepo.save(canteen);
 
-        return "redirect:/canteens";
+        return "redirect:/ad/canteens";
 
     }
 
@@ -79,17 +81,8 @@ public class CanteenController {
         
         canteenRepo.deleteById(id);
         
-        return "redirect:/canteens";
+        return "redirect:/ad/canteens";
     }
-
-    // @GetMapping("/canteen/shops/{id}")
-    // public String viewShops(@PathVariable("id") Long canteenId, Model model) {
-    //     List<Shop> shops = shopRepo.findShopsByCanteenId(canteenId);
-    //     model.addAttribute("shops", shops);
-    //     // model.addAttribute("canteenId", canteenId);
-
-    //     return "shop-list"; 
-    // }
 
     @GetMapping("/canteen/shops/{canteenId}")
     public String viewShops(@PathVariable("canteenId") Long canteenId, Model model) {
@@ -101,7 +94,7 @@ public class CanteenController {
             model.addAttribute("shops", shops);
             return "shop-list"; 
         } else {
-            return "redirect:/canteens"; 
+            return "redirect:/ad/canteens"; 
         }
     }
 }

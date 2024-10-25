@@ -1,10 +1,16 @@
 package com.ONE4ALL.MFU_Canteen.Entity;
 
+
+import java.util.List;
+import java.util.ArrayList;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
+// import jakarta.persistence.OneToOne;
 
 @Entity
 public class Owner {
@@ -18,8 +24,10 @@ public class Owner {
     private String phNum;
     private String profilePicture;
 
-    @OneToOne(mappedBy = "owner")
-    private Shop shop;
+    // @OneToOne(mappedBy = "owner")
+    // private Shop shop;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Shop> shops = new ArrayList<>();
     
     public Owner(){
 
@@ -73,13 +81,13 @@ public class Owner {
         this.profilePicture = profilePicture;
     }
 
-    public Shop getShop() {
-        return shop;
-    }
+    // public Shop getShop() {
+    //     return shop;
+    // }
 
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    };
+    // public void setShop(Shop shop) {
+    //     this.shop = shop;
+    // };
 
 
 }

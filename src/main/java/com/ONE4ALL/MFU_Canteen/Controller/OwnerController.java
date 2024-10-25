@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,6 +20,7 @@ import com.ONE4ALL.MFU_Canteen.Service.OwnerService;
 import com.ONE4ALL.MFU_Canteen.Service.ShopService;
 
 @Controller
+@RequestMapping("/ad")
 public class OwnerController {
     
     @Autowired
@@ -38,14 +40,14 @@ public class OwnerController {
     public String addOwner(@ModelAttribute Owner owner){
         ownerService.createOwner(owner);
 
-        return "redirect:/canteens";
+        return "redirect:/ad/canteens";
     }
 
     @PostMapping("/owner/delete/{ownerId}")
     public String deleteOwner(@PathVariable Long ownerId){
         ownerService.deleteOwner(ownerId);
 
-        return "redirect:/canteens";
+        return "redirect:/ad/canteens";
 
     }
 
@@ -65,31 +67,31 @@ public class OwnerController {
         owner.setOwnerId(ownerId);
         ownerService.updateOwner(owner);
 
-        return "redirect:/canteens";
+        return "redirect:/ad/canteens";
 
     }
 
-    @GetMapping("/shop/assignOwner/{shopId}")
-    public String showAssignOwnerForm(@PathVariable Long shopId, Model model) {
-        Shop shop = shopService.getShopById(shopId);
-        List<Owner> owners = ownerService.getAllOwners(); // Get all available owners
+    // @GetMapping("/shop/assignOwner/{shopId}")
+    // public String showAssignOwnerForm(@PathVariable Long shopId, Model model) {
+    //     Shop shop = shopService.getShopById(shopId);
+    //     List<Owner> owners = ownerService.getAllOwners(); // Get all available owners
         
-        model.addAttribute("shop", shop);
-        model.addAttribute("owners", owners);
-        return "assign-owner"; // Thymeleaf template to assign owner
-    }
+    //     model.addAttribute("shop", shop);
+    //     model.addAttribute("owners", owners);
+    //     return "assign-owner"; // Thymeleaf template to assign owner
+    // }
 
-    @PostMapping("/shop/assignOwner/{shopId}")
-    public String assignOwnerToShop(@PathVariable Long shopId, @RequestParam Long ownerId, RedirectAttributes redirectAttributes) {
-        Shop shop = shopService.getShopById(shopId);
-        Owner owner = ownerService.getOwnerById(ownerId);
+    // @PostMapping("/shop/assignOwner/{shopId}")
+    // public String assignOwnerToShop(@PathVariable Long shopId, @RequestParam Long ownerId, RedirectAttributes redirectAttributes) {
+    //     Shop shop = shopService.getShopById(shopId);
+    //     Owner owner = ownerService.getOwnerById(ownerId);
 
-        shop.setOwner(owner);  // Set owner for the shop
-        shopService.updateShop(shopId, shop);
+    //     shop.setOwner(owner);  // Set owner for the shop
+    //     shopService.updateShop(shopId, shop);
 
-        redirectAttributes.addFlashAttribute("successMessage", "Owner assigned successfully.");
-        return "redirect:/shops";
-    }
+    //     redirectAttributes.addFlashAttribute("successMessage", "Owner assigned successfully.");
+    //     return "redirect:/shops";
+    // }
 
 
 }

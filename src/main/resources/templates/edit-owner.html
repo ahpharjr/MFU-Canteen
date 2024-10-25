@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form th:action="@{/owner/edit/{ownerId}(ownerId=${owner.ownerId})}" method="post">
+    <form th:action="@{/ad/owner/edit/{ownerId}(ownerId=${owner.ownerId})}" method="post">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" th:value="${owner.name}" required>
         <br>
@@ -28,7 +28,7 @@
         <br>
     
         <button type="submit">Update Owner</button>
-        <button type="button" onclick="window.location.href='/canteens';">Cancel</button>
+        <button type="button" onclick="window.location.href='/ad/canteens';">Cancel</button>
     </form>
     
 </body>

@@ -26,8 +26,8 @@
     <h1>Shops in [[${canteen.name}]]</h1>
     
     <p>
-        <a th:href="@{'/shop/add/' + ${canteen.canteenId}}">Add Shop</a> /
-        <a th:href="@{/canteens}">Back to Canteens</a>
+        <a th:href="@{'/ad/shop/add/' + ${canteen.canteenId}}">Add Shop</a> /
+        <a th:href="@{/ad/canteens}">Back to Canteens</a>
     </p>
     <table>
         <thead>
@@ -51,10 +51,10 @@
                 <td th:text="${shop.owner.name}">Owner Name</td>  <!-- Display owner's name -->
     
                 <td>
-                    <form th:action="@{'/shop/delete/' + ${shop.shopId}}" method="post" onsubmit="return confirm('Are you sure you want to delete this shop?')">
+                    <form th:action="@{'/ad/shop/delete/' + ${shop.shopId}}" method="post" onsubmit="return confirm('Are you sure you want to delete this shop?')">
                         <button type="submit">Delete</button>
                     </form>
-                    <a th:href="@{'/shop/edit/' + ${shop.shopId}}">Edit</a>
+                    <a th:href="@{'/ad/shop/edit/' + ${shop.shopId}}">Edit</a>
                 </td>
             </tr>
         </tbody>

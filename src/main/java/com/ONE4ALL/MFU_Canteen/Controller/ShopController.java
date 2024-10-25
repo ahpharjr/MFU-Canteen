@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,6 +27,7 @@ import com.ONE4ALL.MFU_Canteen.Service.FileStorageService;
 import com.ONE4ALL.MFU_Canteen.Service.ShopService;
 
 @Controller
+@RequestMapping("/ad")
 public class ShopController {
     
     @Autowired
@@ -62,7 +64,7 @@ public class ShopController {
             model.addAttribute("canteenId", canteenId);
             return "add-shop";
         } else {
-            return "redirect:/canteens";
+            return "redirect:/ad/canteens";
         }
     }
 
@@ -95,14 +97,14 @@ public class ShopController {
                 } catch (IOException e) {
                     e.printStackTrace();
                     redirectAttributes.addFlashAttribute("errorMessages", "File upload failed.");
-                    return "redirect:/shop/add/" + canteenId;
+                    return "redirect:/ad/shop/add/" + canteenId;
                 }
             }
 
             shopRepo.save(shop);  // Save the shop with the assigned owner
-            return "redirect:/canteen/shops/" + canteenId;
+            return "redirect:/ad/canteen/shops/" + canteenId;
         } else {
-            return "redirect:/canteens";
+            return "redirect:/ad/canteens";
         }
     }
 
@@ -123,10 +125,10 @@ public class ShopController {
             }
 
             redirectAttributes.addFlashAttribute("successMessage", "Shop deleted successfully.");
-            return "redirect:/canteen/shops/" + canteenId;  // Redirect to the list of shops
+            return "redirect:/ad/canteen/shops/" + canteenId;  // Redirect to the list of shops
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Shop not found.");
-            return "redirect:/canteens"; // Redirect to the canteens page if shop not found
+            return "redirect:/ad/canteens"; // Redirect to the canteens page if shop not found
         }
     }
 
@@ -156,7 +158,7 @@ public class ShopController {
         shopService.updateShop(shopId, shop);
         
         Long canteenId = existingShop.getCanteen() != null ? existingShop.getCanteen().getCanteenId() : null;
-        return "redirect:/canteen/shops/" + canteenId;
+        return "redirect:/ad/canteen/shops/" + canteenId;
     }
 
 

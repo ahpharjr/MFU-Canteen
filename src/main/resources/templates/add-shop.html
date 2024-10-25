@@ -9,7 +9,7 @@
 <h1>Add Shop to [[${shop.canteen.name}]]</h1>
     
     <!-- Form to add a new shop -->
-    <form th:action="@{'/shop/add/' + ${canteenId}}" method="post" enctype="multipart/form-data">
+    <form th:action="@{'/ad/shop/add/' + ${canteenId}}" method="post" enctype="multipart/form-data">
         <div>
             <label for="name">Shop Name:</label>
             <input type="text" id="name" name="name" th:value="${shop.name}" required>
@@ -45,7 +45,7 @@
     </form>
     
     <!-- Back to shop list -->
-    <p><a th:href="@{'/canteen/shops/' + ${canteenId}}">Back to Shop List</a></p>
+    <p><a th:href="@{'/ad/canteen/shops/' + ${canteenId}}">Back to Shop List</a></p>
 
 </body>
 </html>

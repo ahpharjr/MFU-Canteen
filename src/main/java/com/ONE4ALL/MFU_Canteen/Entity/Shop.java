@@ -16,7 +16,6 @@ public class Shop {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long shopId;
 
-    // private Long ownerId;
     private String name;
 
     @Column(name = "shop_num")
@@ -31,8 +30,8 @@ public class Shop {
     @JoinColumn(name = "canteenId", nullable = false)
     private Canteen canteen;
 
-    @OneToOne
-    @JoinColumn(name = "ownerId", unique = true)
+    @ManyToOne
+    @JoinColumn(name = "ownerId", nullable = false)
     private Owner owner;
 
     public Long getShopId() {
