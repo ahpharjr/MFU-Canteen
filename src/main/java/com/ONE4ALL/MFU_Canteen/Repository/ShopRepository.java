@@ -16,10 +16,4 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     List<Shop> findByCanteen(Canteen canteen);
 }
 
-// @Repository
-// public interface ShopRepository extends JpaRepository<Shop, Long> {
-
-//     @Query("SELECT s FROM Shop s WHERE s.canteen.canteenId = :canteenId")
-//     List<Shop> findShopsByCanteenId(@Param("canteenId") Long canteenId);
-// }
 

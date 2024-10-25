@@ -70,21 +70,27 @@ public class ShopController {
 
     @PostMapping("/shop/add/{canteenId}")
     public String addShop(@PathVariable Long canteenId,
-                          @ModelAttribute Shop shop,
-                          @RequestParam("ownerId") Long ownerId,  // Capture selected owner ID
-                          @RequestParam("pictureFile") MultipartFile pictureFile,
-                          RedirectAttributes redirectAttributes) {
+                        @ModelAttribute Shop shop,
+                        @RequestParam("ownerId") Long ownerId,
+                        @RequestParam("pictureFile") MultipartFile pictureFile,
+                        RedirectAttributes redirectAttributes) {
+
+        System.out.println("Owner ID: " + ownerId);  // Log ownerId
 
         Optional<Canteen> canteenOpt = canteenRepo.findById(canteenId);
         Optional<Owner> ownerOpt = ownerRepo.findById(ownerId);  // Fetch the selected owner
+        
+        System.out.println("------------------------1-----------------------------");
 
         if (canteenOpt.isPresent() && ownerOpt.isPresent()) {
+            System.out.println("Owner found: " + ownerOpt.get().getName());  // Log owner details
+
             shop.setCanteen(canteenOpt.get());
             shop.setOwner(ownerOpt.get());  // Assign the selected owner
-
+            System.out.println("------------------------2-----------------------------");
+            
             if (!pictureFile.isEmpty()) {
                 try {
-                    // Store the picture as before
                     String uploadDir = new File("src/main/resources/static/uploads/").getAbsolutePath();
                     File uploadDirFile = new File(uploadDir);
                     if (!uploadDirFile.exists()) {
@@ -94,6 +100,7 @@ public class ShopController {
                     File uploadFile = new File(uploadDirFile, fileName);
                     pictureFile.transferTo(uploadFile);
                     shop.setPicture("/uploads/" + fileName);
+                    System.out.println("------------------------3-----------------------------");
                 } catch (IOException e) {
                     e.printStackTrace();
                     redirectAttributes.addFlashAttribute("errorMessages", "File upload failed.");
@@ -101,9 +108,12 @@ public class ShopController {
                 }
             }
 
+            System.out.println("------------------------4-----------------------------");
             shopRepo.save(shop);  // Save the shop with the assigned owner
+            System.out.println("------------------------5-----------------------------");
             return "redirect:/ad/canteen/shops/" + canteenId;
         } else {
+            System.out.println("Canteen or Owner not found!");
             return "redirect:/ad/canteens";
         }
     }
