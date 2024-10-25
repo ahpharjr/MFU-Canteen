@@ -4,21 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Items in Shop</title>
+    <title>Canteen List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        img {
+            width: 100px;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
     <h1>Items in Shop: <span th:text="${shop.name}"></span></h1>
+    <p>
+        <a th:href="@{'/owner/item/add/' + ${shop.shopId}}">Add Item</a>
+        <a th:href="@{'/owner/shops/' + ${shop.shopId}}">Back to Shop</a>
+    </p>
     <table>
         <thead>
             <tr>
+                <th>Item Picture</th>
                 <th>Item Name</th>
                 <th>Price</th>
+                <th>Category</th>
                 <th>Availability</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="item : ${items}">
+                <td><img th:src="@{${item.imageUrl}}" alt="Item Picture" style="width:100px;height:100px;"> </td>
                 <td th:text="${item.name}"></td>
                 <td th:text="${item.price}"></td>
+                <td th:text="${item.category}">Category</td>
                 <td th:text="${item.availability ? 'Available' : 'Not Available'}"></td>
             </tr>
         </tbody>

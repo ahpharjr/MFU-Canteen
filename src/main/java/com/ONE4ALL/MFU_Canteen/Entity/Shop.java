@@ -1,5 +1,8 @@
 package com.ONE4ALL.MFU_Canteen.Entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Shop {
@@ -32,6 +36,9 @@ public class Shop {
     @ManyToOne
     @JoinColumn(name = "canteenId", nullable = false)
     private Canteen canteen;
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Item> items;
 
     public Long getShopId() {
         return shopId;
@@ -95,6 +102,14 @@ public class Shop {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
 
