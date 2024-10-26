@@ -3,20 +3,48 @@
     <head>
         <title>Canteen List</title>
         <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: #f9f9f9;
+            }
+            h1 {
+                color: #333;
+            }
+            a {
+                color: #3498db;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
             table {
                 width: 100%;
                 border-collapse: collapse;
-            }
-            table, th, td {
-                border: 1px solid black;
+                margin-bottom: 20px;
+                background-color: #fff;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             }
             th, td {
-                padding: 10px;
+                padding: 15px;
                 text-align: left;
+                border-bottom: 1px solid #ddd;
             }
-            img {
-                width: 100px;
-                height: auto;
+            th {
+                background-color: #f2f2f2;
+            }
+            tr:hover {
+                background-color: #f1f1f1;
+            }
+            button {
+                background-color: #e74c3c;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #c0392b;
             }
         </style>
     </head>
@@ -28,17 +56,17 @@
                 <tr>
                     <th>Name</th>
                     <th>Location</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="canteen : ${canteens}">
                     <td th:text="${canteen.name}">Canteen Name</td>
                     <td th:text="${canteen.location}">Canteen Location</td>
-
-                    <td><a th:href="@{'/ad/canteen/shops/' + ${canteen.canteenId}}">View Shops</a></td>
-                    <td><a th:href="@{'/ad/canteen/edit/' + ${canteen.canteenId}}">Edit</a></td>
                     <td>
-                        <form th:action="@{'/ad/canteen/delete/'+ ${canteen.canteenId}}" method="post" onsubmit="return confirm('Are you sure you want to delete?');">
+                        <a th:href="@{'/ad/canteen/shops/' + ${canteen.canteenId}}">View Shops</a> |
+                        <a th:href="@{'/ad/canteen/edit/' + ${canteen.canteenId}}">Edit</a> |
+                        <form th:action="@{'/ad/canteen/delete/'+ ${canteen.canteenId}}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete?');">
                             <button type="submit">Delete</button>
                         </form>
                     </td>
@@ -54,6 +82,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone Number</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,12 +90,12 @@
                     <td th:text="${owner.name}">Owner Name</td>
                     <td th:text="${owner.email}">Owner Email</td>
                     <td th:text="${owner.phNum}">Phone Number</td>
-                    <td><a th:href="@{'/ad/owner/edit/' + ${owner.ownerId}}">Edit</a></td>
-                    <td><a th:href="@{'/owner/shops/' + ${owner.ownerId}}">Shops</a></td>
                     <td>
-                        <form th:action="@{'/ad/owner/delete/'+ ${owner.ownerId}}" method="post" onsubmit="return confirm('Are you sure you want to delete this owner?');">
+                        <a th:href="@{'/ad/owner/edit/' + ${owner.ownerId}}">Edit</a> |
+                        <a th:href="@{'/owner/shops/' + ${owner.ownerId}}">Shops</a> |
+                        <form th:action="@{'/ad/owner/delete/'+ ${owner.ownerId}}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this owner?');">
                             <button type="submit">Delete</button>
-                        </form> 
+                        </form>
                     </td>
                 </tr>
             </tbody>

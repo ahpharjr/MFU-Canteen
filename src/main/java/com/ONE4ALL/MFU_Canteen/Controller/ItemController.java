@@ -103,8 +103,7 @@ public class ItemController {
     
 
     @PostMapping("/item/edit/{itemId}")
-    public String updateItem(@PathVariable Long itemId, 
-                            Item item, 
+    public String updateItem(@PathVariable Long itemId, Item item, 
                             @RequestParam Long shopId, 
                             @RequestParam("image") MultipartFile imageFile) {
 
