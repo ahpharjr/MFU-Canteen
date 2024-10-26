@@ -2,6 +2,8 @@ package com.ONE4ALL.MFU_Canteen.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,6 +33,7 @@ public class Shop {
 
     @ManyToOne
     @JoinColumn(name = "ownerId", nullable = false)
+    @JsonIgnore
     private Owner owner;
 
     @ManyToOne

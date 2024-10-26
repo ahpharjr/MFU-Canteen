@@ -14,6 +14,8 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     List<Shop> findByCanteen(Canteen canteen);
 
     List<Shop> findByOwner_OwnerId(Long ownerId);
+
+    List<Shop> findByCanteen_CanteenId(Long canteenId);
 }
 
 
