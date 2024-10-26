@@ -13,14 +13,18 @@
         <input type="number" id="price" th:field="*{price}" required>
         <br>
         <label for="category">Category:</label>
-        <input type="text" id="category" th:field="*{category}" required>
+        <select id="category" th:field="*{category}" required>
+            <option value="">Select Category</option>
+            <option value="Food">Food</option>
+            <option value="Noodle">Noodle</option>
+            <option value="Drink">Drink</option>
+        </select>
         <br>
         <label for="availability">Available:</label>
         <input type="checkbox" id="availability" th:field="*{availability}">
         <br>
         <label for="image">Image:</label>
-        <!-- <input type="file" id="image" name="image" required> -->
-        <input type="file" id="image" name="image">
+        <input type="file" id="image" name="image" required>
         <br><br>
         <button type="submit">Add Item</button>
     </form>
