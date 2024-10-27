@@ -1,178 +1,140 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title> Home Page</title>
-        <!-- <link rel="stylesheet" href="styles/header.css">
-        <link rel="stylesheet" href="styles/recommendedFood.css"> -->
-        <link rel="stylesheet" href="/styles/home.css">
-    </head>
-     <!-- <body>
-        <div class="header">
-            <div class="hleft">
-                <div>Location</div>
-                <div>
-                    <select id="canteenSelect" onchange="fetchShopsAndItems()">
-                        <option value="">Select Canteen</option>
-                       
-                        <th:block th:each="canteen : ${canteens}">
-                            <option th:value="${canteen.canteenId}" th:text="${canteen.name}"></option>
-                        </th:block>
-                    </select>
-                </div>
-            </div>
-            <div class="hright">
-                <div class="left-section">Find the <br> Food around you</div>
-                <div class="middle-section">
-                    <input type="text" placeholder="Search...">
-                </div>
-                <div class="right-section">right</div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/styles/home.css">
+</head>
+<body>
+    <div class="header">
+        <div class="hleft">
+            <div>Location</div>
+            <div>
+                <select id="canteenSelect" onchange="fetchShopsAndItems()">
+                    <option value="">Select Canteen</option>
+                    <th:block th:each="canteen : ${canteens}">
+                        <option th:value="${canteen.canteenId}" th:text="${canteen.name}"></option>
+                    </th:block>
+                </select>
             </div>
         </div>
-    
-        <div class="recommended-food-container1">
-            <div class="recommended-text">Shops in <span id="selectedCanteenName" th:text="${selectedCanteenName}"></span></div>
-            <div id="shopContainer" class="food-container1"></div>
+        <div class="hright">
+            <div class="left-section">Find the <br> Food around you</div>
+            <div class="middle-section">
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="right-section">right</div>
         </div>
-    
-        <div class="recommended-food-container1">
-            <div class="recommended-text">Recommended Dishes</div>
-            <div id="recommendedFoodContainer" class="food-container1"></div>
-        </div>
-    
-        <script>
-            function fetchShopsAndItems() {
-                const canteenId = document.getElementById("canteenSelect").value;
-                const selectedCanteenName = document.getElementById("canteenSelect").options[document.getElementById("canteenSelect").selectedIndex].text;
-                document.getElementById("selectedCanteenName").innerText = selectedCanteenName;
-    
-                if (canteenId) {
-                    fetch(`/user/canteen/shops/${canteenId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log('Shops:', data); // Debugging
-                            displayShops(data);
-                        })
-                        .catch(error => console.error('Error fetching shops:', error));
-                } else {
-                    document.getElementById("shopContainer").innerHTML = ""; // Clear shops
-                    document.getElementById("recommendedFoodContainer").innerHTML = ""; // Clear recommended foods
-                }
-            }
-    
-            function displayShops(shops) {
-                const shopContainer = document.getElementById("shopContainer");
-                shopContainer.innerHTML = ""; // Clear previous shops
-                shops.forEach(shop => {
-                    const shopBox = `
-                        <div class="recommended-food-box">
-                            <div class="item-pic"><img src="${shop.picture}" alt="${shop.name}"></div>
-                            <div class="item-title">
-                                <div class="dish-name">${shop.name}</div>
-                            </div>
-                        </div>`;
-                    shopContainer.innerHTML += shopBox;
-                });
-            }
-        </script>
-    </body>
-     -->
+    </div>
 
-     <body>
-        <div class="header">
-            <div class="hleft">
-                <div>Location</div>
-                <div>
-                    <select id="canteenSelect" onchange="fetchShopsAndItems()">
-                        <option value="">Select Canteen</option>
-                        <!-- Iterate through canteens and create options -->
-                        <th:block th:each="canteen : ${canteens}">
-                            <option th:value="${canteen.canteenId}" th:text="${canteen.name}"></option>
-                        </th:block>
-                    </select>
-                </div>
-            </div>
-            <div class="hright">
-                <div class="left-section">Find the <br> Food around you</div>
-                <div class="middle-section">
-                    <input type="text" placeholder="Search...">
-                </div>
-                <div class="right-section">right</div>
-            </div>
+    <div class="div-nav-bar">
+        <div class="nav-button">
+            <div class="nav-icon"><img  src="/icons/icons8-home-48.png" alt="home button"></div>
+            <div class="nav-icon1"><img  src="/icons/icons8-home-48.png" alt="home button"></div>
         </div>
-    
-        <div class="recommended-food-container1">
-            <div class="recommended-text">Shops in <span id="selectedCanteenName" th:text="${selectedCanteenName}"></span></div>
-            <div id="shopContainer" class="food-container1"></div>
+        <div class="nav-button">
+            <div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div>
+            <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon.png" alt="home button"></div>
         </div>
-    
-        <div class="recommended-food-container1">
-            <div class="recommended-text">Recommended Dishes</div>
-            <div id="recommendedFoodContainer" class="food-container1"></div>
+        <div class="nav-button">
+            <div class="nav-icon"><img  src="/icons/icons8-heart-50 (1).png" alt="home button"></div>
+            <div class="nav-icon1"><img  src="/icons/icons8-heart-50.png" alt="home button"></div>
         </div>
-    
-        <script>
-            function fetchShopsAndItems() {
-                const canteenId = document.getElementById("canteenSelect").value;
-                const selectedCanteenName = document.getElementById("canteenSelect").options[document.getElementById("canteenSelect").selectedIndex].text;
-                document.getElementById("selectedCanteenName").innerText = selectedCanteenName;
-    
-                if (canteenId) {
-                    fetch(`/user/canteen/shops/${canteenId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log('Shops:', data); // Debugging
-                            displayShops(data);
-                        })
-                        .catch(error => console.error('Error fetching shops:', error));
-    
-                    fetch(`/user/canteen/shops/${canteenId}/items`)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log('Recommended Dishes:', data); // Debugging
-                            displayRecommendedDishes(data);
-                        })
-                        .catch(error => console.error('Error fetching recommended dishes:', error));
-                } else {
-                    document.getElementById("shopContainer").innerHTML = ""; // Clear shops
-                    document.getElementById("recommendedFoodContainer").innerHTML = ""; // Clear recommended foods
-                }
-            }
-    
-            function displayShops(shops) {
-                const shopContainer = document.getElementById("shopContainer");
-                shopContainer.innerHTML = ""; // Clear previous shops
-                shops.forEach(shop => {
-                    const shopBox = `
-                        <div class="recommended-food-box">
-                            <div class="item-pic"><img src="${shop.picture}" alt="${shop.name}"></div>
-                            <div class="item-title">
-                                <div class="dish-name">${shop.name}</div>
-                            </div>
-                        </div>`;
-                    shopContainer.innerHTML += shopBox;
-                });
-            }
-    
-            function displayRecommendedDishes(items) {
-                console.log('in fetch item function ----------------');
-                const recommendedFoodContainer = document.getElementById("recommendedFoodContainer");
-                recommendedFoodContainer.innerHTML = ""; // Clear previous items
-                console.log('in fetch item function ----------------1');
-                items.forEach(item => {
-                    console.log('in fetch item function ----------------2');
-                    const itemBox = `
-                        <div class="recommended-food-box">
-                            <div class="item-pic"><img src="${item.imageUrl}" alt="${item.name}"></div>
-                            <div class="item-title">
-                                <div class="dish-name">${item.name}</div>
-                                <div class="dish-price">$${item.price.toFixed(2)}</div>
-                            </div>
-                        </div>`;
-                    recommendedFoodContainer.innerHTML += itemBox;
-                });
-            }
-        </script>
-    </body>
-    
+        <div class="nav-button">
+            <div class="nav-icon"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+            <div class="nav-icon1"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+        </div>
+    </div>
 
+    <div class="recommended-food-container1">
+        <div class="recommended-text">Recommended Dishes</div>
+        <div id="recommendedFoodContainer1" class="food-container1"></div>
+        <div id="recommendedFoodContainer2" class="food-container2"></div>
+    </div>
+
+    <div class="shops-in-canteen">
+        <div class="recommended-text">Shops in &nbsp;<span id="selectedCanteenName" th:text="${selectedCanteenName}"></span></div>
+        <div id="shopContainer" class="food-container1"></div>
+    </div>
+
+    <script>
+        function fetchShopsAndItems() {
+            const canteenSelect = document.getElementById("canteenSelect");
+            const canteenId = canteenSelect.value;
+            const selectedCanteenName = canteenSelect.options[canteenSelect.selectedIndex].text;
+            document.getElementById("selectedCanteenName").innerText = " "+selectedCanteenName;
+
+            if (canteenId) {
+                fetchShops(canteenId);
+                fetchRecommendedDishes(canteenId);
+            } else {
+                clearContainers();
+            }
+        }
+
+        function fetchShops(canteenId) {
+            fetch(`/user/canteen/shops/${canteenId}`)
+                .then(response => response.json())
+                .then(data => displayShops(data))
+                .catch(error => console.error('Error fetching shops:', error));
+        }
+
+        function fetchRecommendedDishes(canteenId) {
+            fetch(`/user/canteen/shops/${canteenId}/items`)
+                .then(response => response.json())
+                .then(data => displayRecommendedDishes(data))
+                .catch(error => console.error('Error fetching recommended dishes:', error));
+        }
+
+        function clearContainers() {
+            document.getElementById("shopContainer").innerHTML = "";
+            document.getElementById("recommendedFoodContainer1").innerHTML = "";
+            document.getElementById("recommendedFoodContainer2").innerHTML = "";
+        }
+
+        function displayShops(shops) {
+            const shopContainer = document.getElementById("shopContainer");
+            shopContainer.innerHTML = "";
+            shops.forEach(shop => {
+                const shopBox = `
+                    <div class="recommended-food-box">
+                        <div class="item-pic"><img src="${shop.picture}" alt="${shop.name}"></div>
+                        <div class="item-title">
+                            <div class="item-name">
+                                <div class="dish-name">${shop.name}</div>
+                                <div class="div-rating-star"><img src="/images/5stars.png"></div>
+                            </div>
+                        </div>
+                    </div>`;
+                shopContainer.innerHTML += shopBox;
+            });
+        }
+
+        function displayRecommendedDishes(items) {
+            const recommendedFoodContainer1 = document.getElementById("recommendedFoodContainer1");
+            const recommendedFoodContainer2 = document.getElementById("recommendedFoodContainer2");
+            recommendedFoodContainer1.innerHTML = "";
+            recommendedFoodContainer2.innerHTML = "";
+            items.forEach(item => {
+                const itemBox = `
+                    <div class="recommended-food-box">
+                        <div class="item-pic"><img src="${item.imageUrl}" alt="${item.name}"></div>
+                        <div class="item-title">
+                            <div class="item-name">
+                                 <div class="dish-name">${item.name}</div>
+                                <div class="div-rating-star"><img src="/images/5stars.png"></div>
+                            </div>
+                            <div class="item-price">
+                                <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div> 
+                                ${item.price.toFixed(2)}
+                            </div>
+                        </div>
+                    </div>`;
+                recommendedFoodContainer1.innerHTML += itemBox;
+                recommendedFoodContainer2.innerHTML += itemBox;
+            });
+        }
+    </script>
+</body>
 </html>

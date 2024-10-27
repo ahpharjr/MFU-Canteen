@@ -54,7 +54,7 @@ public class HomeController {
     //     return items;
     // }
 
-    @GetMapping("/shops/{canteenId}/items")
+    @GetMapping("/canteen/shops/{canteenId}/items")
     @ResponseBody
     public List<Item> getItemsByCanteenId(@PathVariable Long canteenId) {
         return itemRepo.findItemsByCanteenId(canteenId);

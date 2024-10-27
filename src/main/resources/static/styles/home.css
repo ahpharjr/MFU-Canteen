@@ -83,11 +83,14 @@ margin: 20px 80px;
 height: 700px;
 }
 /* ======================Below is for the .recommended-food in home page================ */
-.recommended-food-container1{
-    background-color:cadetblue;
+.recommended-food-container1, .shops-in-canteen{
+    background-color:rgb(255, 255, 255);
     border-radius: 10px;
     margin: 7px 0 20px 50px;
     height: 700px;
+}
+.shops-in-canteen{
+    height: 380px;
 }
 /* ======================Above is for the .recommended-food in home page================ */
 .recommended-text{
@@ -108,6 +111,8 @@ height: 700px;
 }
 .food-container2{
     margin-top: 20px;
+    display: flex;
+    
 }
 /*.food-container::-webkit-scrollbar {
     display: none;  Hides the scrollbar in WebKit browsers 
@@ -144,6 +149,7 @@ height: 700px;
     display: flex;
     flex-direction: column;
     min-width: 320px;
+    max-width: 340px;
     height: 289px;
     margin: 0 0 10px 40px;
     border-radius: 10px;
@@ -228,5 +234,6 @@ height: 700px;
     font-size: 20px;
 }
 .thai-baht-icon img{
+    padding-top: 2px;
     width: 20px;
 }
