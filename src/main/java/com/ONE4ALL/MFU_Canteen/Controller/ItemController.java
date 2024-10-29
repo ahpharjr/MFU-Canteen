@@ -122,6 +122,7 @@ public class ItemController {
             existingItem.setPrice(item.getPrice());
             existingItem.setAvailability(item.isAvailability());
             existingItem.setCategory(item.getCategory());
+            existingItem.setDescription(item.getDescription());
 
             // Save updates
             itemService.updateItem(existingItem);

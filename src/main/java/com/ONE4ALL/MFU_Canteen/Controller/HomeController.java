@@ -30,10 +30,9 @@ public class HomeController {
 
     @GetMapping("/home")
     public String showHomePage(Model model) {
-        System.out.println("HomeController.showHomePage()---------------------------------1----");
         model.addAttribute("canteens", canteenRepo.findAll()); // Fetch all canteens
         model.addAttribute("selectedCanteenName", "");
-        System.out.println("HomeController.showHomePage()---------------------------------2----");
+
         return "home";
     }
 
@@ -42,17 +41,6 @@ public class HomeController {
     public List<Shop> getShopsByCanteenId(@PathVariable Long canteenId) {
         return shopRepo.findByCanteen_CanteenId(canteenId);
     }
-
-    // @GetMapping("/canteen/items/{canteenId}")
-    // @ResponseBody
-    // public List<Item> getItemsByCanteenId(@PathVariable Long canteenId) {
-    //     List<Shop> shops = shopRepo.findByCanteen_CanteenId(canteenId);
-    //     List<Item> items = new ArrayList<>();
-    //     for (Shop shop : shops) {
-    //         items.addAll(itemRepo.findByShop_ShopId(shop.getShopId()));
-    //     }
-    //     return items;
-    // }
 
     @GetMapping("/canteen/shops/{canteenId}/items")
     @ResponseBody

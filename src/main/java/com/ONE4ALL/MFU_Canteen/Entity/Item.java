@@ -20,6 +20,7 @@ public class Item {
     private String imageUrl;
     private boolean availability;
     private String category;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "shopId", nullable = false)
@@ -84,6 +85,14 @@ public class Item {
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     

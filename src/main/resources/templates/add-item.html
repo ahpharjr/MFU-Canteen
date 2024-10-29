@@ -15,10 +15,20 @@
         <label for="category">Category:</label>
         <select id="category" th:field="*{category}" required>
             <option value="">Select Category</option>
-            <option value="Food">Food</option>
-            <option value="Noodle">Noodle</option>
-            <option value="Drink">Drink</option>
+            <option value="Chicken Rice">Chicken Rice</option>
+            <option value="Rice Bowls">Rice Bowls</option>
+            <option value="Noodles">Noodles</option>
+            <option value="Grilled & BBQ">Grilled & BBQ</option>
+            <option value="Small Bites/Snacks">Small Bites/Snacks</option>
+            <option value="Spicy Salad">Spicy Salad</option>
+            <option value="Fast Food">Fast Food</option>
+            <option value="Bubble Tea">Bubble Tea</option>
+            <option value="Juice/Smoothies">Juice/Smoothies</option>
+            <option value="Drinks">Drinks</option>
         </select>
+        <br>
+        <label for="description">Description:</label>
+        <input type="text" id="description" th:field="*{description}" required>
         <br>
         <label for="availability">Available:</label>
         <input type="checkbox" id="availability" th:field="*{availability}">

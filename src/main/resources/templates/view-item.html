@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Item</title>
+    <link rel="stylesheet" href="/styles/view-item-box.css">
+    <link rel="stylesheet" href="/styles/home.css">
+</head>
+<body>
+    <div class="header">Header</div>
+    <div class="item-container">
+        <div class="back-arrow">
+            <a th:href="@{/user/home}"><img src="/icons/icons8-back-50.png"></a>
+        </div>
+        <div class="cycles"><img src="/images/Group 39474 (1).png"></div>
+        <div class="item-img"><img th:src="@{${item.imageUrl}}" alt="Item Image"></div>
+        <div class="desc-box">
+            <div class="top-box">
+                <div class="price-box">
+                    <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div> 
+                    <span th:text="${item.price}"></span>
+                </div>
+                <div class="rating">
+                    <div>Ratings and Reviews: </div>
+                    <div><img src="/images/rating-star.png"></div>
+                </div>
+                <div class="name" th:text="${item.name}"></div>
+                <div class="description" th:text="${item.description}"></div>
+            </div>
+            <div class="bottom-box">
+                <div class="seller-box">
+                    <!-- <div class="seller">Sold by:  <span class="seller-name" th:text="${item.sellerName}">Mother Su</span></div> -->
+                    <div class="seller">Sold by: <span class="seller-name" th:text="${sellerName}">Seller Name</span></div>
+
+                    <div class="quantity">
+                        <div class="not-add">_</div>
+                        <div>0</div>
+                        <div class="add">+</div>
+                    </div>
+                </div>
+                <div class="button-box">
+                    <div class="add-to-cart">Add to Cart</div>
+                    <div class="add-on-button">Add-on</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="recommended-food-container">
+        <div class="recommended-text">Similar Dishes</div>
+        <div class="food-container1">
+            <div class="recommended-food-box">
+                <div class="add-to-favorite">
+                    <div class="heart-shape">
+                        <img src="/icons/icons8-heart-50.png">
+                        <div class="color-heart"><img src="/icons/icons8-heart-50 (1).png"></div>
+                    </div>
+                </div>
+                <div class="add-button">+</div>
+                <div class="item-pic"><img src="/images/yummy.png"></div>
+                <div class="item-title">
+                    <div class="item-name">
+                        <div class="dish-name">Seafood with Rice</div>
+                        <div class="div-rating-star"><img src="/images/5stars.png"></div>
+                    </div>
+                    <div class="item-price">
+                        <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div> 
+                        80.00
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+</html>
