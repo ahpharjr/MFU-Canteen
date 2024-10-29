@@ -27,6 +27,10 @@ public class Item {
     @JsonIgnore
     private Shop shop;
 
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
     public Item(){
 
     }
@@ -93,6 +97,14 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     

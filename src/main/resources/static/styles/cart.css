@@ -1,0 +1,195 @@
+.cart-container{
+    background-color: aliceblue;
+    margin: 80px 80px 30px 80px;
+    border-radius: 10px;
+    min-width: 900px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 30px;
+    position: relative;
+    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.2);
+}
+.back-arrow{
+    position: relative;
+    top: 25px;
+    left: 20px;
+    cursor: pointer;
+}
+.cycles{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.cycles img{
+    border-top-right-radius: 10px;
+}
+.cart-quantity{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    padding:0 0 60px 0;
+}
+.cart-title{
+    display: flex;
+    height: 50px;
+    align-items: center;
+    font-size: 23px;
+    margin:0 30px;
+    /* background-color: aquamarine;
+    border-bottom: 1px solid black; */
+}
+.dish{
+    display: flex;
+    padding-left: 80px;
+    flex: 3;
+    min-width: 370px;
+}
+.shop,.price{
+    flex: 1;
+    min-width: 120px;
+}
+.amount{
+    flex: 1.2;
+}
+.selected-dish-box{
+    display: flex;
+    height: 150px;
+    align-items: center;
+    border-bottom: 1px solid rgb(177, 177, 177);
+    margin:0 30px;
+}
+.selected-dish{
+    display: flex;
+    height: 150px;
+    flex: 3;
+    min-width: 370px;
+    align-items: center;
+    padding-right: 80px;
+}
+#check-mark img{
+    padding-right: 15px;
+}
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 0;
+  }
+  
+  .custom-checkbox input[type="checkbox"] {
+    appearance: none; /* Remove default checkbox styling */
+    width: 22px;
+    height: 22px;
+    border-radius: 50%; /* Circular shape like a bullet */
+    border: 2px solid rgb(255, 255, 255); /* Border color */
+    background-color: rgb(208, 208, 208); /* Background when not selected */
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease;
+  }
+  
+  .custom-checkbox input[type="checkbox"]:hover {
+    background-color: rgb(255, 207, 140);
+  }
+  .custom-checkbox input[type="checkbox"]:checked {
+    background-color: rgba(231, 76, 60, 1); /* Fill color when selected */
+  }
+  .custom-checkbox input[type="checkbox"]:checked::after{
+    content: '✓'; /* Unicode for checkmark */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the checkmark */
+    font-size: 16px;
+    color: white; /* Checkmark color */
+  }
+  
+  .custom-checkbox label {
+    margin-left: 8px; /* Spacing between bullet and text */
+    cursor: pointer;
+  }
+.dish-picture img{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 60px;
+    margin-right: 20px;
+}
+.dish-desc{
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+}
+.name{
+    font-size: 20px;
+    padding-bottom: 8px;
+}
+.shop-no,.dish-price{
+    flex: 1;
+    display: flex;
+    min-width: 120px;
+    padding-bottom: 28px;
+    font-size: 20px;
+}
+.dish-amount{
+    flex: 1.2;
+    display: flex;
+    min-width: 120px;
+    padding-bottom: 28px;
+    font-size: 20px;
+}
+#deduct, #add{
+    display: flex;
+    width: 20px;
+    justify-content: center;
+}
+#quantity{
+    display: flex;
+    width: 50px;
+    font-size: 25px;
+    justify-content: center;
+}
+.dish-price{
+    display: flex;
+    justify-content: space-between;
+}
+.d-price{
+    display: flex;
+}
+.thai-baht-icon img{
+    height: 20px;
+}
+.delete-button{
+    padding-left: 20px;
+    padding-right: 50px;
+    cursor: pointer;
+    transform: 0.3s ease;
+}
+.delete-button:hover{
+    width: 32px;
+}
+.delete-button img{
+    width: 30px;
+}
+.div-check-out{
+    padding: 60px 0 30px 0;
+    display: flex;
+    justify-content: center;
+    font-size: 28px;
+}
+.check-out-button{
+    background-color: rgb(255, 86, 24);
+    padding: 15px;
+    border-radius: 8px;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    transform: 0.3s ease;
+}
+.check-out-button:hover{
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+}
