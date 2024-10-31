@@ -4,11 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Item</title>
+    <link rel="stylesheet" href="/styles/header.css">
     <link rel="stylesheet" href="/styles/view-item-box.css">
     <link rel="stylesheet" href="/styles/home.css">
+
 </head>
 <body>
-    <div class="header">Header</div>
+    <div class="header">
+        <div class="hleft">
+            <div>Location</div>
+            <div>
+                <select id="canteenSelect" onchange="fetchShopsAndItems()">
+                    <option value="">Select Canteen</option>
+                    <th:block th:each="canteen : ${canteens}">
+                        <option th:value="${canteen.canteenId}" th:text="${canteen.name}"></option>
+                    </th:block>
+                </select>
+            </div>
+        </div>
+        <div class="hright">
+            <div class="left-section">Find the <br> Food around you</div>
+            <div class="middle-section">
+                <div class="search-icon"><img src="/icons/icons8-search-50 (1).png"></div>
+                <div class="input-search"><input type="text" placeholder="Search..."></div>
+            </div>
+            <div class="right-section">
+                <div class="cart-icon"><img src="/icons/cart.png"></div>
+                <div class="bell-icon"><img src="/icons/BELL NOTI.png"></div>
+                <div class="profile-button"><img src="/icons/profile.png"></div>
+            </div>
+        </div>
+    </div>
     <div class="item-container">
         <div class="back-arrow">
             <a th:href="@{/user/home}"><img src="/icons/icons8-back-50.png"></a>
