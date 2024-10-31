@@ -1,9 +1,7 @@
 package com.ONE4ALL.MFU_Canteen.Entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class User {
@@ -16,8 +14,12 @@ public class User {
     private String phNum;
     private String profilePicture;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Cart cart;
+    public User(){
+        
+    }
+
+    // @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    // private Cart cart;
 
     public Long getUserId() {
         return userId;
@@ -67,13 +69,13 @@ public class User {
         this.profilePicture = profilePicture;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
+    // public Cart getCart() {
+    //     return cart;
+    // }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
+    // public void setCart(Cart cart) {
+    //     this.cart = cart;
+    // }
 
     
 }

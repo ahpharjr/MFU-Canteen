@@ -1,0 +1,149 @@
+body{
+    background-color: rgb(211, 211, 211);
+}
+.login-box {
+    background-color: rgb(255, 255, 255);
+    width: 393px;
+    height: 752px;
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 20px;
+}
+
+.cover-photo{
+    height: 221px;
+    background-color: black;
+    border-radius: 10px;
+    position: relative;
+}
+.cover-img{
+    width: 100%;
+    height: 221px;
+    opacity: 0.6;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.cover-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+}
+.text-1{
+    font-size: 25px;
+    font-weight: 600;
+}
+.text-2{
+    font-size: 11px;
+}
+
+.input-name{
+    font-weight: 600;
+    padding-left: 12px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+input {
+    border: none;
+    margin-left: 12px;
+    border-radius: 5px;
+    height: 40px;
+    width: 350px;
+}
+.input-email, .input-password{
+    padding-left: 12px;
+    background-color: rgb(240, 245, 250);
+}
+
+.check-box-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 12px 15px 12px;
+
+}
+
+.check-box{
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Adds space between the checkbox and text */
+}
+
+.check{
+    height: 16px;
+    width: 16px;
+    margin: 0;
+}
+.check:hover{
+    cursor: pointer;
+}
+
+label{
+    font-size: 12px;
+    color: gray;
+}
+
+.forget-pw{
+    font-size: 12px;
+    color:rgb(255,118,34); 
+}
+.forget-pw:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.login-button{
+    height: 40px;
+    width: 365px;
+    margin: 0 12px;
+    border-radius: 7px;
+    border: none;
+    background-color: rgb(255,118,34); 
+    color: white;
+    font-weight: 600;
+    transition: box-shadow 0.5s ease;
+}
+.login-button:hover{
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(255,118,34, 0.4);
+}
+
+.text-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    color: rgb(107, 107, 107);
+    font-size: 12px;
+}
+.text-3{
+    color:rgb(255,118,34);
+    font-weight: 600;
+}
+.text-3:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.app-logo{
+    display: flex;
+    justify-content: center;
+}
+
+.fb-logo, .line-logo, .google-logo{
+    height: 45px;
+    border-radius: 25px;
+    padding: 0 10px;
+}
+.fb-logo:hover,
+.line-logo:hover,
+.google-logo:hover{
+    cursor: pointer;
+    height: 45.5px;
+}

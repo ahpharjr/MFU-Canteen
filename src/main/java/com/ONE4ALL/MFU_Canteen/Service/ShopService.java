@@ -1,11 +1,9 @@
 package com.ONE4ALL.MFU_Canteen.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ONE4ALL.MFU_Canteen.Entity.Item;
 import com.ONE4ALL.MFU_Canteen.Entity.Shop;
 import com.ONE4ALL.MFU_Canteen.Repository.ShopRepository;
 
