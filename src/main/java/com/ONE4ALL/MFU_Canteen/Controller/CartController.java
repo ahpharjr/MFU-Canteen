@@ -1,7 +1,5 @@
 package com.ONE4ALL.MFU_Canteen.Controller;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +41,11 @@ public class CartController {
 
     @PostMapping("/cart")
     public String addItemToCart(@PathVariable Long userId, 
-                                 @RequestParam Long itemId, Model model) {
+                                @RequestParam Long itemId, Model model) {
+
+        model.addAttribute("userId", userId);
+        model.addAttribute("itemId", itemId);
+        System.out.println("itemId:::::::::::::::::::::::::::::::::::::::::::"+itemId);
         // Find the user
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
@@ -61,18 +63,16 @@ public class CartController {
             Item item = itemService.getItemById(itemId);
             if (item != null) {
                 // Add the item to the user's cart if it's not already added
-                if (cart.getItems() == null) {
-                    cart.setItems(new ArrayList<>()); // Initialize the items list if null
-                }
                 if (!cart.getItems().contains(item)) {
                     cart.getItems().add(item);
-                    item.setCart(cart); // Set the cart for the item
+                    item.getCarts().add(cart); // Set the cart for the item
                     cartRepository.save(cart); // Save the updated cart
                 }
             }
-        }
-
-        return "redirect:/user/" + userId + "/cart";
     }
+
+    return "redirect:/user/" + userId + "/cart";
+}
+
 }
 

@@ -1,5 +1,7 @@
 package com.ONE4ALL.MFU_Canteen.Entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -29,10 +32,9 @@ public class Item {
     @JsonIgnore
     private Shop shop;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
+    @ManyToMany(mappedBy = "items")
     @JsonIgnore
-    private Cart cart;
+    private List<Cart> carts = new ArrayList<>();
 
     public Item(){
 
@@ -116,13 +118,17 @@ public class Item {
         this.description = description;
     }
 
-    public Cart getCart() {
-        return cart;
+
+    public List<Cart> getCarts() {
+        return carts;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
+
+    
 
     
 }
