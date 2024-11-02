@@ -28,9 +28,9 @@ public class HomeController {
     @Autowired
     private ItemRepository itemRepo;
 
-    @GetMapping("/home")
+    @GetMapping("/{id}/home")
     public String showHomePage(Model model) {
-        model.addAttribute("canteens", canteenRepo.findAll()); // Fetch all canteens
+        model.addAttribute("canteens", canteenRepo.findAll()); 
         model.addAttribute("selectedCanteenName", "");
 
         return "home";

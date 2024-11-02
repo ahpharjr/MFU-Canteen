@@ -12,7 +12,7 @@ import com.ONE4ALL.MFU_Canteen.Repository.RoleRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.UserRepository;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
-// import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Controller
 public class UserController {
@@ -23,34 +23,38 @@ public class UserController {
     @Autowired
     private RoleRepository roleRepository;
 
-    // @Autowired
-    // private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());
-        System.out.println("Enter register form--------------------------------------------------1");
+
         return "register";
     }
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user) {
         // Encrypt the password
-        // user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // Fetch or create the CUSTOMER role
-        System.out.println("Enter register form--------------------------------------------------11");
         Role customerRole = roleRepository.findByName("CUSTOMER");
         if (customerRole == null) {
             customerRole = new Role();
             customerRole.setName("CUSTOMER");
             roleRepository.save(customerRole);
         }
-        System.out.println("Enter register form--------------------------------------------------12");
         // Assign CUSTOMER role to the new user
         user.getRoles().add(customerRole);
         userRepository.save(user);
-        System.out.println("Enter register form--------------------------------------------------13");
-        return "redirect:/user/home";
+
+        return "redirect:/user/"+ user.getId() +"/home";
+    }
+
+    @GetMapping("/login")
+    public String showLoginForm(){
+
+        return "login";
     }
 }
