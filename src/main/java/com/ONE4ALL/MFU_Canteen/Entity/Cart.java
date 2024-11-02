@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -19,19 +20,22 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cartId;
-    private Integer quantity;
+    private Integer totalQuantity;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "cart_item",
-        joinColumns = @JoinColumn(name = "cart_id"),
-        inverseJoinColumns = @JoinColumn(name = "item_id")
-    )
-    private List<Item> items = new ArrayList<>();
+    // @ManyToMany(cascade = CascadeType.ALL)
+    // @JoinTable(
+    //     name = "cart_item",
+    //     joinColumns = @JoinColumn(name = "cart_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "item_id")
+    // )
+    // private List<Item> items = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
 
     public Cart(){
 
@@ -45,14 +49,6 @@ public class Cart {
         this.cartId = cartId;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
     public User getUser() {
         return user;
     }
@@ -61,12 +57,20 @@ public class Cart {
         this.user = user;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<CartItem> getCartItems() {
+        return cartItems;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public Integer getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(Integer totalQuantity) {
+        this.totalQuantity = totalQuantity;
     }
 
     

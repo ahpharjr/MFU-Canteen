@@ -27,7 +27,9 @@
                 <div class="input-search"><input type="text" placeholder="Search..."></div>
             </div>
             <div class="right-section">
-                <div class="cart-icon"><img src="/icons/cart.png"></div>
+                <div class="cart-icon">
+                    <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png"></a>
+                </div>
                 <div class="bell-icon"><img src="/icons/BELL NOTI.png"></div>
                 <div class="profile-button"><img src="/icons/profile.png"></div>
             </div>

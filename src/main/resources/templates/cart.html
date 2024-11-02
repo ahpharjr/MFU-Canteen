@@ -15,7 +15,7 @@
         </div>
         <div class="cycles"><img src="/images/Group 39474 (1).png"></div>
         <div class="cart-quantity">
-            Your Cart (<span th:text="${cart.quantity}">0</span>)
+            Your Cart (<span th:text="${cart.totalQuantity}">0</span>)
         </div>
         <div class="cart-title">
             <div class="dish">Dish</div>
@@ -23,7 +23,7 @@
             <div class="amount">Amount</div>
             <div class="price">Price</div>
         </div>
-        <div class="dish-box" th:each="item: ${cart.items}">
+        <div class="dish-box" th:each="cartItem : ${cart.cartItems}">
             <div class="selected-dish-box">
                 <div class="selected-dish">
                     <div class="custom-checkbox">
@@ -31,30 +31,27 @@
                         <label for="bullet1"></label>
                     </div>
                     <div class="dish-picture">
-                        <img th:src="@{${item.imageUrl}}">
+                        <img th:src="@{${cartItem.item.imageUrl}}">
                     </div>
                     <div class="dish-desc">
-                        <span class="name" th:text="${item.name}"></span>
-                        <span>Add-ons: Fried egg(1)</span>
+                        <span class="name" th:text="${cartItem.item.name}"></span>
                     </div>
                 </div>
-                <div class="shop-no">12</div>
+                <div class="shop-no" th:text="${cartItem.item.shop.shopId}"></div>
                 <div class="dish-amount">
                     <div id="deduct">-</div>
-                    <div id="quantity">
-                        <span th:text="${item.quantity}">0</span>
-                    </div>
+                    <div id="quantity" th:text="${cartItem.quantity}">1</div>
                     <div id="add">+</div>
                 </div>
                 <div class="dish-price">
-                    <div class="d-price" th:text="${item.price}">
-                        <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div> 
-                        
+                    <div class="d-price" th:text="${cartItem.item.price}">
+                        <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div>
                     </div>
                     <div class="delete-button"><img src="/icons/icons8-delete-24.png"></div>
                 </div>
             </div>
         </div>
+        
         
 
         <div class="div-check-out">

@@ -6,13 +6,15 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+// import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Item {
@@ -27,16 +29,20 @@ public class Item {
     private String category;
     private String description;
 
-    private int quantity;
+    // private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "shopId", nullable = false)
     @JsonIgnore
     private Shop shop;
 
-    @ManyToMany(mappedBy = "items")
+    // @ManyToMany(mappedBy = "items")
+    // @JsonIgnore
+    // private List<Cart> carts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Cart> carts = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
 
     public Item(){
 
@@ -121,22 +127,14 @@ public class Item {
     }
 
 
-    public List<Cart> getCarts() {
-        return carts;
+    public List<CartItem> getCartItems() {
+        return cartItems;
     }
 
 
-    public void setCarts(List<Cart> carts) {
-        this.carts = carts;
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
   
 }
