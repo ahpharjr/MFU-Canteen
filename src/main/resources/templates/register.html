@@ -19,21 +19,23 @@
                 <br><span class="text-2">Please Sign up to get started</span>
             </div>
         </div>
-        <div>
-            <p class="input-name">NAME</p>
-            <input class="input-email" type="email" placeholder="Enter your Name">
-            
-            <p class="input-name">EMAIL</p>
-            <input class="input-email" type="email" placeholder="Enter your Email">
-            
-            <p class="input-name">PASSWORD</p>
-            <input class="input-password" type="text" placeholder="Enter your Password">
-
-            <p class="input-name">RE-TYPE PASSWORD</p>
-            <input class="input-email" type="email" placeholder="Enter your Password">
-            
-        </div>
-        <button class="signup-button">SIGN UP</button>
+        <form th:action="@{/register}" th:object="${user}" method="post">
+            <div>
+                <p class="input-name">NAME</p>
+                <input class="input-email" type="text" th:field="*{username}" placeholder="Enter your Name">
+                
+                <!-- <p class="input-name">EMAIL</p>
+                <input class="input-email" type="email" placeholder="Enter your Email"> -->
+                
+                <p class="input-name">PASSWORD</p>
+                <input class="input-password" type="text" th:field="*{password}" placeholder="Enter your Password">
+    
+                <!-- <p class="input-name">RE-TYPE PASSWORD</p>
+                <input class="input-email" type="email" placeholder="Enter your Password"> -->
+                
+            </div>
+            <button class="signup-button">SIGN UP</button>
+        </form>
     </div>
 </body>
 </html>
