@@ -14,7 +14,9 @@
             </a>
         </div>
         <div class="cycles"><img src="/images/Group 39474 (1).png"></div>
-        <div class="cart-quantity">Your Cart(5)</div>
+        <div class="cart-quantity">
+            Your Cart (<span th:text="${cart.quantity}">0</span>)
+        </div>
         <div class="cart-title">
             <div class="dish">Dish</div>
             <div class="shop">Shop</div>
@@ -39,7 +41,9 @@
                 <div class="shop-no">12</div>
                 <div class="dish-amount">
                     <div id="deduct">-</div>
-                    <div id="quantity">1</div>
+                    <div id="quantity">
+                        <span th:text="${item.quantity}">0</span>
+                    </div>
                     <div id="add">+</div>
                 </div>
                 <div class="dish-price">

@@ -27,6 +27,8 @@ public class Item {
     private String category;
     private String description;
 
+    private int quantity;
+
     @ManyToOne
     @JoinColumn(name = "shopId", nullable = false)
     @JsonIgnore
@@ -128,7 +130,13 @@ public class Item {
         this.carts = carts;
     }
 
-    
+    public int getQuantity() {
+        return quantity;
+    }
 
-    
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+  
 }

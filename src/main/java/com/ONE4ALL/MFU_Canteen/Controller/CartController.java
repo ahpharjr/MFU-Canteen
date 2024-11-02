@@ -42,10 +42,9 @@ public class CartController {
     @PostMapping("/cart")
     public String addItemToCart(@PathVariable Long userId, 
                                 @RequestParam Long itemId, Model model) {
-
         model.addAttribute("userId", userId);
         model.addAttribute("itemId", itemId);
-        System.out.println("itemId:::::::::::::::::::::::::::::::::::::::::::"+itemId);
+
         // Find the user
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
@@ -62,17 +61,34 @@ public class CartController {
             // Find the item to be added
             Item item = itemService.getItemById(itemId);
             if (item != null) {
-                // Add the item to the user's cart if it's not already added
-                if (!cart.getItems().contains(item)) {
+                boolean itemExists = false;
+                for (Item existingItem : cart.getItems()) {
+                    if (existingItem.getItemId().equals(item.getItemId())) {
+                        // Increase the quantity of the existing item
+                        existingItem.setQuantity(existingItem.getQuantity() + 1);
+                        itemExists = true;
+                        break;
+                    }
+                }
+
+                if (!itemExists) {
+                    // Set initial quantity for the new item
+                    item.setQuantity(1);
                     cart.getItems().add(item);
                     item.getCarts().add(cart); // Set the cart for the item
-                    cartRepository.save(cart); // Save the updated cart
                 }
-            }
-    }
 
-    return "redirect:/user/" + userId + "/cart";
-}
+                // Update the total quantity of the cart
+                int totalQuantity = cart.getItems().stream().mapToInt(Item::getQuantity).sum();
+                cart.setQuantity(totalQuantity);
+
+                // Save the updated cart
+                cartRepository.save(cart);
+            }
+        }
+
+        return "redirect:/user/" + userId + "/cart";
+    }
 
 }
 
