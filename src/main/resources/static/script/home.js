@@ -89,6 +89,16 @@ function displayRecommendedDishes(items) {
    });
 }
 
-function viewItem(itemId){
-   window.location.href=`/user/item/${itemId}`;
+
+function viewItem(itemId) {
+    if (userId) {
+        window.location.href = `/user/${userId}/item/${itemId}`;
+    } else {
+        console.error("User ID is not available");
+    }
 }
+
+
+// function viewItem(itemId){
+//    window.location.href=`/user/item/${itemId}`;
+// }

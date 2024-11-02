@@ -64,6 +64,12 @@
         <div id="shopContainer" class="food-container1"></div>
     </div>
 
+    <input type="hidden" id="userIdField" th:value="${userId}">
+
+
+    <script>
+        const userId = document.getElementById("userIdField").value;
+    </script>
     <script src="/script/home.js"></script>
 </body>
 </html>
