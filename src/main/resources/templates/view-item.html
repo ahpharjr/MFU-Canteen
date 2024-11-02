@@ -66,7 +66,11 @@
                     </div>
                 </div>
                 <div class="button-box">
-                    <div class="add-to-cart">Add to Cart</div>
+                    <form th:action="@{'/user/'+ ${userId} +'/cart'}" method="post">
+                        <input type="hidden" name="itemId" th:value="${item.itemId}"/> <!-- Hidden input for itemId -->
+                        <div class="add-to-cart"><button type="submit">Add to Cart</button></div>
+                    </form>                    
+                
                     <div class="add-on-button">Add-on</div>
                 </div>
             </div>

@@ -11,17 +11,18 @@ import com.ONE4ALL.MFU_Canteen.Entity.Item;
 import com.ONE4ALL.MFU_Canteen.Service.ItemService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/user/{userId}")
 public class ViewItemController {
 
     @Autowired
     private ItemService itemService;
     
     @GetMapping("/item/{itemId}")
-    public String viewItem(@PathVariable Long itemId, Model model){
+    public String viewItem(@PathVariable Long itemId, @PathVariable Long userId, Model model){
         Item item = itemService.getItemById(itemId);
         model.addAttribute("item", item);
         model.addAttribute("sellerName", item.getShop().getOwner().getName());
+        model.addAttribute("userId", userId);
         
         return "view-item";
     }

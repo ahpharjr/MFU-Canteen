@@ -1,5 +1,7 @@
 package com.ONE4ALL.MFU_Canteen.Entity;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -27,12 +29,27 @@ public class Item {
     @JsonIgnore
     private Shop shop;
 
-    // @ManyToOne
-    // @JoinColumn(name = "cart_id")
-    // private Cart cart;
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    @JsonIgnore
+    private Cart cart;
 
     public Item(){
 
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+        Item item = (Item) o;
+        return Objects.equals(itemId, item.itemId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(itemId);
     }
 
     public Long getItemId() {
@@ -99,13 +116,13 @@ public class Item {
         this.description = description;
     }
 
-    // public Cart getCart() {
-    //     return cart;
-    // }
+    public Cart getCart() {
+        return cart;
+    }
 
-    // public void setCart(Cart cart) {
-    //     this.cart = cart;
-    // }
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 
     
 }

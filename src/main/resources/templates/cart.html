@@ -17,7 +17,7 @@
             <div class="amount">Amount</div>
             <div class="price">Price</div>
         </div>
-        <div class="dish-box">
+        <div class="dish-box" th:each="item: ${cart.items}">
             <div class="selected-dish-box">
                 <div class="selected-dish">
                     <div class="custom-checkbox">
@@ -25,10 +25,10 @@
                         <label for="bullet1"></label>
                     </div>
                     <div class="dish-picture">
-                        <img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp">
+                        <img th:src="@{${item.imageUrl}}">
                     </div>
                     <div class="dish-desc">
-                        <span class="name">Shrimp Fried Rice</span>
+                        <span class="name" th:text="${item.name}"></span>
                         <span>Add-ons: Fried egg(1)</span>
                     </div>
                 </div>
@@ -39,9 +39,9 @@
                     <div id="add">+</div>
                 </div>
                 <div class="dish-price">
-                    <div class="d-price">
+                    <div class="d-price" th:text="${item.price}">
                         <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div> 
-                        50.00
+                        
                     </div>
                     <div class="delete-button"><img src="/icons/icons8-delete-24.png"></div>
                 </div>

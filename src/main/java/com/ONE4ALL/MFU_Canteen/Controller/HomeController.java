@@ -29,10 +29,12 @@ public class HomeController {
     private ItemRepository itemRepo;
 
     @GetMapping("/{id}/home")
-    public String showHomePage(Model model) {
+    public String showHomePage(@PathVariable Long id,Model model) {
+
+        System.out.println("User ID: " + id);
         model.addAttribute("canteens", canteenRepo.findAll()); 
         model.addAttribute("selectedCanteenName", "");
-
+        model.addAttribute("userId", id);
         return "home";
     }
 
