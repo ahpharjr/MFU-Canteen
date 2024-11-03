@@ -84,41 +84,49 @@
                 <div class="button-box">
                     <div class="add-to-cart">
                         <form th:action="@{'/user/'+ ${userId} +'/cart'}" method="post">
-                            <input type="hidden" name="itemId" th:value="${item.itemId}"/> <!-- Hidden input for itemId -->
+                            <input type="hidden" name="itemId" th:value="${item.itemId}"/> 
                             <button type="submit" class="add-to-cart-button">Add to Cart</button>
                         </form>
-                    </div>                 
-                
+                    </div>
                     <div class="add-on-button">Add-on</div>
-                </div>
+                </div>                
             </div>
         </div>
     </div>
     <div class="recommended-food-container">
         <div class="recommended-text">Similar Dishes</div>
         <div class="food-container1">
-            <div class="recommended-food-box">
-                <div class="add-to-favorite">
-                    <div class="heart-shape">
-                        <img src="/icons/icons8-heart-50.png">
-                        <div class="color-heart"><img src="/icons/icons8-heart-50 (1).png"></div>
+            <th:block th:each="similarItem : ${similarItems}">
+                <div class="recommended-food-box" th:onclick="'/user/' + ${userId} + '/item/' + ${similarItem.itemId}">
+                    <div class="add-to-favorite">
+                        <div class="heart-shape">
+                            <img src="/icons/icons8-heart-50.png">
+                            <div class="color-heart"><img src="/icons/icons8-heart-50 (1).png"></div>
+                        </div>
+                    </div>
+                    <div class="add-button">+</div>
+                    <div class="item-pic">
+                        <img th:src="${similarItem.imageUrl}" alt="Similar Dish Image">
+                    </div>
+                    <div class="item-title">
+                        <div class="item-name">
+                            <div class="dish-name" th:text="${similarItem.name}"></div>
+                            <div class="div-rating-star">
+                                <img src="/images/5stars.png">
+                            </div>
+                        </div>
+                        <div class="item-price">
+                            <div class="thai-baht-icon">
+                                <img src="/icons/icons8-thai-baht-24.png">
+                            </div>
+                            <span th:text="${similarItem.price}">80.00</span>
+                        </div>
                     </div>
                 </div>
-                <div class="add-button">+</div>
-                <div class="item-pic"><img src="/images/yummy.png"></div>
-                <div class="item-title">
-                    <div class="item-name">
-                        <div class="dish-name">Seafood with Rice</div>
-                        <div class="div-rating-star"><img src="/images/5stars.png"></div>
-                    </div>
-                    <div class="item-price">
-                        <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div> 
-                        80.00
-                    </div>
-                </div>
-            </div>
+            </th:block>
         </div>
     </div>
+    
 </body>
 </html>
 

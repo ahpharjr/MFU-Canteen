@@ -7,18 +7,27 @@
     padding-left: 15px;
     border: 1px solid white;
 }
-.category-button{
+.category-button {
     font-size: 12px;
     margin: 0 5px;
-    background-color:cadetblue;
+    background-color: cadetblue;
     border: solid 1px rgb(57, 57, 57);
     border-radius: 3px;
     padding: 3px 10px;
     transition: 0.3s ease;
 }
-.category-button:hover{
+
+.category-button:hover {
     background-color: coral;
     color: white;
     cursor: pointer;
     border: solid 1px coral;
 }
+
+.category-button.active {
+    background-color: rgb(255, 68, 1);
+    color: white;
+    border: solid 1px rgb(255, 68, 1);
+}
+
+

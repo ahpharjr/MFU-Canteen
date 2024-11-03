@@ -56,6 +56,7 @@
         </div>
     </div>
     <div class="div-menu">
+        <button class="category-button active" onclick="filterByCategory('')">Recommended Dishes</button>
         <button class="category-button" onclick="filterByCategory('Rice Bowls')">Rice Bowls</button>
         <button class="category-button" onclick="filterByCategory('Drinks')">Drinks</button>
         <button class="category-button" onclick="filterByCategory('Grilled & BBQ')">Grilled & BBQ</button>
@@ -63,10 +64,11 @@
     </div>
     
     <div class="recommended-food-container1">
-        <div class="recommended-text">Recommended Dishes</div>
+        <div id="recommendedText" class="recommended-text">Recommended Dishes</div>
         <div id="recommendedFoodContainer1" class="food-container1"></div>
         <div id="recommendedFoodContainer2" class="food-container2"></div>
     </div>
+    
 
     <div class="shops-in-canteen">
         <div class="recommended-text">Shops in &nbsp;<span id="selectedCanteenName" th:text="${selectedCanteenName}"></span></div>

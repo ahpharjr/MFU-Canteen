@@ -1,5 +1,7 @@
 package com.ONE4ALL.MFU_Canteen.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,10 @@ public class ViewItemController {
         model.addAttribute("sellerName", item.getShop().getOwner().getName());
         model.addAttribute("userId", userId);
         model.addAttribute("itemId", itemId);
+
+            // Fetch similar items by category
+        List<Item> similarItems = itemService.getItemsByCategory(item.getCategory(), itemId);
+        model.addAttribute("similarItems", similarItems);
         
         return "view-item";
     }

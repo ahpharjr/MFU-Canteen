@@ -49,4 +49,8 @@ public class ItemService {
         itemRepository.deleteById(itemId);
     }
 
+    public List<Item> getItemsByCategory(String category, Long excludeItemId) {
+        return itemRepository.findByCategoryAndItemIdNot(category, excludeItemId);
+    }
+
 }

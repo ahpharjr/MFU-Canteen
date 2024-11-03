@@ -64,31 +64,6 @@ function displayShops(shops) {
    });
 }
 
-function displayRecommendedDishes(items) {
-   const recommendedFoodContainer1 = document.getElementById("recommendedFoodContainer1");
-   const recommendedFoodContainer2 = document.getElementById("recommendedFoodContainer2");
-   recommendedFoodContainer1.innerHTML = "";
-   recommendedFoodContainer2.innerHTML = "";
-   items.forEach(item => {
-       const itemBox = `
-           <div class="recommended-food-box" onclick="viewItem(${item.itemId})">
-               <div class="item-pic"><img src="${item.imageUrl}" alt="${item.name}"></div>
-               <div class="item-title">
-                   <div class="item-name">
-                        <div class="dish-name">${item.name}</div>
-                       <div class="div-rating-star"><img src="/images/5stars.png"></div>
-                   </div>
-                   <div class="item-price">
-                       <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div> 
-                       ${item.price.toFixed(2)}
-                   </div>
-               </div>
-           </div>`;
-       recommendedFoodContainer1.innerHTML += itemBox;
-       recommendedFoodContainer2.innerHTML += itemBox;
-   });
-}
-
 let allItems = []; // Store all items fetched for current canteen
 
 function fetchRecommendedDishes(canteenId) {
@@ -102,11 +77,58 @@ function fetchRecommendedDishes(canteenId) {
 }
 
 function filterByCategory(category) {
-    const filteredItems = allItems.filter(item => item.category === category);
-    displayRecommendedDishes(filteredItems); // Display only items in selected category
+    const recommendedText = document.getElementById("recommendedText");
+    const categoryButtons = document.querySelectorAll(".category-button");
+
+    // Remove "active" class from all buttons
+    categoryButtons.forEach(button => button.classList.remove("active"));
+
+    // Set the text and filter items based on category
+    if (category === '') {
+        recommendedText.textContent = "Recommended Dishes";
+        displayRecommendedDishes(allItems);
+        // Add "active" class to the "Recommended Dishes" button
+        document.querySelector(".category-button:nth-child(1)").classList.add("active");
+    } else {
+        recommendedText.textContent = category;
+        const filteredItems = allItems.filter(item => item.category === category);
+        displayRecommendedDishes(filteredItems);
+
+        // Find and activate the button for the selected category
+        categoryButtons.forEach(button => {
+            if (button.textContent === category) {
+                button.classList.add("active");
+            }
+        });
+    }
 }
 
 
+function displayRecommendedDishes(items) {
+    const recommendedFoodContainer1 = document.getElementById("recommendedFoodContainer1");
+    const recommendedFoodContainer2 = document.getElementById("recommendedFoodContainer2");
+    recommendedFoodContainer1.innerHTML = "";
+    recommendedFoodContainer2.innerHTML = "";
+
+    items.forEach(item => {
+        const itemBox = `
+            <div class="recommended-food-box" onclick="viewItem(${item.itemId})">
+                <div class="item-pic"><img src="${item.imageUrl}" alt="${item.name}"></div>
+                <div class="item-title">
+                    <div class="item-name">
+                        <div class="dish-name">${item.name}</div>
+                        <div class="div-rating-star"><img src="/images/5stars.png"></div>
+                    </div>
+                    <div class="item-price">
+                        <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div> 
+                        ${item.price.toFixed(2)}
+                    </div>
+                </div>
+            </div>`;
+        recommendedFoodContainer1.innerHTML += itemBox;
+        recommendedFoodContainer2.innerHTML += itemBox;
+    });
+}
 
 function viewItem(itemId) {
     if (userId) {
