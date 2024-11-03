@@ -6,6 +6,7 @@
     <title>Home Page</title>
     <link rel="stylesheet" href="/styles/home.css">
     <link rel="stylesheet" href="/styles/header.css">
+    <link rel="stylesheet" href="/styles/menu.css">
 </head>
 <body>
     <div class="header">
@@ -54,7 +55,13 @@
             <div class="nav-icon1"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
         </div>
     </div>
-
+    <div class="div-menu">
+        <button class="category-button" onclick="filterByCategory('Rice Bowls')">Rice Bowls</button>
+        <button class="category-button" onclick="filterByCategory('Drinks')">Drinks</button>
+        <button class="category-button" onclick="filterByCategory('Grilled & BBQ')">Grilled & BBQ</button>
+        <button class="category-button" onclick="filterByCategory('Juice/Smoothies')">Juice/Smoothies</button>
+    </div>
+    
     <div class="recommended-food-container1">
         <div class="recommended-text">Recommended Dishes</div>
         <div id="recommendedFoodContainer1" class="food-container1"></div>

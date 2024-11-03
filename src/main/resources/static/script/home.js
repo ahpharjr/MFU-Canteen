@@ -89,6 +89,24 @@ function displayRecommendedDishes(items) {
    });
 }
 
+let allItems = []; // Store all items fetched for current canteen
+
+function fetchRecommendedDishes(canteenId) {
+    fetch(`/user/canteen/shops/${canteenId}/items`)
+        .then(response => response.json())
+        .then(data => {
+            allItems = data; // Store fetched items for filtering
+            displayRecommendedDishes(allItems); // Display all items initially
+        })
+        .catch(error => console.error('Error fetching recommended dishes:', error));
+}
+
+function filterByCategory(category) {
+    const filteredItems = allItems.filter(item => item.category === category);
+    displayRecommendedDishes(filteredItems); // Display only items in selected category
+}
+
+
 
 function viewItem(itemId) {
     if (userId) {
