@@ -38,11 +38,20 @@ public class CartController {
     @GetMapping("/cart")
     public String showCart(@PathVariable Long userId, Model model) {
         User user = userRepository.findById(userId).orElse(null);
-        if (user != null && user.getCart() != null) {
+        
+        if (user != null) {
             Cart cart = user.getCart();
+            if (cart == null) {
+                // Create a new cart for the user if one does not exist
+                cart = new Cart();
+                cart.setUser(user);
+                user.setCart(cart);
+                cartRepository.save(cart);
+            }
+            
             model.addAttribute("cart", cart);
             model.addAttribute("totalQuantity", cart.getTotalQuantity()); // Add totalQuantity to the model
-
+    
             if (!cart.getCartItems().isEmpty()) {
                 CartItem firstCartItem = cart.getCartItems().get(0);
                 model.addAttribute("firstCartItem", firstCartItem);
@@ -51,6 +60,7 @@ public class CartController {
         
         return "cart";
     }
+    
     
 
     @PostMapping("/cart")

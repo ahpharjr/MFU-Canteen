@@ -12,7 +12,9 @@
     <div class="header">
         <div class="hleft">
             <div>Location</div>
-            <div th:text="${firstCartItem.item.shop.canteen.name}"></div>
+            <!-- <div th:text="${firstCartItem.item.shop.canteen.name}"></div> -->
+            <div th:text="${firstCartItem != null  ? firstCartItem.item.shop.canteen.name : ''}"></div>
+
         </div>
         <div class="hright">
             <div class="left-section">Find the <br> Food around you</div>
