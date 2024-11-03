@@ -1,6 +1,10 @@
+body{
+    background-color: cadetblue;
+    margin: 0;
+}
 .cart-container{
     background-color: aliceblue;
-    margin: 80px 80px 30px 80px;
+    margin: 8px 80px 30px 50px;
     border-radius: 10px;
     min-width: 900px;
     display: flex;
@@ -142,8 +146,14 @@
 #deduct, #add{
     display: flex;
     width: 20px;
+    border-radius: 10px;
     justify-content: center;
+    border: none;
+    background-color: aliceblue;
+    padding-top: 2px;
+    font-size: 20px;
 }
+
 #quantity{
     display: flex;
     width: 50px;
@@ -153,24 +163,34 @@
 .dish-price{
     display: flex;
     justify-content: space-between;
+
 }
 .d-price{
+    display: flex;
+    padding-top: 2px;
+}
+#dish-price{
     display: flex;
 }
 .thai-baht-icon img{
     height: 20px;
+    padding-top: 2px;
 }
 .delete-button{
-    padding-left: 20px;
-    padding-right: 50px;
+    padding: 0 50px 0 20px;
     cursor: pointer;
     transform: 0.3s ease;
 }
-.delete-button:hover{
-    width: 32px;
+.delete-button button{
+    border: none;
+    background-color: aliceblue;
+    cursor: pointer;
 }
+/* .delete-button:hover{
+    width: 32px;
+} */
 .delete-button img{
-    width: 30px;
+    width: 25px;
 }
 .div-check-out{
     padding: 60px 0 30px 0;

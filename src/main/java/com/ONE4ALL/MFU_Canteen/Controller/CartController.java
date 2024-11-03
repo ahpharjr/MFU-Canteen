@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ONE4ALL.MFU_Canteen.Entity.Cart;
 import com.ONE4ALL.MFU_Canteen.Entity.CartItem;
 import com.ONE4ALL.MFU_Canteen.Entity.Item;
 import com.ONE4ALL.MFU_Canteen.Entity.User;
+import com.ONE4ALL.MFU_Canteen.Repository.CartItemRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.CartRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.UserRepository;
 import com.ONE4ALL.MFU_Canteen.Service.ItemService;
@@ -30,50 +32,98 @@ public class CartController {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private CartItemRepository cartItemRepository;
+
     @GetMapping("/cart")
     public String showCart(@PathVariable Long userId, Model model) {
         User user = userRepository.findById(userId).orElse(null);
-        if (user != null) {
-            // Add user's cart to the model for the view
-            model.addAttribute("cart", user.getCart());
+        if (user != null && user.getCart() != null) {
+            Cart cart = user.getCart();
+            model.addAttribute("cart", cart);
+            model.addAttribute("totalQuantity", cart.getTotalQuantity()); // Add totalQuantity to the model
+
+            if (!cart.getCartItems().isEmpty()) {
+                CartItem firstCartItem = cart.getCartItems().get(0);
+                model.addAttribute("firstCartItem", firstCartItem);
+            }
         }
+        
         return "cart";
     }
+    
 
-@PostMapping("/cart")
-public String addItemToCart(@PathVariable Long userId, 
-                            @RequestParam Long itemId, Model model) {
-    User user = userRepository.findById(userId).orElse(null);
-    if (user != null) {
-        Cart cart = user.getCart();
-        if (cart == null) {
-            cart = new Cart();
-            cart.setUser(user);
-            user.setCart(cart);
-            cartRepository.save(cart);
-        }
-
-        Item item = itemService.getItemById(itemId);
-        if (item != null) {
-            CartItem existingCartItem = cart.getCartItems().stream()
-                .filter(cartItem -> cartItem.getItem().getItemId().equals(itemId))
-                .findFirst()
-                .orElse(null);
-
-            if (existingCartItem != null) {
-                existingCartItem.setQuantity(existingCartItem.getQuantity() + 1); // Increment quantity
-            } else {
-                CartItem newCartItem = new CartItem();
-                newCartItem.setCart(cart);
-                newCartItem.setItem(item);
-                newCartItem.setQuantity(1); // Initial quantity
-                cart.getCartItems().add(newCartItem);
+    @PostMapping("/cart")
+    public String addItemToCart(@PathVariable Long userId, 
+                                @RequestParam Long itemId, Model model) {
+        
+        model.addAttribute("itemId", itemId);
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            Cart cart = user.getCart();
+            if (cart == null) {
+                cart = new Cart();
+                cart.setUser(user);
+                user.setCart(cart);
+                cartRepository.save(cart);
             }
-            cartRepository.save(cart);
+
+            Item item = itemService.getItemById(itemId);
+            model.addAttribute("item", item);
+            if (item != null) {
+                CartItem existingCartItem = cart.getCartItems().stream()
+                    .filter(cartItem -> cartItem.getItem().getItemId().equals(itemId))
+                    .findFirst()
+                    .orElse(null);
+
+                if (existingCartItem != null) {
+                    existingCartItem.setQuantity(existingCartItem.getQuantity() + 1); // Increment quantity
+                } else {
+                    CartItem newCartItem = new CartItem();
+                    newCartItem.setCart(cart);
+                    newCartItem.setItem(item);
+                    newCartItem.setQuantity(1); // Initial quantity
+                    cart.getCartItems().add(newCartItem);
+                }
+                cartRepository.save(cart);
+            }
         }
+        return "redirect:/user/" + userId + "/cart";
     }
-    return "redirect:/user/" + userId + "/cart";
-}
+
+    @PostMapping("/cart/{cartItemId}/add")
+    public String increaseCartItemQuantity(@PathVariable Long userId, @PathVariable Long cartItemId) {
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+        if (cartItem != null) {
+            cartItem.setQuantity(cartItem.getQuantity() + 1);
+            cartItemRepository.save(cartItem);
+        }
+        return "redirect:/user/" + userId + "/cart";
+    }
+
+    @PostMapping("/cart/{cartItemId}/deduct")
+    public String decreaseCartItemQuantity(@PathVariable Long userId, @PathVariable Long cartItemId) {
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+        if (cartItem != null && cartItem.getQuantity() > 1) {
+            cartItem.setQuantity(cartItem.getQuantity() - 1);
+            cartItemRepository.save(cartItem);
+        } else if (cartItem != null && cartItem.getQuantity() == 1) {
+            cartItemRepository.delete(cartItem); // Remove item if quantity reaches zero
+        }
+        return "redirect:/user/" + userId + "/cart";
+    }
+
+    @PostMapping("/cart/{cartItemId}/delete")
+    public String deleteCartItem(@PathVariable Long userId, @PathVariable Long cartItemId, RedirectAttributes redirectAttributes) {
+        // Call the service to delete the cart item
+        System.out.println("CartController.deleteCartItem()=========================================1");
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+        cartItemRepository.delete(cartItem);
+        System.out.println("CartController.deleteCartItem()=========================================2");
+        redirectAttributes.addFlashAttribute("message", "Item removed from cart.");
+        System.out.println("CartController.deleteCartItem()=========================================3");
+        return "redirect:/user/" + userId + "/cart"; // Redirect back to cart
+    }
 
 
 }

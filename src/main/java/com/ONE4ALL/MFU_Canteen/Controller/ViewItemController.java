@@ -23,6 +23,7 @@ public class ViewItemController {
         model.addAttribute("item", item);
         model.addAttribute("sellerName", item.getShop().getOwner().getName());
         model.addAttribute("userId", userId);
+        model.addAttribute("itemId", itemId);
         
         return "view-item";
     }

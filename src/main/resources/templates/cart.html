@@ -4,9 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/cart.css">
+    <link rel="stylesheet" href="/styles/nav.css">
+    <link rel="stylesheet" href="/styles/header.css">
     <title>Your Cart</title>
 </head>
-<body>
+<body >
+    <div class="header">
+        <div class="hleft">
+            <div>Location</div>
+            <div th:text="${firstCartItem.item.shop.canteen.name}"></div>
+        </div>
+        <div class="hright">
+            <div class="left-section">Find the <br> Food around you</div>
+            <div class="middle-section">
+                <div class="search-icon"><img src="/icons/icons8-search-50 (1).png"></div>
+                <div class="input-search"><input type="text" placeholder="Search..."></div>
+            </div>
+            <div class="right-section">
+                <div class="cart-icon">
+                    <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png"></a>
+                </div>
+                <div class="bell-icon"><img src="/icons/BELL NOTI.png"></div>
+                <div class="profile-button"><img src="/icons/profile.png"></div>
+            </div>
+        </div>
+    </div>
+    <div class="div-nav-bar">
+        <div class="nav-button">
+            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
+            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
+        </div>
+        <div class="nav-button">
+            <div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div>
+            <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon.png" alt="home button"></div>
+        </div>
+        <div class="nav-button">
+            <div class="nav-icon"><img  src="/icons/icons8-heart-50 (1).png" alt="home button"></div>
+            <div class="nav-icon1"><img  src="/icons/icons8-heart-50.png" alt="home button"></div>
+        </div>
+        <div class="nav-button">
+            <div class="nav-icon"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+            <div class="nav-icon1"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+        </div>
+    </div>
     <div class="cart-container">
         <div class="back-arrow">
             <a href="javascript:history.back()">
@@ -15,7 +55,7 @@
         </div>
         <div class="cycles"><img src="/images/Group 39474 (1).png"></div>
         <div class="cart-quantity">
-            Your Cart (<span th:text="${cart.totalQuantity}">0</span>)
+            Cart Item (<span th:text="${totalQuantity}">0</span>)
         </div>
         <div class="cart-title">
             <div class="dish">Dish</div>
@@ -37,22 +77,31 @@
                         <span class="name" th:text="${cartItem.item.name}"></span>
                     </div>
                 </div>
-                <div class="shop-no" th:text="${cartItem.item.shop.shopId}"></div>
+                <div class="shop-no" th:text="${cartItem.item.shop.shopNum}"></div>
                 <div class="dish-amount">
-                    <div id="deduct">-</div>
-                    <div id="quantity" th:text="${cartItem.quantity}">1</div>
-                    <div id="add">+</div>
+                    <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/deduct'}" method="post">
+                        <button type="submit" id="deduct">-</button>
+                    </form>
+                    <!-- <div id="deduct">-</div> -->
+                    <div type="button" id="quantity" th:text="${cartItem.quantity}"></div>
+                    <!-- <div id="add">+</div> -->
+                    <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/add'}" method="post">
+                        <button type="submit" id="add">+</button>
+                    </form>
                 </div>
                 <div class="dish-price">
-                    <div class="d-price" th:text="${cartItem.item.price}">
+                    <div id="dish-price">
                         <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div>
+                        <div class="d-price" th:text="${cartItem.item.price}"></div>
                     </div>
-                    <div class="delete-button"><img src="/icons/icons8-delete-24.png"></div>
+                    <div class="delete-button">
+                        <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/delete'}" method="post" class="delete-form">
+                            <button type="submit" ><img src="/icons/icons8-delete-24.png"></button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        
 
         <div class="div-check-out">
             <div class="check-out-button">Check Out (5)</div>

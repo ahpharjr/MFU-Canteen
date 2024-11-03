@@ -13,14 +13,7 @@
     <div class="header">
         <div class="hleft">
             <div>Location</div>
-            <div>
-                <select id="canteenSelect" onchange="fetchShopsAndItems()">
-                    <option value="">Select Canteen</option>
-                    <th:block th:each="canteen : ${canteens}">
-                        <option th:value="${canteen.canteenId}" th:text="${canteen.name}"></option>
-                    </th:block>
-                </select>
-            </div>
+            <div th:text="${item.shop.canteen.name}"></div>
         </div>
         <div class="hright">
             <div class="left-section">Find the <br> Food around you</div>
@@ -29,15 +22,38 @@
                 <div class="input-search"><input type="text" placeholder="Search..."></div>
             </div>
             <div class="right-section">
-                <div class="cart-icon"><img src="/icons/cart.png"></div>
+                <div class="cart-icon">
+                    <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png"></a>
+                </div>
                 <div class="bell-icon"><img src="/icons/BELL NOTI.png"></div>
                 <div class="profile-button"><img src="/icons/profile.png"></div>
             </div>
         </div>
     </div>
+    <div class="div-nav-bar">
+        <div class="nav-button">
+            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
+            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
+        </div>
+        <div class="nav-button">
+            <div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div>
+            <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon.png" alt="home button"></div>
+        </div>
+        <div class="nav-button">
+            <div class="nav-icon"><img  src="/icons/icons8-heart-50 (1).png" alt="home button"></div>
+            <div class="nav-icon1"><img  src="/icons/icons8-heart-50.png" alt="home button"></div>
+        </div>
+        <div class="nav-button">
+            <div class="nav-icon"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+            <div class="nav-icon1"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+        </div>
+    </div>
     <div class="item-container">
         <div class="back-arrow">
-            <a th:href="@{'/user/'+ ${userId} + '/home'}"><img src="/icons/icons8-back-50.png"></a>
+            <!-- <a th:href="@{'/user/'+ ${userId} + '/home'}"><img src="/icons/icons8-back-50.png"></a> -->
+            <a href="javascript:history.back()">
+                <img src="/icons/icons8-back-50.png" alt="Back">
+            </a>
         </div>
         <div class="cycles"><img src="/images/Group 39474 (1).png"></div>
         <div class="item-img"><img th:src="@{${item.imageUrl}}" alt="Item Image"></div>
@@ -66,10 +82,12 @@
                     </div>
                 </div>
                 <div class="button-box">
-                    <form th:action="@{'/user/'+ ${userId} +'/cart'}" method="post">
-                        <input type="hidden" name="itemId" th:value="${item.itemId}"/> <!-- Hidden input for itemId -->
-                        <div class="add-to-cart"><button type="submit">Add to Cart</button></div>
-                    </form>                    
+                    <div class="add-to-cart">
+                        <form th:action="@{'/user/'+ ${userId} +'/cart'}" method="post">
+                            <input type="hidden" name="itemId" th:value="${item.itemId}"/> <!-- Hidden input for itemId -->
+                            <button type="submit" class="add-to-cart-button">Add to Cart</button>
+                        </form>
+                    </div>                 
                 
                     <div class="add-on-button">Add-on</div>
                 </div>
