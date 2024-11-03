@@ -19,12 +19,10 @@
             <div class="left-section">Find the <br> Food around you</div>
             <div class="middle-section">
                 <div class="search-icon"><img src="/icons/icons8-search-50 (1).png"></div>
-                <form id="searchForm" th:action="@{/search}" method="get">
-                    <div class="input-search">
-                        <input type="text" id="searchInput" name="query" placeholder="Search...">
-                    </div>
-                </form>
-            </div>            
+                <div class="input-search">
+                    <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchItems()">
+                </div>                
+            </div>        
             <div class="right-section">
                 <div class="cart-icon">
                     <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png"></a>
@@ -144,6 +142,4 @@
     </script>
     <script src="/script/home.js"></script>
 </body>
-</html>
-
 </html>
