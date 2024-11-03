@@ -19,8 +19,12 @@
             <div class="left-section">Find the <br> Food around you</div>
             <div class="middle-section">
                 <div class="search-icon"><img src="/icons/icons8-search-50 (1).png"></div>
-                <div class="input-search"><input type="text" placeholder="Search..."></div>
-            </div>
+                <form id="searchForm" th:action="@{/search}" method="get">
+                    <div class="input-search">
+                        <input type="text" id="searchInput" name="query" placeholder="Search...">
+                    </div>
+                </form>
+            </div>            
             <div class="right-section">
                 <div class="cart-icon">
                     <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png"></a>
@@ -97,7 +101,7 @@
         <div class="recommended-text">Similar Dishes</div>
         <div class="food-container1">
             <th:block th:each="similarItem : ${similarItems}">
-                <div class="recommended-food-box" th:onclick="'/user/' + ${userId} + '/item/' + ${similarItem.itemId}">
+                <div class="recommended-food-box" th:attr="onclick='viewItem(' + ${similarItem.itemId} + ')'">
                     <div class="add-to-favorite">
                         <div class="heart-shape">
                             <img src="/icons/icons8-heart-50.png">
@@ -123,10 +127,22 @@
                         </div>
                     </div>
                 </div>
-            </th:block>
+            </th:block>            
         </div>
     </div>
+    <input type="hidden" id="userIdField" th:value="${userId}">
     
+    <script>
+        const userId = document.getElementById("userIdField").value;
+
+        document.getElementById('searchInput').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent the default form submission
+            document.getElementById('searchForm').submit(); // Submit the form
+        }
+    });
+    </script>
+    <script src="/script/home.js"></script>
 </body>
 </html>
 

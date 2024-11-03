@@ -104,11 +104,29 @@ function filterByCategory(category) {
 }
 
 
+function searchItems() {
+    const searchInput = document.getElementById("searchInput").value.toLowerCase();
+    
+    // Filter items by both name and category
+    const filteredItems = allItems.filter(item => {
+        return item.name.toLowerCase().includes(searchInput) || 
+               item.category.toLowerCase().includes(searchInput);
+    });
+
+    displayRecommendedDishes(filteredItems);
+}
+
 function displayRecommendedDishes(items) {
     const recommendedFoodContainer1 = document.getElementById("recommendedFoodContainer1");
     const recommendedFoodContainer2 = document.getElementById("recommendedFoodContainer2");
     recommendedFoodContainer1.innerHTML = "";
     recommendedFoodContainer2.innerHTML = "";
+
+    if (items.length === 0) {
+        recommendedFoodContainer1.innerHTML = "<div>No items found.</div>";
+        recommendedFoodContainer2.innerHTML = "<div>No items found.</div>";
+        return;
+    }
 
     items.forEach(item => {
         const itemBox = `
@@ -130,15 +148,12 @@ function displayRecommendedDishes(items) {
     });
 }
 
-function viewItem(itemId) {
-    if (userId) {
-        window.location.href = `/user/${userId}/item/${itemId}`;
-    } else {
-        console.error("User ID is not available");
-    }
+
+    function viewItem(itemId) {
+        if (userId) {
+            window.location.href = `/user/${userId}/item/${itemId}`;
+        } else {
+            console.error("User ID is not available");
+        }
 }
 
-
-// function viewItem(itemId){
-//    window.location.href=`/user/item/${itemId}`;
-// }
