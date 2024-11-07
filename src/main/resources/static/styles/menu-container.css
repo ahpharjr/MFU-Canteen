@@ -1,0 +1,126 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(233, 233, 233);
+    /* background: linear-gradient(135deg, #017c80, #3e4948);  */
+    margin: 0;
+    position: relative;
+    padding-bottom: 50px;
+}
+.div-menu-container{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    /* background: linear-gradient(135deg, #4bacaf, #939393);  */
+    max-width: 1000px;
+    padding: 0 20px 40px 20px;
+    margin-top: 70px;
+    border-radius: 15px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
+    position: relative;
+}
+.custom-circle{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.custom-circle img{
+    border-top-right-radius: 10px;
+}
+.div-menu-container h2{
+    text-align: center;
+}
+.create-item-button{
+    display: flex;
+    /* background-color: rgba(3, 57, 79, 1); */
+    background-color: #ff5c5c;
+    color: white;
+    padding: 10px;
+    width: 100px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    margin: 0 0 15px 0;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.create-item-button img{
+    width: 20px;
+}
+.create-item-button:hover{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #ff4040;
+}
+
+.div-menu-box{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 15px;
+    row-gap: 20px;
+}
+@media (max-width: 800px){
+    .div-menu-box{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 800px) and (  max-width: 999px){
+    .div-menu-box{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.menu-card {
+    position: relative;
+    max-width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    text-align: center;
+    transition: 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+.menu-card:hover{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+}
+.menu-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.menu-info {
+    padding: 0 15px 13px 15px;
+    text-align: left;
+}
+
+.menu-info p{
+    font-size: 15px;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+.info-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rating img{
+   height: 15px;
+}
+
+.price-update {
+    text-align: right;
+    display: flex;
+}
+.thai-baht{
+    height: 15px;
+}
+.price {
+    font-size: 14px;
+}

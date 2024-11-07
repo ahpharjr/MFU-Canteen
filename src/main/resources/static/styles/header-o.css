@@ -1,0 +1,105 @@
+.div-header{
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    /* background: linear-gradient(135deg, #8abbbc, #b6fff2); */
+    width: 100%;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+
+}
+.div-left-h{
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    padding-right: 30px;
+    border-bottom-right-radius: 10px
+
+}
+.custom-circle2{
+    position: absolute;
+    display: flex;
+    z-index: 0;
+}
+.custom-circle2 img{
+    height: 60px;
+    border-bottom-left-radius: 10px;
+}
+
+.shop-name{
+    color: white;
+    font-size: 25px;
+    padding: 0 20px;
+    z-index: 1;
+}
+.div-right-h{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-evenly;
+}
+.menu-icon, .order-icon, .profile{
+    margin: 0 20px;
+    position: relative;
+    cursor: pointer;
+}
+.menu-icon img{
+    width: 23px;
+}
+.order-icon img{
+    width: 23px;
+}
+.order-qty{
+    text-align: center;
+    position: absolute;
+    background-color: rgb(227, 53, 53);
+    color: white;
+    font-size: 10px;
+    width: 15px;
+    padding: 2px 0;
+    border: 1px solid white;
+    border-radius: 50%;
+    top: -5px;
+    right: -5px;
+}
+.profile img{
+    width: 33px;
+}
+.tooltip{
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #484848;
+    color: #fff;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    transition: opacity 0.3s;
+}
+.tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: 100%; /* Position the arrow above the tooltip */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #484848 transparent;
+}
+.menu-icon:hover .tooltip,
+.order-icon:hover .tooltip,
+.profile:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
