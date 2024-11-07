@@ -37,7 +37,7 @@ public class UserController {
     public String registerUser(@ModelAttribute("user") User user, Model model) {
         // Check if the username already exists
         if (userRepository.existsByUsername(user.getUsername())) {
-            model.addAttribute("error", "Username already exists. Please choose a different one.");
+            model.addAttribute("error", "Username with this name already exists.");
             return "register";  // Return to the registration page with the error message
         }
 

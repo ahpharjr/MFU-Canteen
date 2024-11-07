@@ -87,3 +87,7 @@ input {
     background-color: rgb(255,118,34); 
     color: white;
 }
+.error-message{
+    color: rgb(255, 29, 29);
+    text-align: center;
+}
