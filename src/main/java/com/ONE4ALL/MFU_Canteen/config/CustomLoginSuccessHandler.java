@@ -22,22 +22,46 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
     private UserRepository userRepository;
 
+    // @Override
+    // public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+    //         throws IOException, ServletException {
+    //     // Retrieve the logged-in user’s details
+    //     String username = authentication.getName();
+    //     User user = userRepository.findByUsername(username);
+
+    //     // Check if user has an admin role
+    //     Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+    //     boolean isAdmin = authorities.stream()
+    //         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+
+    //     if (isAdmin) {
+    //         response.sendRedirect("/ad/canteens");  // Redirect admins
+    //     } else {
+    //         response.sendRedirect("/user/" + user.getId() + "/home");  // Redirect regular users
+    //     }
+    // }
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
-        // Retrieve the logged-in user’s details
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
 
-        // Check if user has an admin role
+        // Check if user has an admin or owner role
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         boolean isAdmin = authorities.stream()
             .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
 
+        boolean isOwner = authorities.stream()
+            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_OWNER"));
+
         if (isAdmin) {
-            response.sendRedirect("/ad/canteens");  // Redirect admins
+            response.sendRedirect("/ad/canteens");
+        } else if (isOwner) {
+            response.sendRedirect("/owner/" + user.getOwner().getOwnerId() +"/home"); // Redirect to owner's dashboard
         } else {
-            response.sendRedirect("/user/" + user.getId() + "/home");  // Redirect regular users
+            response.sendRedirect("/user/" + user.getId() + "/home");
         }
     }
+
 }
