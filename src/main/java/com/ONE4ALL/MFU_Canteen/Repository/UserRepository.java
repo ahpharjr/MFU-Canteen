@@ -5,5 +5,6 @@ import com.ONE4ALL.MFU_Canteen.Entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
     User findByUsername(String username);
+    boolean existsByUsername(String username);
     
 }

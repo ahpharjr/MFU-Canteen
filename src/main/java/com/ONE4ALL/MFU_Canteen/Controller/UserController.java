@@ -34,7 +34,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user) {
+    public String registerUser(@ModelAttribute("user") User user, Model model) {
+        // Check if the username already exists
+        if (userRepository.existsByUsername(user.getUsername())) {
+            model.addAttribute("error", "Username already exists. Please choose a different one.");
+            return "register";  // Return to the registration page with the error message
+        }
+
         // Encrypt the password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -45,11 +51,12 @@ public class UserController {
             customerRole.setName("ROLE_CUSTOMER");
             roleRepository.save(customerRole);
         }
+
         // Assign CUSTOMER role to the new user
         user.getRoles().add(customerRole);
         userRepository.save(user);
 
-        return "redirect:/user/"+ user.getId() +"/home";
+        return "redirect:/user/" + user.getId() + "/home";
     }
 
     @GetMapping("/login")
