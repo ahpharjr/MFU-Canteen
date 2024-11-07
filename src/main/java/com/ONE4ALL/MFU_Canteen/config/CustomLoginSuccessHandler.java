@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
+import java.util.Collection;
 
 import com.ONE4ALL.MFU_Canteen.Entity.User;
 import com.ONE4ALL.MFU_Canteen.Repository.UserRepository;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 
 @Component
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
@@ -27,12 +29,15 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
 
-        if (user != null) {
-            // Redirect to the user-specific home page
-            response.sendRedirect("/user/" + user.getId() + "/home");
+        // Check if user has an admin role
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        boolean isAdmin = authorities.stream()
+            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+
+        if (isAdmin) {
+            response.sendRedirect("/ad/canteens");  // Redirect admins
         } else {
-            // Redirect to a fallback page if user not found (shouldn’t happen in normal use)
-            response.sendRedirect("/login?error");
+            response.sendRedirect("/user/" + user.getId() + "/home");  // Redirect regular users
         }
     }
 }

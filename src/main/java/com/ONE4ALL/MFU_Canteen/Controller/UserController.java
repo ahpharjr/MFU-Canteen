@@ -39,10 +39,10 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // Fetch or create the CUSTOMER role
-        Role customerRole = roleRepository.findByName("CUSTOMER");
+        Role customerRole = roleRepository.findByName("ROLE_CUSTOMER");
         if (customerRole == null) {
             customerRole = new Role();
-            customerRole.setName("CUSTOMER");
+            customerRole.setName("ROLE_CUSTOMER");
             roleRepository.save(customerRole);
         }
         // Assign CUSTOMER role to the new user

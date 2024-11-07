@@ -21,10 +21,11 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
         user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role.getName())); // roles now have "ROLE_" prefix in DB
         });
         return authorities;
     }
+    
 
     @Override
     public String getPassword() {

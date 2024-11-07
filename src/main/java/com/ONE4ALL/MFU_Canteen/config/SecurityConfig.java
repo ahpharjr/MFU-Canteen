@@ -26,13 +26,13 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/register", "/login", "/styles/**", "/images/**", "/icons/**").permitAll()
-                .requestMatchers("/user/**").authenticated()
-                .anyRequest().permitAll()
+                .requestMatchers("/user/**").hasRole("CUSTOMER")    // Only users can access /user/**
+                .requestMatchers("/ad/**").hasRole("ADMIN")     // Only admins can access /ad/**
+                .anyRequest().authenticated()                   // All other URLs require authentication
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                // .defaultSuccessUrl("/user/home", true)
-                .successHandler(customLoginSuccessHandler) // Use custom handler
+                .successHandler(customLoginSuccessHandler)     // Use custom handler for login success
                 .permitAll()
             )
             .logout(logout -> logout
