@@ -12,27 +12,31 @@ function loadItemsForShop(shopId) {
             
             // Display the latest items first
             items.reverse().forEach(item => {
-                menuBox.insertAdjacentHTML('beforeend', generateItemHTML(item));
+                menuBox.insertAdjacentHTML('beforeend', generateItemHTML(item, shopId));
             });
         })
         .catch(error => console.error('Error loading items:', error));
 }
 
-// Generate HTML for each menu item
-function generateItemHTML(item) {
+// Update generateItemHTML function in menu.js
+
+function generateItemHTML(item, shopId) {
+    const ownerId = document.getElementById("ownerIdField").value;
     return `
         <div class="menu-card">
             <img src="${item.imageUrl}" alt="${item.name}" class="menu-image">
             <div class="toggle">
                 <label class="switch">
-                    <input type="checkbox">
+                    <input type="checkbox" ${item.available ? 'checked' : ''}>
                     <span class="slider"></span>
-                    <span class="status"></span>
+                    <span class="status">${item.available ? 'ON' : 'OFF'}</span>
                 </label>
             </div>
             <div class="edit-item">
-                <img src="/icons/icons8-edit-50 (1).png" alt="edit">
-                <span class="edit-tooltip">Edit</span>
+                <a href="/owner/shop/${shopId}/edit-item/${item.itemId}?ownerId=${ownerId}">
+                    <img src="/icons/icons8-edit-50 (1).png" alt="edit">
+                    <span class="edit-tooltip">Edit</span>
+                </a>
             </div>
             <div class="menu-info">
                 <p>${item.name}</p>
@@ -48,6 +52,7 @@ function generateItemHTML(item) {
             </div>
         </div>`;
 }
+
 
 // Handle shop selection change and save selected shop to localStorage
 function handleShopChange() {

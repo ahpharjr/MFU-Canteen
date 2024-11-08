@@ -1,46 +1,110 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Item</title>
+    <link rel="stylesheet" href="/styles/create-item.css">
 </head>
 <body>
-    <h1>Edit Item</h1>
-    <form th:action="@{'/owner/item/edit/' + ${item.itemId}}" th:object="${item}" method="post" enctype="multipart/form-data">
-        <label>Name:</label>
-        <input type="text" th:field="*{name}" required/>
-        <br/>
 
-        <label>Price:</label>
-        <input type="number" step="0.01" th:field="*{price}" required/>
-        <br/>
-
-        <label>Description:</label>
-        <input type="text" th:field="*{description}" required/>
-        <br/>
-
-        <label>Availability:</label>
-        <input type="checkbox" th:field="*{availability}"/>
-        <br/>
-
-        <label>Category:</label>
-        <input type="text" th:field="*{category}" required/>
-        <br/>
-
-        <!-- Display current image -->
-        <div>
-            <img th:src="${item.imageUrl}" alt="Item Picture" style="width:100px;height:100px;">
+    <div class="container">
+        <div class="delete-item">
+            
         </div>
+        <h2>Edit Item</h2>
+        <form id="editItemForm" th:action="@{'/owner/shop/' + ${shopId} + '/edit-item/' + ${item.itemId}}" 
+              th:object="${item}" method="post" enctype="multipart/form-data">
+              
+            <input type="hidden" id="shopIdField" name="shopId" th:value="${shopId}" />
+            <input type="hidden" id="ownerIdField" name="ownerId" th:value="${ownerId}" />
+            <input type="hidden" id="itemIdField" name="itemId" th:value="${item.itemId}" />
 
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image"/>
-        <br/>
+            <!-- Image Upload Section -->
+            <div class="div-upload-box">
+                <div class="upload-box">
+                    <input type="file" name="image" id="imageUpload" accept="image/*" onchange="previewImage()">
+                    <p>Tap here to Upload</p>
+                    <img id="imagePreview" th:src="${item.imageUrl}" style="width:100px;height:100px;">
+                </div>
+            </div>
 
-        <input type="hidden" name="shopId" th:value="${shopId}" />
-        <button type="submit">Update Item</button>
-        <a th:href="@{'/owner/shop/' + ${shopId} + '/items'}">
-            <button type="button">Cancel</button>
-        </a>
-    </form>
+            <!-- Form Fields for Item Details -->
+            <div class="form-group">
+                <label for="food-name">Food Name</label>
+                <input type="text" id="food-name" th:field="*{name}" required>
+            </div>
+
+            <div class="form-group-row">
+                <div class="form-group category-group">
+                    <label for="category">Category</label>
+                    <select id="category" th:field="*{category}" required>
+                        <option value="Chicken Rice">Chicken Rice</option>
+                        <option value="Rice Bowls">Rice Bowls</option>
+                    </select>
+                </div>
+                <div class="form-group price-group">
+                    <label for="price">Price</label>
+                    <input type="number" id="price" th:field="*{price}" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" th:field="*{description}" required></textarea>
+            </div>
+
+            <!-- Update and Cancel Buttons -->
+            <div class="button-group">
+                <button type="button" class="cancel-button" onclick="window.history.back();">Cancel</button>
+                <button type="submit" class="update-button">Update</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- JavaScript for Image Preview and Form Submission -->
+    <script>
+        function previewImage() {
+            const imageInput = document.getElementById('imageUpload');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            }
+        }
+
+        document.getElementById('editItemForm').onsubmit = async function (event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const shopId = document.getElementById("shopIdField").value;
+            const ownerId = document.getElementById("ownerIdField").value;
+            const itemId = document.getElementById("itemIdField").value;
+
+            try {
+                const response = await fetch(`/owner/shop/${shopId}/edit-item/${itemId}?ownerId=${ownerId}`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) throw new Error("Failed to update item");
+
+                const updatedItem = await response.json();
+                
+                event.target.reset();
+                document.getElementById('imagePreview').style.display = 'none';
+                window.location.href = `/owner/${ownerId}/home`;
+
+            } catch (error) {
+                console.error("Error updating item:", error);
+            }
+        };
+    </script>
+
 </body>
-
 </html>

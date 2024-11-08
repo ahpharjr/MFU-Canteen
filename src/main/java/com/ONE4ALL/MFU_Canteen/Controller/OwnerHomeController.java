@@ -91,5 +91,51 @@ public class OwnerHomeController {
         Shop shop = shopService.getShopById(shopId);
         return shop.getItems();
     }
+
+    // Add in HomeController
+
+    @GetMapping("/shop/{shopId}/edit-item/{itemId}")
+    public String showEditItemPage(@PathVariable Long shopId, 
+                                   @PathVariable Long itemId, 
+                                   @RequestParam Long ownerId,
+                                   Model model) {
+
+        Item item = itemService.getItemById(itemId);
+        model.addAttribute("item", item);
+        model.addAttribute("shopId", shopId);
+        model.addAttribute("ownerId", ownerId);
+        return "edit-item";
+    }
+
+    // Update in OwnerHomeController
+    @PostMapping("/shop/{shopId}/edit-item/{itemId}")
+    @ResponseBody
+    public Item updateItem(@PathVariable Long shopId,
+                        @PathVariable Long itemId,
+                        @ModelAttribute Item updatedItem,
+                        @RequestParam("image") MultipartFile imageFile) {
+        Item existingItem = itemService.getItemById(itemId);
+
+        try {
+            if (!imageFile.isEmpty()) {
+                String imageUrl = fileUploadService.uploadFile(imageFile);
+                existingItem.setImageUrl(imageUrl);
+            }
+
+            existingItem.setName(updatedItem.getName());
+            existingItem.setPrice(updatedItem.getPrice());
+            existingItem.setDescription(updatedItem.getDescription());
+            existingItem.setCategory(updatedItem.getCategory());
+            existingItem.setAvailability(updatedItem.isAvailability());
+
+            itemService.updateItem(existingItem);
+            return existingItem;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
 
