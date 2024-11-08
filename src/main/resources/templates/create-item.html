@@ -7,20 +7,27 @@
     <link rel="stylesheet" href="/styles/create-item.css">
 </head>
 <body>
+
+    <!-- Container for Create Item Form -->
     <div class="container">
-        <h2>Create item</h2>
-        <!-- <form th:action="@{'/owner/shop/'+${shopId}+'/create-item'}" th:object="${item}" method="post"> -->
-        <form th:action="@{'/owner/shop/' + ${shopId} + '/create-item?ownerId=' + ${ownerId}}" 
-            th:object="${item}" method="post" enctype="multipart/form-data">
-      
-            <input type="hidden" name="ownerId" th:value="${ownerId}" />
+        <h2>Create Item</h2>
+        <form id="createItemForm" th:action="@{'/owner/shop/' + ${shopId} + '/create-item?ownerId=' + ${ownerId}}" 
+              th:object="${item}" method="post" enctype="multipart/form-data">
+
+            <!-- Hidden Fields for Shop and Owner IDs -->
+            <input type="hidden" id="shopIdField" name="shopId" th:value="${shopId}" />
+            <input type="hidden" id="ownerIdField" name="ownerId" th:value="${ownerId}" />
+            
+            <!-- Image Upload Section -->
             <div class="div-upload-box">
                 <div class="upload-box">
-                    <input type="file" name="image" >
-                    Tap here to Upload
+                    <input type="file" name="image" id="imageUpload" accept="image/*" required onchange="previewImage()">
+                    <p>Tap here to Upload</p>
+                    <img id="imagePreview" style="display:none; max-width: 100%; height: auto; margin-top: 10px;">
                 </div>
             </div>
-        
+
+            <!-- Form Fields for Item Details -->
             <div class="form-group">
                 <label for="food-name">Food Name</label>
                 <input type="text" id="food-name" th:field="*{name}" placeholder="Enter food name" required>
@@ -31,35 +38,80 @@
                     <label for="category">Category</label>
                     <select id="category" th:field="*{category}" required>
                         <option value="">Select Category</option>
-                        <option value="Drinks">Drinks</option>
                         <option value="Chicken Rice">Chicken Rice</option>
                         <option value="Rice Bowls">Rice Bowls</option>
-                        <option value="Noodles">Noodles</option>
-                        <option value="Grilled & BBQ">Grilled & BBQ</option>
-                        <option value="Small Bites/Snacks">Small Bites/Snacks</option>
-                        <option value="Spicy Salad">Spicy Salad</option>
-                        <option value="Fast Food">Fast Food</option>
-                        <option value="Bubble Tea">Bubble Tea</option>
-                        <option value="Juice/Smoothies">Juice/Smoothies</option>
+                        <!-- Add more categories as needed -->
                     </select>
                 </div>
                 <div class="form-group price-group">
                     <label for="price">Price</label>
-                    <input type="number" id="price" min="0" placeholder="0" th:field="*{price}" required>
+                    <input type="number" id="price" th:field="*{price}" placeholder="0" min="0" required>
                 </div>
             </div>
         
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description" th:field="*{description}" placeholder="How was your food made from? type here..." required></textarea>
+                <textarea id="description" th:field="*{description}" placeholder="Description..." required></textarea>
             </div>
             
-            <!-- Buttons Section -->
+            <!-- Buttons for Form Submission and Cancel -->
             <div class="button-group">
                 <button type="button" class="cancel-button" onclick="window.history.back();">Cancel</button>
                 <button type="submit" class="update-button">Create</button>
             </div>
         </form>
     </div>
+
+    <!-- JavaScript for Image Preview and Form Submission -->
+    <script>
+        // Preview uploaded image
+        function previewImage() {
+            const imageInput = document.getElementById('imageUpload');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                
+                reader.readAsDataURL(imageInput.files[0]);
+            }
+        }
+    
+        // Handle form submission with asynchronous POST request
+        document.getElementById('createItemForm').onsubmit = async function (event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const shopId = document.getElementById("shopIdField").value;
+            const ownerId = document.getElementById("ownerIdField").value;
+    
+            try {
+                const response = await fetch(`/owner/shop/${shopId}/create-item?ownerId=${ownerId}`, {
+                    method: 'POST',
+                    body: formData,
+                });
+    
+                if (!response.ok) throw new Error("Failed to create item");
+    
+                const newItem = await response.json();
+                addItemToMenuBox(newItem);  // Add new item to menu dynamically
+    
+                // Clear form and image preview, then redirect to home page
+                event.target.reset();
+                document.getElementById('imagePreview').style.display = 'none';
+                window.location.href = `/owner/${ownerId}/home`;
+    
+            } catch (error) {
+                console.error("Error creating item:", error);
+            }
+        };
+    </script>
+    
+    <!-- Menu JavaScript -->
+    <script src="/script/menu.js"></script>
 </body>
 </html>

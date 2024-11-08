@@ -61,24 +61,30 @@ public class OwnerHomeController {
     }
 
     @PostMapping("/shop/{shopId}/create-item")
-    public String createItem(@PathVariable Long shopId, 
-                             @ModelAttribute Item item, 
-                             @RequestParam Long ownerId,
-                             RedirectAttributes redirectAttributes,
-                             @RequestParam("image")  MultipartFile imageFile) {
-
-        try{
+    @ResponseBody
+    public Item createItem(@PathVariable Long shopId, 
+                        @ModelAttribute Item item, 
+                        @RequestParam Long ownerId,
+                        @RequestParam("image") MultipartFile imageFile) {
+        try {
+            // Upload the image and set its URL on the item
             String imageUrl = fileUploadService.uploadFile(imageFile);
             item.setImageUrl(imageUrl);
+
+            // Set the default availability
             item.setAvailability(true);
+
+            // Save the item to the shop
             itemService.saveItem(item, shopId);
 
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+            // Return the item with the image URL and other data set, as JSON
+            return item;
 
-        redirectAttributes.addFlashAttribute("message", "Item created successfully!");
-        return "redirect:/owner/" + ownerId + "/home";
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle error appropriately
+            return null;
+        }
     }
 
     @GetMapping("/shop/{shopId}/items")

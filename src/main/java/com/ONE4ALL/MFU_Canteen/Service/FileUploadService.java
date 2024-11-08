@@ -26,8 +26,7 @@ public class FileUploadService {
         // Save the file
         file.transferTo(filePath.toFile());
 
-        // Return the file path or URL as needed
-        return "/uploads/items/" + fileName; // Return relative path for easy frontend access
+        // Return the relative URL path
+        return "/uploads/items/" + fileName;
     }
 }
-

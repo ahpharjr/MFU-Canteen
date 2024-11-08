@@ -11,9 +11,15 @@
 </head>
 <body>
 
+    <!-- Header Section -->
     <div class="div-header">
+        <!-- Left Header with Shop Selection -->
         <div class="div-left-h">
-            <div class="custom-circle2"><img src="/images/Ellipse 1220.png" alt="custom"></div>
+            <div class="custom-circle2">
+                <img src="/images/Ellipse 1220.png" alt="custom">
+            </div>
+
+            <!-- Shop Selection Dropdown -->
             <div class="shop-name">
                 <select id="shopSelect" onchange="handleShopChange()">
                     <option value="">Select Shop</option>
@@ -22,7 +28,8 @@
                     </th:block>
                 </select>
             </div>
-            
+
+            <!-- Shop Toggle Switch -->
             <div class="shop-toggle">
                 <label class="switch">
                     <input type="checkbox">
@@ -31,25 +38,34 @@
                 </label>
             </div>
         </div>
+
+        <!-- Right Header with Menu, Order, and Profile Icons -->
         <div class="div-right-h">
+            <!-- Menu Icon -->
             <div class="menu-icon">
                 <img src="/icons/icons8-menu-50.png" alt="menu">
                 <span class="tooltip">Menu</span>
             </div>
+
+            <!-- Order Icon with Quantity Indicator -->
             <div class="order-icon">
                 <span class="order-qty">9</span>
                 <img src="/icons/notifications.svg" alt="order">
                 <span class="tooltip">Order</span>
             </div>
+
+            <!-- Profile Section -->
             <div class="profile-container">
                 <div class="profile" onclick="toggleProfileCard()">
                     <img src="/icons/profile.png" alt="profile">
                     <span class="tooltip">Profile</span>
                 </div>
+
+                <!-- Profile Card Dropdown -->
                 <div class="profile-card">
                     <h2>PROFILE</h2>
                     <a href="#" class="edit-link">
-                        <img src="/icons/icons8-edit-32.png">
+                        <img src="/icons/icons8-edit-32.png" alt="edit">
                         <span class="tooltip">Edit</span>
                     </a>
                     <div class="profile-header">
@@ -63,21 +79,27 @@
                 </div>
             </div>
         </div>
-        
     </div>
+
+    <!-- Menu Section -->
     <div class="div-menu-container">
         <h2>Menu</h2>
         <a id="createItemLink" href="#">
             <div class="create-item-button">
-                <img src="/icons/create-item-icon.png"> Create Item
+                <img src="/icons/create-item-icon.png" alt="Create Item"> Create Item
             </div>
         </a>
+
+        <!-- Menu Items Display -->
         <div class="div-menu-box" id="menuBox">
             <!-- Items will be loaded here dynamically -->
         </div>
     </div>
+
+    <!-- Hidden Owner ID Field -->
     <input type="hidden" id="ownerIdField" th:value="${ownerId}">
-    
+
+    <!-- JavaScript -->
     <script src="/script/menu.js"></script>
 </body>
 </html>

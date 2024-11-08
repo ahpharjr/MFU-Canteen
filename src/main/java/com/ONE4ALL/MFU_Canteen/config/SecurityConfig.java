@@ -21,34 +21,11 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // @Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    //     http
-    //         .authorizeHttpRequests(auth -> auth
-    //             .requestMatchers("/register", "/login", "/styles/**", "/images/**", "/icons/**").permitAll()
-    //             .requestMatchers("/user/**").hasRole("CUSTOMER")    // Only users can access /user/**
-    //             .requestMatchers("/ad/**").hasRole("ADMIN")     // Only admins can access /ad/**
-    //             .anyRequest().authenticated()                   // All other URLs require authentication
-    //         )
-    //         .formLogin(form -> form
-    //             .loginPage("/login")
-    //             .successHandler(customLoginSuccessHandler)     // Use custom handler for login success
-    //             .permitAll()
-    //         )
-    //         .logout(logout -> logout
-    //             .logoutUrl("/logout")
-    //             .logoutSuccessUrl("/login?logout")
-    //             .permitAll()
-    //         );
-
-    //     return http.build();
-    // }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/register", "/login", "/styles/**", "/images/**", "/icons/**").permitAll()
+                .requestMatchers("/register", "/login", "/styles/**", "/images/**", "/icons/**", "/uploads/**").permitAll()
                 .requestMatchers("/user/**").hasRole("CUSTOMER")    // Customers can access /user/**
                 .requestMatchers("/ad/**").hasRole("ADMIN")         // Admins can access /ad/**
                 .requestMatchers("/owner/**").hasRole("OWNER")     // Owners can access /owner/**
