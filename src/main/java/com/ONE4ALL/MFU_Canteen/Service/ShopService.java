@@ -18,8 +18,9 @@ public class ShopService {
     }
 
     public List<Shop> getShopsByOwner(Long ownerId) {
-        return shopRepository.findByOwner_OwnerId(ownerId); // Ensure this method is correctly defined
+        return shopRepository.findByOwner_OwnerId(ownerId);
     }
+    
 
     public void updateShop(Long shopId, Shop updateShop){
         Shop existingShop = getShopById(shopId);
@@ -30,17 +31,5 @@ public class ShopService {
 
         shopRepository.save(existingShop);
     }
-
-
-    // public List<Item> getRecommendedItemsByCanteen(Long canteenId) {
-    //     List<Shop> shops = shopRepository.findByCanteen_CanteenId(canteenId); // Method to get shops by canteen ID
-    //     List<Item> recommendedItems = new ArrayList<>();
-
-    //     for (Shop shop : shops) {
-    //         recommendedItems.addAll(shop.getItems()); // Assuming there's a method to get items from a shop
-    //     }
-
-    //     return recommendedItems;
-    // }
 
 }

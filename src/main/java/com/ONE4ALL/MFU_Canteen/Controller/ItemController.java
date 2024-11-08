@@ -55,16 +55,6 @@ public class ItemController {
         return "owner-shops"; // Template to display the list of shops
     }
 
-    // Method to show items in a specific shop
-    @GetMapping("/shop/{shopId}/items")
-    public String showShopItems(@PathVariable Long shopId, Model model) {
-        Shop shop = shopService.getShopById(shopId); // Get the specific shop
-        List<Item> items = itemService.getItemsByShop(shopId); // Get items for the shop
-        model.addAttribute("shop", shop);
-        model.addAttribute("items", items);
-        return "shop-items"; // Template to display the items in the shop
-    }
-
     @GetMapping("/item/add/{shopId}")
     public String showAddItemForm(@PathVariable Long shopId, Model model){
         model.addAttribute("item", new Item());

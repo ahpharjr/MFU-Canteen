@@ -49,30 +49,30 @@ public class OwnerController {
     // }
 
     @PostMapping("/owner/add")
-public String addOwner(@ModelAttribute Owner owner) {
-    // Create and assign the "ROLE_OWNER" role
-    Role ownerRole = roleRepository.findByName("ROLE_OWNER");
-    if (ownerRole == null) {
-        ownerRole = new Role();
-        ownerRole.setName("ROLE_OWNER");
-        roleRepository.save(ownerRole);
+    public String addOwner(@ModelAttribute Owner owner) {
+        // Create and assign the "ROLE_OWNER" role
+        Role ownerRole = roleRepository.findByName("ROLE_OWNER");
+        if (ownerRole == null) {
+            ownerRole = new Role();
+            ownerRole.setName("ROLE_OWNER");
+            roleRepository.save(ownerRole);
+        }
+
+        // Create a new user for the owner
+        User user = new User();
+        user.setUsername(owner.getEmail()); // You can use email as the username
+        user.setPassword(passwordEncoder.encode(owner.getPassword()));  // Encrypt password
+        user.getRoles().add(ownerRole);
+
+        // Save the new user
+        userRepository.save(user);
+
+        // Link the new user to the owner
+        owner.setUser(user);  // Ensure the owner is associated with this user
+        ownerService.createOwner(owner);
+
+        return "redirect:/ad/canteens";  // Redirect admin after creating owner
     }
-
-    // Create a new user for the owner
-    User user = new User();
-    user.setUsername(owner.getEmail()); // You can use email as the username
-    user.setPassword(passwordEncoder.encode(owner.getPassword()));  // Encrypt password
-    user.getRoles().add(ownerRole);
-
-    // Save the new user
-    userRepository.save(user);
-
-    // Link the new user to the owner
-    owner.setUser(user);  // Ensure the owner is associated with this user
-    ownerService.createOwner(owner);
-
-    return "redirect:/ad/canteens";  // Redirect admin after creating owner
-}
 
 
     @PostMapping("/owner/delete/{ownerId}")

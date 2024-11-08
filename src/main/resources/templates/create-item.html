@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Item</title>
+    <link rel="stylesheet" href="/styles/create-item.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Create item</h2>
+        <!-- <form th:action="@{'/owner/shop/'+${shopId}+'/create-item'}" th:object="${item}" method="post"> -->
+        <form th:action="@{'/owner/shop/' + ${shopId} + '/create-item?ownerId=' + ${ownerId}}" 
+            th:object="${item}" method="post" enctype="multipart/form-data">
+      
+            <input type="hidden" name="ownerId" th:value="${ownerId}" />
+            <div class="div-upload-box">
+                <div class="upload-box">
+                    <input type="file" name="image" >
+                    Tap here to Upload
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label for="food-name">Food Name</label>
+                <input type="text" id="food-name" th:field="*{name}" placeholder="Enter food name" required>
+            </div>
+        
+            <div class="form-group-row">
+                <div class="form-group category-group">
+                    <label for="category">Category</label>
+                    <select id="category" th:field="*{category}" required>
+                        <option value="">Select Category</option>
+                        <option value="Drinks">Drinks</option>
+                        <option value="Chicken Rice">Chicken Rice</option>
+                        <option value="Rice Bowls">Rice Bowls</option>
+                        <option value="Noodles">Noodles</option>
+                        <option value="Grilled & BBQ">Grilled & BBQ</option>
+                        <option value="Small Bites/Snacks">Small Bites/Snacks</option>
+                        <option value="Spicy Salad">Spicy Salad</option>
+                        <option value="Fast Food">Fast Food</option>
+                        <option value="Bubble Tea">Bubble Tea</option>
+                        <option value="Juice/Smoothies">Juice/Smoothies</option>
+                    </select>
+                </div>
+                <div class="form-group price-group">
+                    <label for="price">Price</label>
+                    <input type="number" id="price" min="0" placeholder="0" th:field="*{price}" required>
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" th:field="*{description}" placeholder="How was your food made from? type here..." required></textarea>
+            </div>
+            
+            <!-- Buttons Section -->
+            <div class="button-group">
+                <button type="button" class="cancel-button" onclick="window.history.back();">Cancel</button>
+                <button type="submit" class="update-button">Create</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
