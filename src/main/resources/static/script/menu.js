@@ -25,10 +25,14 @@ function generateItemHTML(item) {
             <img src="${item.imageUrl}" alt="${item.name}" class="menu-image">
             <div class="toggle">
                 <label class="switch">
-                    <input type="checkbox" ${item.available ? 'checked' : ''}>
+                    <input type="checkbox">
                     <span class="slider"></span>
-                    <span class="status">${item.available ? 'ON' : 'OFF'}</span>
+                    <span class="status"></span>
                 </label>
+            </div>
+            <div class="edit-item">
+                <img src="/icons/icons8-edit-50 (1).png" alt="edit">
+                <span class="edit-tooltip">Edit</span>
             </div>
             <div class="menu-info">
                 <p>${item.name}</p>
