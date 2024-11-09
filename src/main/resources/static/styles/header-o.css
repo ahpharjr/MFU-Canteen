@@ -33,11 +33,70 @@
 }
 
 .shop-name{
-    color: white;
-    font-size: 25px;
     padding: 0 20px;
     z-index: 1;
+    position: relative;
 }
+
+/* Style the shop selection dropdown */
+.shop-name select {
+    border: 1px solid white;
+    border-radius: 10px;
+    background: none;
+    color: #fff; /* Change text color if needed */
+    padding: 5px 10px;
+    font-size: 1em;
+/*     appearance: none; Removes the default arrow in some browsers */
+    outline: none;
+    cursor: pointer;
+}
+
+/* Style the background color on selection */
+.shop-name select:focus,
+.shop-name select option:checked {
+    background: none;/* Replace with your exact orange color code */
+    color: #fff; /* Adjust text color if necessary */
+    outline: none;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+/* Option styling */
+.shop-name select option {
+    background: linear-gradient(135deg, #ff5733, #ffd3c9);  /* Match the orange background color */
+    color: #fff;
+}
+
+/* Style the dropdown options on hover and background */
+.shop-name select option {
+    background: linear-gradient(135deg, #ff5733, #ffd3c9); /* Match the orange gradient */
+    color: #fff;
+    padding: 5px;
+}
+
+/* Change background color of the dropdown options on hover */
+.shop-name select option:hover {
+    background: #ff5733; /* Adjust to a solid orange for hover effect */
+    color: #fff;
+}
+
+/* Style the dropdown on focus (when it's open) */
+.shop-name select:focus {
+    background: #ff5733; /* Apply the orange gradient background */
+    color: #fff;
+    outline: none;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+/* Additional styling to ensure no border or background after selecting */
+.shop-name select:focus-visible {
+    border: 1px solid white;
+    border-radius: 10px;
+    outline: none;
+}
+
+
 .div-right-h{
     display: flex;
     align-items: center;

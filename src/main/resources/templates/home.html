@@ -15,7 +15,7 @@
             <div>Location</div>
             <div>
                 <select id="canteenSelect" onchange="fetchShopsAndItems()">
-                    <option value="">Select Canteen</option>
+                    <!-- <option value="">Select Canteen</option> -->
                     <th:block th:each="canteen : ${canteens}">
                         <option th:value="${canteen.canteenId}" th:text="${canteen.name}"></option>
                     </th:block>

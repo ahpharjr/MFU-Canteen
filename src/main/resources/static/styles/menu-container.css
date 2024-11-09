@@ -31,6 +31,9 @@ body{
 .div-menu-container h2{
     text-align: center;
 }
+.create-item-link{
+    text-decoration: none;
+}
 .create-item-button{
     display: flex;
     /* background-color: rgba(3, 57, 79, 1); */
@@ -140,5 +143,5 @@ body{
 
 .edit-item img{
     height: 15px;
-
+    padding-top: 3px;
 }

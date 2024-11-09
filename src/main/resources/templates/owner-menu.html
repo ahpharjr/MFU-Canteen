@@ -22,7 +22,7 @@
             <!-- Shop Selection Dropdown -->
             <div class="shop-name">
                 <select id="shopSelect" onchange="handleShopChange()">
-                    <option value="">Select Shop</option>
+                    <!-- <option value="">Select Shop</option> -->
                     <th:block th:each="shop : ${shops}">
                         <option th:value="${shop.shopId}" th:text="${shop.name}"></option>
                     </th:block>
@@ -64,7 +64,7 @@
                 <!-- Profile Card Dropdown -->
                 <div class="profile-card">
                     <h2>PROFILE</h2>
-                    <a href="#" class="edit-link">
+                    <a th:href="@{'/owner/' + ${ownerId} + '/edit-profile'}" class="edit-link">
                         <img src="/icons/icons8-edit-32.png" alt="edit">
                         <span class="tooltip">Edit</span>
                     </a>
@@ -72,8 +72,8 @@
                         <img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt="Profile Picture" class="profile-image">
                     </div>
                     <div class="profile-info">
-                        <h3>Jesicca Elsanar</h3>
-                        <p>Jesiccaesanar2003@gmail.com</p>
+                        <h3 th:text="${owner.name}">Owner's Name</h3>
+                        <p th:text="${owner.email}">Owner's Email</p>
                         <button class="signout-button">Sign out</button>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
     <!-- Menu Section -->
     <div class="div-menu-container">
         <h2>Menu</h2>
-        <a id="createItemLink" href="#">
+        <a class="create-item-link" id="createItemLink" href="#">
             <div class="create-item-button">
                 <img src="/icons/create-item-icon.png" alt="Create Item"> Create Item
             </div>

@@ -20,12 +20,19 @@
             
             <!-- Image Upload Section -->
             <div class="div-upload-box">
+                <!-- <input type="file" name="image" id="imageUpload" accept="image/*" required onchange="previewImage()"> -->
                 <div class="upload-box">
-                    <input type="file" name="image" id="imageUpload" accept="image/*" required onchange="previewImage()">
-                    <p>Tap here to Upload</p>
-                    <img id="imagePreview" style="display:none; max-width: 100%; height: auto; margin-top: 10px;">
+                    <img id="imagePreview" class="image-preview">
+                    <span class="upload-text">No Image</span>
+                </div>
+                <div>
+                    <label class="custom-file-upload">
+                        <input type="file" name="image" id="imageUpload" accept="image/*" required onchange="previewImage()">
+                        Tap here to Upload Image
+                    </label>
                 </div>
             </div>
+
 
             <!-- Form Fields for Item Details -->
             <div class="form-group">
@@ -74,7 +81,8 @@
                 
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
+                    // imagePreview.style.display = 'block';
+                    // imagePreview.style.border = 'none';
                 };
                 
                 reader.readAsDataURL(imageInput.files[0]);

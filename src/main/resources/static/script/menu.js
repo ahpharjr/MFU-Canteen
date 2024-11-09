@@ -65,6 +65,14 @@ function handleShopChange() {
         localStorage.removeItem('selectedShopId');
         clearMenuBox();
     }
+
+// To style the selector of the shops
+    const selectElement = document.getElementById('shopSelect');
+    if (selectElement.value) {
+        selectElement.classList.add('selected-shop');
+    } else {
+        selectElement.classList.remove('selected-shop');
+    }
 }
 
 // Load initial shop selection or default to the first shop
