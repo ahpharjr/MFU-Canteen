@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Item</title>
     <link rel="stylesheet" href="/styles/create-item.css">
+    <link rel="stylesheet" href="/styles/edit-item.css">
+    <link rel="stylesheet" href="/styles/profile-box.css">
 </head>
 <body>
 
     <div class="container">
-        <div class="delete-item">
-            
+        <!-- Delete Button with Icon -->
+        <div class="delete-item" onclick="deleteItem()">
+            <img src="/icons/icons8-delete-24.png" alt="Delete Icon">
+            <span class="delete-tooltip">Delete</span>
         </div>
-        <h2>Edit Item</h2>
+        <span class="title-text">Edit Item</span>
         <form id="editItemForm" th:action="@{'/owner/shop/' + ${shopId} + '/edit-item/' + ${item.itemId}}" 
               th:object="${item}" method="post" enctype="multipart/form-data">
               
@@ -104,6 +108,42 @@
                 console.error("Error updating item:", error);
             }
         };
+
+
+    function getCsrfTokenFromCookie() {
+    const csrfCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('XSRF-TOKEN='));
+    return csrfCookie ? csrfCookie.split('=')[1] : null;
+}
+
+async function deleteItem() {
+    const shopId = document.getElementById("shopIdField").value;
+    const ownerId = document.getElementById("ownerIdField").value;
+    const itemId = document.getElementById("itemIdField").value;
+    const csrfToken = getCsrfTokenFromCookie();  // Retrieve CSRF token from cookie
+    console.log("token:" + csrfToken);
+    if (!confirm("Are you sure you want to delete this item?")) return;
+
+    try {
+        const response = await fetch(`/owner/shop/${shopId}/delete-item/${itemId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-XSRF-TOKEN': csrfToken // Send the CSRF token in the header
+            }
+        });
+
+        if (!response.ok) throw new Error("Failed to delete item");
+
+        alert("Item deleted successfully");
+        window.location.href = `/owner/${ownerId}/home`;
+
+    } catch (error) {
+        console.error("Error deleting item:", error);
+        alert("Error deleting item. Please try again.");
+    }
+}
+
     </script>
 
 </body>

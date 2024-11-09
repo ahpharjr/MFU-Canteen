@@ -49,7 +49,9 @@
 .edit-link img{
     height: 20px;
 }
-.tooltip, .edit-tooltip {
+.tooltip,
+.edit-tooltip,
+.delete-tooltip {
     visibility: hidden;
     opacity: 0;
     position: absolute;
@@ -65,9 +67,13 @@
     transition: opacity 0.3s;
     z-index: 1;
 }
+.delete-tooltip{
+    background-color: red;
+}
 
 .tooltip::after,
-.edit-tooltip::after {
+.edit-tooltip::after,
+.delete-tooltip::after {
     content: "";
     position: absolute;
     bottom: 100%; /* Position the arrow above the tooltip */
@@ -77,9 +83,13 @@
     border-style: solid;
     border-color: transparent transparent #333 transparent;
 }
+.delete-tooltip::after{
+    border-color: transparent transparent #ff0000 transparent;
+}
 
 .edit-link:hover .tooltip,
-.edit-item:hover .edit-tooltip {
+.edit-item:hover .edit-tooltip,
+.delete-item:hover .delete-tooltip {
     visibility: visible;
     opacity: 1;
 }
