@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/styles/order-container.css">
+        <link rel="stylesheet" href="/styles/header-o.css">
+        <link rel="stylesheet" href="/styles/toggle.css">
+        <link rel="stylesheet" href="/styles/profile-box.css">
+        <title>Orders</title>
+    </head>
+    <body>
+        <div class="div-header">
+            <div class="div-left-h">
+                <div class=custom-circle2><img src="/images/Ellipse 1220.png" alt="custom"></div>
+                <div class="shop-name">Yummy</div>
+                <div class="shop-toggle">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                        <span class="status"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="div-right-h">
+                <div class="menu-icon">
+                    <a th:href="@{'/owner/'+ ${ownerId} +'/home'}"><img src="/icons/icons8-menu-50.png" alt="menu"></a>
+                    <span class="tooltip">Menu</span>
+                </div>
+                <div class="order-icon">
+                    <span class="order-qty">9</span>
+                    <img src="/icons/notifications.svg" alt="order">
+                    <span class="tooltip">Order</span>
+                </div>
+                <div class="profile-container">
+                    <div class="profile" onclick="toggleProfileCard()">
+                        <img src="/icons/profile.png" alt="profile">
+                        <span class="tooltip">Profile</span>
+                    </div>
+                    <div class="profile-card">
+                        <h2>PROFILE</h2>
+                        <a href="#" class="edit-link">
+                            <img src="icons/icons8-edit-32.png">
+                            <span class="tooltip">Edit</span>
+                        </a>
+                        <div class="profile-header">
+                            <img src="images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt="Profile Picture" class="profile-image">
+                        </div>
+                        <div class="profile-info">
+                            <h3>Jesicca Elsanar</h3>
+                            <p>Jesiccaesanar2003@gmail.com</p>
+                            <button class="signout-button">Sign out</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="div-order-container">
+            <div class="top-div">
+                <div class="order-button-div">
+                    <div class="get-order-button">Get Order</div>
+                    <div class="seperate-b">|</div>
+                    <div class="complete-order-button">Complete </div>
+                </div>
+            </div>
+            <h2>Total Order: 99</h2>
+            <div class="order-box">
+                <div class="order-panel">
+                    <div class="left-section">
+                        <img class="item-pic" src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt="Item Picture">
+                    </div>
+                    <div class="middle-section">
+                        <div class="info-div"><span><strong>Fried Chicken</strong></span><span>#12332eeofoefjvn1 / Yoon Yoon</span></div>
+                        <div class="info-div1"><span class="quantity">Quantity: <strong>05</strong></span><span class="date-time">11/11/2024 01:00 PM</span></div>
+                    </div>
+                    <div class="right-section">
+                        <div class="check-button"><img src="/icons/icons8-check-50 (1).png" alt="check icon"></div>
+                    </div>
+                </div>
+                <div class="order-panel">
+                    <div class="left-section">
+                        <img class="item-pic" src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt="Item Picture">
+                    </div>
+                    <div class="middle-section">
+                        <div class="info-div"><span><strong>Fried Chicken</strong></span><span>#12332eeofoefjvn1 / Yoon Yoon</span></div>
+                        <div class="info-div1"><span class="quantity">Quantity: <strong>05</strong></span><span class="date-time">11/11/2024 01:00 PM</span></div>
+                    </div>
+                    <div class="right-section">
+                        <div class="check-button"><img src="/icons/icons8-check-50 (1).png" alt="check icon"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function toggleProfileCard() {
+                const profileCard = document.querySelector('.profile-card');
+                profileCard.style.display = profileCard.style.display === 'none' ? 'block' : 'none';
+            }
+    
+        </script>
+    </body>
+</html>

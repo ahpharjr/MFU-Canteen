@@ -50,7 +50,7 @@
             <!-- Order Icon with Quantity Indicator -->
             <div class="order-icon">
                 <span class="order-qty">9</span>
-                <img src="/icons/notifications.svg" alt="order">
+                <a th:href="@{'/owner/'+ ${ownerId}+ '/orders'}"><img src="/icons/notifications.svg" alt="order"></a>
                 <span class="tooltip">Order</span>
             </div>
 
