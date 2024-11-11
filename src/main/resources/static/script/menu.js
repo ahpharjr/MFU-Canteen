@@ -1,15 +1,33 @@
-window.onload = function() {
-    const shopSelect = document.getElementById("shopSelect");
-    const savedShopId = localStorage.getItem('selectedShopId');
+// window.onload = function() {
+//     const shopSelect = document.getElementById("shopSelect");
+//     const savedShopId = localStorage.getItem('selectedShopId');
 
-    if (shopSelect) {
-        const shopId = savedShopId || selectFirstShop(); // use saved ID or default to first shop
-        if (shopId) {
-            shopSelect.value = shopId; // set the selected option in the dropdown
-            loadItemsForShop(shopId); // load items for the selected shop
-        }
+//     if (shopSelect) {
+//         const shopId = savedShopId || selectFirstShop(); // use saved ID or default to first shop
+//         if (shopId) {
+//             shopSelect.value = shopId; // set the selected option in the dropdown
+//             loadItemsForShop(shopId); // load items for the selected shop
+//         }
+//     }
+// };
+
+window.onload= function(){
+    const shopSelect= document.getElementById("shopSelect");
+    const savedShopId = localStorage.getItem('selectedShopId');
+    const ownerId = document.getElementById("ownerIdField").value;
+    const shopId = savedShopId || selectFirstShop();
+
+    if(shopSelect && shopId){
+        shopSelect.value = shopId;
+        setOrderLink(ownerId, shopId);
+        loadItemsForShop(shopId);
     }
-};
+}
+
+function setOrderLink(ownerId, shopId){
+    const viewOrderLink = document.getElementById("viewOrderLink");
+    viewOrderLink.href= `/owner/${ownerId}/orders?shopId=${shopId}`;
+}
 
 // Select the first shop from dropdown and save to localStorage
 function selectFirstShop() {
@@ -26,9 +44,12 @@ function selectFirstShop() {
 
 function handleShopChange() {
     const shopId = document.getElementById("shopSelect").value;
+    const ownerId = document.getElementById("ownerIdField").value;
+
     if (shopId) {
         localStorage.setItem('selectedShopId', shopId); // save the selected shop to local storage
         loadItemsForShop(shopId);
+        setOrderLink(ownerId, shopId); // Update order link with new shopId
     } else {
         localStorage.removeItem('selectedShopId');
         clearMenuBox();
@@ -106,10 +127,10 @@ function clearMenuBox() {
 }
 
 // Add a newly created item to the menu box dynamically
-function addItemToMenuBox(item) {
+function addItemToMenuBox(item, shopId) {
     const menuBox = document.getElementById("menuBox");
     if (menuBox) {
-        menuBox.insertAdjacentHTML('beforeend', generateItemHTML(item));
+        menuBox.insertAdjacentHTML('beforeend', generateItemHTML(item, shopId));
     } else {
         console.error("Error: menuBox element not found on the page.");
     }

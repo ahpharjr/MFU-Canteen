@@ -48,11 +48,13 @@
             </div>
 
             <!-- Order Icon with Quantity Indicator -->
-            <div class="order-icon">
-                <span class="order-qty">9</span>
-                <a th:href="@{'/owner/'+ ${ownerId}+ '/orders'}"><img src="/icons/notifications.svg" alt="order"></a>
-                <span class="tooltip">Order</span>
-            </div>
+             <a id="viewOrderLink" href="#">
+                <div class="order-icon">
+                    <span class="order-qty">9</span>
+                    <img src="/icons/notifications.svg" alt="order">
+                    <span class="tooltip">Order</span>
+                </div>
+             </a>
 
             <!-- Profile Section -->
             <div class="profile-container">
