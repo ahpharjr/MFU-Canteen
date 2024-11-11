@@ -163,5 +163,33 @@ public class OwnerHomeController {
 
         return "update-owner-profile";
     };
+
+    @PostMapping("/{ownerId}/edit-profile")
+    @ResponseBody
+    public Owner updateProfile(@PathVariable Long ownerId,
+                            @ModelAttribute Owner updatedOwner,
+                            @RequestParam("image") MultipartFile imageFile) {
+        Owner existingOwner = ownerService.getOwnerById(ownerId);
+
+        System.out.println("=====================1===========================");
+        try {
+            if (!imageFile.isEmpty()) {
+                String imageUrl = fileUploadService.uploadFile(imageFile);
+                existingOwner.setProfilePicture(imageUrl);
+            }
+
+            existingOwner.setName(updatedOwner.getName());
+            existingOwner.setEmail(updatedOwner.getEmail());
+            existingOwner.setPhNum(updatedOwner.getPhNum());
+
+            System.out.println("=====================12===========================");
+            ownerService.updateOwner(existingOwner);
+            return existingOwner;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
 

@@ -57,7 +57,7 @@
             <!-- Profile Section -->
             <div class="profile-container">
                 <div class="profile" onclick="toggleProfileCard()">
-                    <img src="/icons/profile.png" alt="profile">
+                    <img th:src="${owner.profilePicture}" alt="profile">
                     <span class="tooltip">Profile</span>
                 </div>
 
@@ -69,7 +69,7 @@
                         <span class="tooltip">Edit</span>
                     </a>
                     <div class="profile-header">
-                        <img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt="Profile Picture" class="profile-image">
+                        <img th:src="${owner.profilePicture}" alt="Profile Picture" class="profile-image">
                     </div>
                     <div class="profile-info">
                         <h3 th:text="${owner.name}">Owner's Name</h3>

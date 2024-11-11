@@ -9,17 +9,18 @@
 </head>
 <body>
     <div class="profile-edit-container">
-        <form th:action="@{'/owner/'+ ${owner.ownerId} + '/edit-profile'}" th:object="${owner}"
+        <form id="updateProfileForm" th:action="@{'/owner/'+ ${owner.ownerId} + '/edit-profile'}" th:object="${owner}"
             method="post" enctype="multipart/form-data">
             <!-- Profile Edit Form -->
             <div class="profile-form">
+                <input type="hidden" id="ownerIdField" name="ownerId" th:value="${owner.ownerId}"/>
                 <h2>Profile</h2>
                 <div class="profile-image-section">
                     <img class="profile-image" id="imagePreview" th:src="${owner.profilePicture}" alt="Picture">
                 </div>
                 <div class="custom-div">
                     <label class="custom-file-upload">
-                        <input type="file" name="image" id="imageUpload" accept="image/*" required onchange="previewImage()">
+                        <input type="file" name="image" id="imageUpload" accept="image/*" onchange="previewImage()">
                         Tap here to Update Profile
                     </label>
                 </div>
@@ -44,18 +45,44 @@
     </div>
     <script>
             function previewImage() {
-            const imageInput = document.getElementById('imageUpload');
-            const imagePreview = document.getElementById('imagePreview');
-            
-            if (imageInput.files && imageInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-                reader.readAsDataURL(imageInput.files[0]);
+                const imageInput = document.getElementById('imageUpload');
+                const imagePreview = document.getElementById('imagePreview');
+                
+                if (imageInput.files && imageInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(imageInput.files[0]);
+                }
             }
-        }
+
+            document.getElementById('updateProfileForm').onsubmit = async function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(event.target);
+                const ownerId = document.getElementById("ownerIdField").value;
+
+                try {
+                    const response = await fetch(`/owner/${ownerId}/edit-profile`, {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (!response.ok) throw new Error("Failed to update profile");
+
+                    const updatedOwner = await response.json();
+                    if (!updatedOwner) throw new Error("Received null response for updated profile");
+
+                    event.target.reset();
+                    window.location.href = `/owner/${ownerId}/home`;
+
+                } catch (error) {
+                    console.error("Error updating profile:", error);
+                }
+
+            }
     </script>
 </body>
 </html>

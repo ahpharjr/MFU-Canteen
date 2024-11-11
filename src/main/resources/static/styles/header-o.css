@@ -129,6 +129,9 @@
 }
 .profile img{
     width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 .tooltip{
     visibility: hidden;

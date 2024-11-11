@@ -34,8 +34,4 @@ public class OwnerService {
         return ownerRepository.save(owner);
     }
 
-        // // If you need to fetch an Owner based on User
-        // public Owner getOwnerByUser(User user) {
-        //     return ownerRepository.findByUser(user);  // Assuming you have a query like this
-        // }
 }

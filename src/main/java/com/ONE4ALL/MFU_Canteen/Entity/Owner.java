@@ -3,6 +3,8 @@ package com.ONE4ALL.MFU_Canteen.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,7 @@ public class Owner {
 
     @OneToOne
     @JoinColumn(name = "user_id") // Foreign key column in the Owner table
+    @JsonIgnore
     private User user;
     
     public Owner() {}
