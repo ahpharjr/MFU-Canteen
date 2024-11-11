@@ -33,14 +33,6 @@ public class Owner {
     
     public Owner() {}
 
-    public List<Shop> getShops() {
-        return shops;
-    }
-
-    public void setShops(List<Shop> shops) {
-        this.shops = shops;
-    }
-
     public Long getOwnerId() {
         return ownerId;
     }
@@ -89,6 +81,14 @@ public class Owner {
         this.profilePicture = profilePicture;
     }
 
+    public List<Shop> getShops() {
+        return shops;
+    }
+
+    public void setShops(List<Shop> shops) {
+        this.shops = shops;
+    }
+
     public User getUser() {
         return user;
     }
@@ -96,4 +96,6 @@ public class Owner {
     public void setUser(User user) {
         this.user = user;
     }
+
+    
 }

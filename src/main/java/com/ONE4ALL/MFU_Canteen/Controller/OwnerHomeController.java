@@ -140,17 +140,28 @@ public class OwnerHomeController {
         }
     }
 
-        // OwnerHomeController.java
-        @DeleteMapping("/shop/{shopId}/delete-item/{itemId}")
-        @ResponseBody
-        public ResponseEntity<String> deleteItem(@PathVariable Long shopId, @PathVariable Long itemId) {
-            try {
-                itemService.deleteItem(itemId);
-                return ResponseEntity.ok("Item deleted successfully");
-            } catch (Exception e) {
-                e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete item");
-            }
+    // OwnerHomeController.java
+    @DeleteMapping("/shop/{shopId}/delete-item/{itemId}")
+    @ResponseBody
+    public ResponseEntity<String> deleteItem(@PathVariable Long shopId, @PathVariable Long itemId) {
+        try {
+            itemService.deleteItem(itemId);
+            return ResponseEntity.ok("Item deleted successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete item");
         }
+    }
+
+    @GetMapping("/{ownerId}/edit-profile")
+    public String showEditProfileForm(@PathVariable Long ownerId, Model model){
+        System.out.println("OwnerHomeController.showEditProfileForm()::::::::::::::1");
+        Owner owner = ownerService.getOwnerById(ownerId);
+        System.out.println("owner:::::::::::::::"+ owner);
+        model.addAttribute("owner", owner);
+        // model.addAttribute("ownerId", ownerId);
+
+        return "update-owner-profile";
+    };
 }
 

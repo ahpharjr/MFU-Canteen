@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="/styles/edit-user-profile.css">
+    <link rel="stylesheet" href="/styles/create-item.css">
+</head>
+<body>
+    <div class="profile-edit-container">
+        <form th:action="@{'/owner/'+ ${owner.ownerId} + '/edit-profile'}" th:object="${owner}"
+            method="post" enctype="multipart/form-data">
+            <!-- Profile Edit Form -->
+            <div class="profile-form">
+                <h2>Profile</h2>
+                <div class="profile-image-section">
+                    <img class="profile-image" id="imagePreview" th:src="${owner.profilePicture}" alt="Picture">
+                </div>
+                <div class="custom-div">
+                    <label class="custom-file-upload">
+                        <input type="file" name="image" id="imageUpload" accept="image/*" required onchange="previewImage()">
+                        Tap here to Update Profile
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" th:field="*{name}" placeholder="Enter your name" required>
+                </div>
+                <div class="form-row">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" th:field="*{email}" required>
+                </div>
+                <div class="form-row">
+                    <label for="tel">Phone Number</label>
+                    <input type="tel" name="phNum" th:field="*{phNum}">
+                </div>
+                <div class="button-group">
+                    <button type="button" class="cancel-button" onclick="window.history.back();">Cancel</button>
+                    <button type="submit" class="update-button">Update</button>
+                </div>
+             </form>
+        </div>
+    </div>
+    <script>
+            function previewImage() {
+            const imageInput = document.getElementById('imageUpload');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            }
+        }
+    </script>
+</body>
+</html>
