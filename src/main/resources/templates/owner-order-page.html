@@ -13,7 +13,7 @@
         <div class="div-header">
             <div class="div-left-h">
                 <div class=custom-circle2><img src="/images/Ellipse 1220.png" alt="custom"></div>
-                <div class="shop-name">Yummy</div>
+                <div th:text="${shop.name}" class="shop-name">Shop name</div>
                 <div class="shop-toggle">
                     <label class="switch">
                         <input type="checkbox">
@@ -34,21 +34,21 @@
                 </div>
                 <div class="profile-container">
                     <div class="profile" onclick="toggleProfileCard()">
-                        <img src="/icons/profile.png" alt="profile">
+                        <img th:src="${owner.profilePicture}" alt="profile">
                         <span class="tooltip">Profile</span>
                     </div>
                     <div class="profile-card">
                         <h2>PROFILE</h2>
-                        <a href="#" class="edit-link">
-                            <img src="icons/icons8-edit-32.png">
+                        <a th:href="@{'/owner/' + ${ownerId} + '/edit-profile'}" class="edit-link">
+                            <img src="/icons/icons8-edit-32.png">
                             <span class="tooltip">Edit</span>
                         </a>
                         <div class="profile-header">
-                            <img src="images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt="Profile Picture" class="profile-image">
+                            <img th:src="${owner.profilePicture}" alt="Profile Picture" class="profile-image">
                         </div>
                         <div class="profile-info">
-                            <h3>Jesicca Elsanar</h3>
-                            <p>Jesiccaesanar2003@gmail.com</p>
+                            <h3 th:text="${owner.name}">Owner's Name</h3>
+                            <p th:text="${owner.email}">Owner's Email</p>
                             <button class="signout-button">Sign out</button>
                         </div>
                     </div>
