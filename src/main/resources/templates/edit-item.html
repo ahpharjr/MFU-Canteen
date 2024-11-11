@@ -27,9 +27,14 @@
             <!-- Image Upload Section -->
             <div class="div-upload-box">
                 <div class="upload-box">
-                    <input type="file" name="image" id="imageUpload" accept="image/*" onchange="previewImage()">
-                    <p>Tap here to Upload</p>
-                    <img id="imagePreview" th:src="${item.imageUrl}" style="width:100px;height:100px;">
+                    <!-- <input type="file" name="image" id="imageUpload" accept="image/*" onchange="previewImage()"> -->
+                    <img id="imagePreview" th:src="${item.imageUrl}">
+                </div>
+                <div>
+                    <label class="custom-file-upload">
+                        <input type="file" name="image" id="imageUpload" accept="image/*" required onchange="previewImage()">
+                        Tap here to Update Image
+                    </label>
                 </div>
             </div>
 
