@@ -1,3 +1,48 @@
+window.onload = function() {
+    const shopSelect = document.getElementById("shopSelect");
+    const savedShopId = localStorage.getItem('selectedShopId');
+
+    if (shopSelect) {
+        const shopId = savedShopId || selectFirstShop(); // use saved ID or default to first shop
+        if (shopId) {
+            shopSelect.value = shopId; // set the selected option in the dropdown
+            loadItemsForShop(shopId); // load items for the selected shop
+        }
+    }
+};
+
+// Select the first shop from dropdown and save to localStorage
+function selectFirstShop() {
+    const shopSelect = document.getElementById("shopSelect");
+    if (shopSelect.options.length > 0) {
+        const firstShopId = shopSelect.options[0].value;
+        shopSelect.selectedIndex = 0;
+        localStorage.setItem('selectedShopId', firstShopId); // save to local storage
+        return firstShopId;
+    }
+    return null;
+}
+
+
+function handleShopChange() {
+    const shopId = document.getElementById("shopSelect").value;
+    if (shopId) {
+        localStorage.setItem('selectedShopId', shopId); // save the selected shop to local storage
+        loadItemsForShop(shopId);
+    } else {
+        localStorage.removeItem('selectedShopId');
+        clearMenuBox();
+    }
+
+    // Style the selector of the shops
+    const selectElement = document.getElementById('shopSelect');
+    if (selectElement.value) {
+        selectElement.classList.add('selected-shop');
+    } else {
+        selectElement.classList.remove('selected-shop');
+    }
+}
+
 // Load items for the selected shop
 function loadItemsForShop(shopId) {
     const createItemLink = document.getElementById("createItemLink");
@@ -53,50 +98,6 @@ function generateItemHTML(item, shopId) {
         </div>`;
 }
 
-
-// Handle shop selection change and save selected shop to localStorage
-function handleShopChange() {
-    const shopId = document.getElementById("shopSelect").value;
-
-    if (shopId) {
-        localStorage.setItem('selectedShopId', shopId);
-        loadItemsForShop(shopId);
-    } else {
-        localStorage.removeItem('selectedShopId');
-        clearMenuBox();
-    }
-
-// To style the selector of the shops
-    const selectElement = document.getElementById('shopSelect');
-    if (selectElement.value) {
-        selectElement.classList.add('selected-shop');
-    } else {
-        selectElement.classList.remove('selected-shop');
-    }
-}
-
-// Load initial shop selection or default to the first shop
-window.onload = function() {
-    const shopSelect = document.getElementById("shopSelect");
-    const savedShopId = localStorage.getItem('selectedShopId');
-    
-    if (shopSelect) {
-        const shopId = savedShopId || selectFirstShop();
-        if (shopId) loadItemsForShop(shopId);
-    }
-};
-
-// Select the first shop from dropdown and save to localStorage
-function selectFirstShop() {
-    const shopSelect = document.getElementById("shopSelect");
-    if (shopSelect.options.length > 1) {
-        const firstShopId = shopSelect.options[1].value;
-        shopSelect.selectedIndex = 1;
-        localStorage.setItem('selectedShopId', firstShopId);
-        return firstShopId;
-    }
-    return null;
-}
 
 // Clear the menu box content and reset the create item link
 function clearMenuBox() {
