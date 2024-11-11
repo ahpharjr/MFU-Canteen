@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ONE4ALL.MFU_Canteen.Entity.Cart;
 import com.ONE4ALL.MFU_Canteen.Entity.Item;
 import com.ONE4ALL.MFU_Canteen.Entity.Shop;
+import com.ONE4ALL.MFU_Canteen.Entity.User;
 import com.ONE4ALL.MFU_Canteen.Repository.CanteenRepository;
+import com.ONE4ALL.MFU_Canteen.Repository.CartRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.ItemRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.ShopRepository;
+import com.ONE4ALL.MFU_Canteen.Repository.UserRepository;
 
 @Controller
 @RequestMapping("/user")
@@ -28,15 +32,37 @@ public class HomeController {
     @Autowired
     private ItemRepository itemRepo;
 
-    @GetMapping("/{id}/home")
-    public String showHomePage(@PathVariable Long id,Model model) {
+    @Autowired
+    private UserRepository userRepository;
 
-        System.out.println("User ID: " + id);
+    @Autowired
+    private CartRepository cartRepository;
+
+    @GetMapping("/{id}/home")
+    public String showHomePage(@PathVariable Long id,Model model){
+        User user = userRepository.findById(id).orElse(null);
+        
+        if (user != null) {
+            Cart cart = user.getCart();
+            if (cart == null) {
+                // Create a new cart for the user if one does not exist
+                cart = new Cart();
+                cart.setUser(user);
+                user.setCart(cart);
+                cartRepository.save(cart);
+            }
+             
+        model.addAttribute("totalQuantity", cart.getTotalQuantity());
+        }
+
         model.addAttribute("canteens", canteenRepo.findAll()); 
         model.addAttribute("selectedCanteenName", "");
         model.addAttribute("userId", id);
+
         return "home";
+  
     }
+               
 
     @GetMapping("/canteen/shops/{canteenId}")
     @ResponseBody

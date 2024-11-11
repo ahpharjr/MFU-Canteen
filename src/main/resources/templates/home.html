@@ -32,9 +32,13 @@
             </div>
             <div class="right-section">
                 <div class="cart-icon">
+                    <span class="cart-total-qty" th:text="${totalQuantity}">0</span>
                     <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png" alt="Cart Icon"></a>
                 </div>
-                <div class="bell-icon"><img src="/icons/BELL NOTI.png" alt="Notification Bell"></div>
+                <div class="bell-icon">
+                    <span class="cart-total-qty">9</span>
+                    <img src="/icons/BELL NOTI.png" alt="Notification Bell">
+                </div>
                 <div class="profile-button"><img src="/icons/profile.png" alt="Profile"></div>
             </div>
         </div>

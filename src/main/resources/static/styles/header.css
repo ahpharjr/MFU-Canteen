@@ -44,7 +44,6 @@
 .search-icon img{body{
     padding: 0;
     margin: 0;
-    background-color: cadetblue;
 }
 .header{
     display: flex;
@@ -112,28 +111,6 @@
     border: none;  /* Ensures there is no border */
     box-shadow: none; /* Remove any box shadow if present */
 }
-.right-section{
-    width: 180px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    padding-right:15px ;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.cart-icon, .bell-icon, .profile-button{
-    cursor: pointer;
-}
-.cart-icon img, .bell-icon img{
-    width: 19px;
-}
-.profile-button img{
-    width: 32px;
-    height: 32px;
-    padding-right: 10px;
-}
-
 /* ==================For the navigation bar ===============================*/
 .div-nav-bar{
     position: absolute;
@@ -198,6 +175,27 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.cart-icon,.bell-icon{
+    position: relative;
+}
+.cart-total-qty,.order-noti{
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    border: 1.5px solid white;
+    top: -10px;
+    right: -13px;
+    font-size: 12px;
+    background-color: rgb(255, 68, 1);
+}
+.order-noti{
+    right: -8px;
 }
 .cart-icon, .bell-icon, .profile-button{
     cursor: pointer;

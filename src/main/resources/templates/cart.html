@@ -24,6 +24,7 @@
             </div>
             <div class="right-section">
                 <div class="cart-icon">
+                    <span class="cart-total-qty" th:text="${totalQuantity}">0</span>
                     <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png"></a>
                 </div>
                 <div class="bell-icon"><img src="/icons/BELL NOTI.png"></div>
