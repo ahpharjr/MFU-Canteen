@@ -1,16 +1,16 @@
 .div-menu{
     height: 35px;
     border-radius: 5px;
-    margin: 10px 10px 10px 50px;
+    margin: 75px 50px 10px 50px;
     display: flex;
     align-items: center;
     padding-left: 15px;
     border: 1px solid white;
+    background-color: white;
 }
 .category-button {
     font-size: 12px;
     margin: 0 5px;
-    background-color: cadetblue;
     border: solid 1px rgb(57, 57, 57);
     border-radius: 3px;
     padding: 3px 10px;

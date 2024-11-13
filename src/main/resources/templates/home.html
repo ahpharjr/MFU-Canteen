@@ -13,7 +13,7 @@
     <div class="header">
         <div class="hleft">
             <div>Location</div>
-            <div>
+            <div class="canteen-name">
                 <select id="canteenSelect" onchange="fetchShopsAndItems()">
                     <!-- <option value="">Select Canteen</option> -->
                     <th:block th:each="canteen : ${canteens}">
@@ -23,7 +23,11 @@
             </div>
         </div>
         <div class="hright">
-            <div class="left-section">Find the <br> Food around you</div>
+            <div class="left-section">
+                <div class="custom-circle-text">Find the <br> Food around you</div>
+                <img class="custom-circle" src="/images/Ellipse 1220.png" alt="Custom Circle">
+
+            </div>
             <div class="middle-section">
                 <div class="search-icon"><img src="/icons/icons8-search-50 (1).png" alt="Search Icon"></div>
                 <div class="input-search">

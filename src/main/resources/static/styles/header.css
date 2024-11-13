@@ -1,5 +1,10 @@
 .header{
     display: flex;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
 }
 .hleft{
     width: 120px;
@@ -11,6 +16,16 @@
     justify-content: center;
     padding-left: 15px;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+    font-size: 13px;
+}
+.canteen-name select {
+    border-radius: 5px;
+    background: none;
+    padding: 5px 10px;
+    font-size: 1em;
+/*     appearance: none; Removes the default arrow in some browsers */
+    outline: none;
+    cursor: pointer;
 }
 .hright{
     flex: 1;
@@ -19,10 +34,30 @@
     display: flex;
 }
 .left-section{
+    position: relative;
     width: 200px;
     font-size: 25px;
     padding: 5px 0px 0px 15px;
+}
+.custom-circle{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.custom-circle img{
+    width: 100%;
+    object-fit: contain;
+
+}
+.custom-circle-text{
+    position: absolute;
+    display: flex;
     color: white;
+    z-index: 2;
 }
 .middle-section{
     flex: 1;
