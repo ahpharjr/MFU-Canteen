@@ -12,14 +12,7 @@
     <div class="header">
         <div class="hleft">
             <div>Location</div>
-            <div class="canteen-name">
-                <select id="canteenSelect" onchange="fetchShopsAndItems()">
-                    <!-- <option value="">Select Canteen</option> -->
-                    <th:block th:each="canteen : ${canteens}">
-                        <option th:value="${canteen.canteenId}" th:text="${canteen.name}"></option>
-                    </th:block>
-                </select>
-            </div>
+            <div th:text="${firstCartItem != null ? firstCartItem.item.shop.canteen.name : ''}"></div>
         </div>
         <div class="hright">
             <div class="left-section">
@@ -66,94 +59,39 @@
     </div>
     <div class="order-body">
         <h1>Your Orders</h1>
-        <div class="order-container">
-            <div class="head-order">
-                <div>
-                    <span  class="order-date">Order Placed:</span>
-                    <span>October 4</span>
-                </div>
-                <div >
-                    <span class="total-price">Total:</span>
-                    <span>B 999.00</span>
-                </div>
-                <div>
-                    <span class="order-id">OrderId:</span> <br>
-                    <span>de28fe551ceerffddd</span>
-                </div>
-            </div>
-            <div class="body-order">
-                <div class="order-item">
-                    <div class="order-item-img"><img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt=""></div>
-                    <div class="order-item-info">
-                        <span class="item-name">Fried Chicken</span> 
-                        <span>Quantity: 3</span>
-                        <span class="order-time">11:10 AM</span>
-                    </div>
-                    <div class="status">
-                        <span class="status-text">Preparing</span>
-                    </div>
-                </div>
-                <div class="order-item">
-                    <div class="order-item-img"><img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt=""></div>
-                    <div class="order-item-info">
-                        <span class="item-name">Fried Chicken</span> 
-                        <span>Quantity: 3</span>
-                        <span class="order-time">11:10 AM</span>
-                    </div>
-                    <div class="status">
-                        <span class="status-text">Preparing</span>
-                    </div>
-                </div>
-            </div>
-            
+
+        <div th:if="${orders.isEmpty()}">
+            <p>You have no orders yet.</p>
         </div>
-        <div class="order-container">
+
+        <div th:each="order : ${orders}" class="order-container">
             <div class="head-order">
                 <div>
-                    <span  class="order-date">Order Placed:</span>
-                    <span>October 4</span>
+                    <span class="order-date">Order Placed:</span>
+                    <span th:text="${order.formattedOrderDate}"></span>
                 </div>
-                <div >
+                <div class="total-price-div">
                     <span class="total-price">Total:</span>
-                    <span>B 999.00</span>
+                    <span th:text="${'B ' + order.totalPrice}"></span>
                 </div>
                 <div>
-                    <span class="order-id">OrderId:</span> <br>
-                    <span>de28fe551ceerffddd</span>
+                    <span class="order-id">Order ID:</span>
+                    <span th:text="${order.orderId}"></span>
                 </div>
             </div>
+
             <div class="body-order">
-                <div class="order-item">
-                    <div class="order-item-img"><img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt=""></div>
+                <div th:each="orderItem : ${order.orderItems}" class="order-item">
+                    <div class="order-item-img">
+                        <img th:src="${orderItem.item.imageUrl}" alt="Item Image">
+                    </div>
                     <div class="order-item-info">
-                        <span class="item-name">Fried Chicken</span> 
-                        <span>Quantity: 3</span>
-                        <span class="order-time">Shop No: 11</span>
+                        <span class="item-name" th:text="${orderItem.item.name}">Item Name</span>
+                        <span th:text="'Quantity: ' + ${orderItem.quantity}">Quantity</span>
+                        <span class="order-time" th:text="'Order Time: '+${order.formattedOrderTime}">Time</span>
                     </div>
                     <div class="status">
-                        <span class="status-text">Preparing</span>
-                    </div>
-                </div>
-                <div class="order-item">
-                    <div class="order-item-img"><img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt=""></div>
-                    <div class="order-item-info">
-                        <span class="item-name">Fried Chicken</span> 
-                        <span>Quantity: 3</span>
-                        <span class="order-time">11:10 AM</span>
-                    </div>
-                    <div class="status">
-                        <span class="status-text">Preparing</span>
-                    </div>
-                </div>
-                <div class="order-item">
-                    <div class="order-item-img"><img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt=""></div>
-                    <div class="order-item-info">
-                        <span class="item-name">Fried Chicken</span> 
-                        <span>Quantity: 3</span>
-                        <span class="order-time">11:10 AM</span>
-                    </div>
-                    <div class="status">
-                        <span class="status-text">Preparing</span>
+                        <span class="status-text" th:text="${order.status}">Status</span>
                     </div>
                 </div>
             </div>

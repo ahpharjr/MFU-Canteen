@@ -36,6 +36,9 @@ body{
     font-size: 18px;
     font-weight: 700;
 }
+.total-price-div{
+    padding-left: 20px;
+}
 .total-price{
     padding-right: 10px;
 }
@@ -59,6 +62,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-left: 20px;
 }
 .item-name{
     font-size: 18px;
@@ -67,8 +71,8 @@ body{
 }
 .order-time{
     padding-top: 5px;
-    font-size: 13px;
-    color: rgb(125, 125, 125);
+    font-size: 12px;
+    color: #ff5d5d;
 }
 .status{
     display: flex;

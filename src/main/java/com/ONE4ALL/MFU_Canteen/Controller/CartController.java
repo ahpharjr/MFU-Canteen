@@ -13,11 +13,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ONE4ALL.MFU_Canteen.Entity.Cart;
 import com.ONE4ALL.MFU_Canteen.Entity.CartItem;
 import com.ONE4ALL.MFU_Canteen.Entity.Item;
+import com.ONE4ALL.MFU_Canteen.Entity.Order;
 import com.ONE4ALL.MFU_Canteen.Entity.User;
 import com.ONE4ALL.MFU_Canteen.Repository.CartItemRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.CartRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.UserRepository;
 import com.ONE4ALL.MFU_Canteen.Service.ItemService;
+import com.ONE4ALL.MFU_Canteen.Service.OrderService;
 
 @Controller
 @RequestMapping("/user/{userId}")
@@ -34,6 +36,9 @@ public class CartController {
 
     @Autowired
     private CartItemRepository cartItemRepository;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/cart")
     public String showCart(@PathVariable Long userId, Model model) {
@@ -136,6 +141,23 @@ public class CartController {
         return "redirect:/user/" + userId + "/cart"; // Redirect back to cart
     }
 
+    @PostMapping("/cart/checkout")
+    public String checkout(@PathVariable Long userId, RedirectAttributes redirectAttributes){
+
+        User user = userRepository.findById(userId).orElse(null);
+        if(user != null && user.getCart() != null){
+            Cart cart = user.getCart();
+
+            Order order = orderService.createOrderFromCart(cart);
+
+            cart.getCartItems().clear();
+            cartRepository.save(cart);
+
+            redirectAttributes.addFlashAttribute("message", "Order placed successfully with ID: " + order.getOrderId());
+        }
+
+        return "redirect:/user/" + userId + "/orders";
+    }
 
 }
 
