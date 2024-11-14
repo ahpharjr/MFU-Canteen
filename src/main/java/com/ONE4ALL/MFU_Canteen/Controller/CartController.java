@@ -51,6 +51,7 @@ public class CartController {
             
             model.addAttribute("cart", cart);
             model.addAttribute("totalQuantity", cart.getTotalQuantity()); // Add totalQuantity to the model
+            model.addAttribute("totalPrice", cart.getTotalPrice());
     
             if (!cart.getCartItems().isEmpty()) {
                 CartItem firstCartItem = cart.getCartItems().get(0);

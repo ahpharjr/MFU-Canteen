@@ -36,10 +36,6 @@ public class Item {
     @JsonIgnore
     private Shop shop;
 
-    // @ManyToMany(mappedBy = "items")
-    // @JsonIgnore
-    // private List<Cart> carts = new ArrayList<>();
-
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<CartItem> cartItems = new ArrayList<>();

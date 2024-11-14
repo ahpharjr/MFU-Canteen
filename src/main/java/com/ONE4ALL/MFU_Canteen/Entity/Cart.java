@@ -65,10 +65,6 @@ public class Cart {
         this.cartItems = cartItems;
     }
 
-    // public Integer getTotalQuantity() {
-    //     return totalQuantity;
-    // }
-
     public int getTotalQuantity() {
         return cartItems.stream()
                         .mapToInt(CartItem::getQuantity)
@@ -79,5 +75,9 @@ public class Cart {
         this.totalQuantity = totalQuantity;
     }
 
-    
+    public double getTotalPrice(){
+        return cartItems.stream()
+                        .mapToDouble(cartItem -> cartItem.getItem().getPrice()* cartItem.getQuantity())
+                        .sum();
+    }
 }

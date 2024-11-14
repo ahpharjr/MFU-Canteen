@@ -67,16 +67,22 @@
         <div class="cart-title">
             <div class="dish">Dish</div>
             <div class="shop">Shop</div>
-            <div class="amount">Amount</div>
+            <div class="amount">Quantity</div>
             <div class="price">Price</div>
         </div>
         <div class="dish-box" th:each="cartItem : ${cart.cartItems}">
             <div class="selected-dish-box">
                 <div class="selected-dish">
-                    <div class="custom-checkbox">
+                    <!-- <div class="custom-checkbox">
                         <input type="checkbox" id="bullet1" />
                         <label for="bullet1"></label>
+                    </div> -->
+                    <div class="custom-checkbox">
+                        <input type="checkbox" class="item-checkbox" th:data-price="${cartItem.item.price}" th:data-quantity="${cartItem.quantity}"
+                        onchange="updateSummary()" />
+                        <label></label>
                     </div>
+                    
                     <div class="dish-picture">
                         <img th:src="@{${cartItem.item.imageUrl}}">
                     </div>
@@ -110,9 +116,53 @@
             </div>
         </div>
 
-        <div class="div-check-out">
-            <div class="check-out-button">Check Out (5)</div>
+        <div class="checkout-summary">
+            <div class="summary-item">
+                <span>Total Quantity:</span>
+                <!-- <span th:text="${totalQuantity}">0</span> -->
+                <span id="summary-quantity">0</span>
+            </div>
+            <div class="summary-item">
+                <span>Total Price:</span>
+                <span>
+                    <span class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></span>
+                    <!-- <span th:text="${totalPrice}">0.00</span> -->
+                    <span id="summary-price">0.00</span>
+                </span>
+            </div>
         </div>
+        
+        <div class="div-check-out">
+            <form th:action="@{'/user/' + ${userId} + '/checkout'}" method="post">
+                <button type="submit" class="check-out-button">Check Out (<span th:text="${totalQuantity}">0</span>)</button>
+            </form>
+        </div>
+        
+        <!-- <div class="div-check-out">
+            <div class="check-out-button">Check Out (5)</div>
+        </div> -->
     </div>
+
+    <script>
+       function updateSummary() {
+            let totalQuantity = 0;
+            let totalPrice = 0;
+
+            document.querySelectorAll('.item-checkbox:checked').forEach(checkbox => {
+                const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
+                const quantity = parseInt(checkbox.getAttribute('data-quantity')) || 0;
+                console.log(price, quantity);
+                totalQuantity += quantity;
+                totalPrice += price * quantity;
+            });
+
+            document.getElementById('summary-quantity').textContent = totalQuantity;
+            document.getElementById('summary-price').textContent = totalPrice.toFixed(2);
+
+            console.log("total qty: " + totalQuantity);
+            console.log("total price: " + totalPrice);
+        }
+    </script>
+    
 </body>
 </html>
