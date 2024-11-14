@@ -39,14 +39,14 @@ background-color: rgb(233, 233, 233);
     height: 15px;
 }
 .recommended-food-container{
-background-color: white;
+    background-color: aliceblue;
 border-radius: 10px;
 margin: 20px 80px;
 height: 700px;
 }
 /* ======================Below is for the .recommended-food in home page================ */
 .recommended-food-container1, .shops-in-canteen{
-    background-color:rgb(255, 255, 255);
+    background-color: aliceblue;
     border-radius: 10px;
     margin: 7px 50px 20px 50px;
     height: 700px;

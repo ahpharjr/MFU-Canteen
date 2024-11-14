@@ -1,6 +1,6 @@
 .header{
     display: flex;
-    background-color: white;
+    background-color: aliceblue;
     position: fixed;
     width: 100%;
     top: 0;
@@ -17,6 +17,10 @@
     padding-left: 15px;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
     font-size: 13px;
+}
+.selected-canteen-name{
+    font-size: 18px;
+    font-weight: 700;
 }
 .canteen-name select {
     border-radius: 5px;

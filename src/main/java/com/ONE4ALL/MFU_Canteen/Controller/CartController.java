@@ -46,7 +46,7 @@ public class CartController {
     @GetMapping("/cart")
     public String showCart(@PathVariable Long userId, Model model) {
         User user = userRepository.findById(userId).orElse(null);
-        
+    
         if (user != null) {
             Cart cart = user.getCart();
             if (cart == null) {
@@ -56,22 +56,23 @@ public class CartController {
                 user.setCart(cart);
                 cartRepository.save(cart);
             }
-            
+    
             model.addAttribute("cart", cart);
-            model.addAttribute("totalQuantity", cart.getTotalQuantity()); // Add totalQuantity to the model
+            model.addAttribute("totalQuantity", cart.getTotalQuantity());
             model.addAttribute("totalPrice", cart.getTotalPrice());
+            model.addAttribute("isCartEmpty", cart.getCartItems().isEmpty());
     
             if (!cart.getCartItems().isEmpty()) {
                 CartItem firstCartItem = cart.getCartItems().get(0);
                 model.addAttribute("firstCartItem", firstCartItem);
             }
+        } else {
+            model.addAttribute("isCartEmpty", true);
         }
-        
+    
         return "cart";
     }
     
-    
-
     @PostMapping("/cart")
     public String addItemToCart(@PathVariable Long userId, 
                                 @RequestParam Long itemId, Model model) {
@@ -143,24 +144,6 @@ public class CartController {
         System.out.println("CartController.deleteCartItem()=========================================3");
         return "redirect:/user/" + userId + "/cart"; // Redirect back to cart
     }
-
-    // @PostMapping("/cart/checkout")
-    // public String checkout(@PathVariable Long userId, RedirectAttributes redirectAttributes){
-
-    //     User user = userRepository.findById(userId).orElse(null);
-    //     if(user != null && user.getCart() != null){
-    //         Cart cart = user.getCart();
-
-    //         Order order = orderService.createOrderFromCart(cart);
-
-    //         cart.getCartItems().clear();
-    //         cartRepository.save(cart);
-
-    //         redirectAttributes.addFlashAttribute("message", "Order placed successfully with ID: " + order.getOrderId());
-    //     }
-
-    //     return "redirect:/user/" + userId + "/orders";
-    // }
 
     @PostMapping("/cart/checkout")
     public String checkout(@PathVariable Long userId, 

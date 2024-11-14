@@ -9,6 +9,6 @@ import com.ONE4ALL.MFU_Canteen.Entity.Order;
 import com.ONE4ALL.MFU_Canteen.Entity.User;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long>{
+public interface OrderRepository extends JpaRepository<Order, String>{
     List<Order> findByUser(User user);
 }

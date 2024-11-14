@@ -11,8 +11,8 @@
 <body>
     <div class="header">
         <div class="hleft">
-            <div>Location</div>
-            <div th:text="${firstCartItem != null ? firstCartItem.item.shop.canteen.name : ''}"></div>
+            <div>Location:</div>
+            <div class="selected-canteen-name" th:text="${firstCartItem != null ? firstCartItem.item.shop.canteen.name : ''}"></div>
         </div>
         <div class="hright">
             <div class="left-section">
@@ -51,80 +51,89 @@
             <div class="nav-icon1"><img id="history-icon" src="/icons/history-icon.png" alt="history button"></div>
         </div>
     </div>
-    <div class="cart-container">
-        <div class="back-arrow">
-            <a onclick="window.history.back();">
-                <img src="/icons/icons8-back-50.png" alt="Back">
-            </a>
-        </div>
-        <div class="cycles"><img src="/images/Group 39474 (1).png"></div>
-        <div class="cart-quantity">
-            Cart Item (<span th:text="${totalQuantity}">0</span>)
-        </div>
-        <div class="cart-title">
-            <div class="dish">Dish</div>
-            <div class="shop">Shop</div>
-            <div class="amount">Quantity</div>
-            <div class="price">Price</div>
-        </div>
-        <div class="dish-box" th:each="cartItem : ${cart.cartItems}">
-            <div class="selected-dish-box">
-                <div class="selected-dish">
-                    <div class="custom-checkbox">
-                        <input type="checkbox" class="item-checkbox" th:data-id="${cartItem.id}" th:data-price="${cartItem.item.price}" th:data-quantity="${cartItem.quantity}" onchange="updateSummary()" />
-                        <label></label>
+    <!-- Empty Cart Message -->
+    <div class="display-message" th:if="${isCartEmpty}">
+        <img class="empty-cart" src="/images/empty_cart.png" alt="Empty Cart">
+        <span class="empty-cart-msg">Your cart is empty!</span>
+        <a th:href="@{'/user/'+ ${userId} + '/home'}">Add Item</a>
+    </div>
+    <div th:unless="${isCartEmpty}">
+        <div class="cart-container">
+            <div class="back-arrow">
+                <a onclick="window.history.back();">
+                    <img src="/icons/icons8-back-50.png" alt="Back">
+                </a>
+            </div>
+            <div class="cycles"><img src="/images/Group 39474 (1).png"></div>
+            <div class="cart-quantity">
+                Cart Item (<span th:text="${totalQuantity}">0</span>)
+            </div>
+            <div class="cart-title">
+                <div class="dish">Dish</div>
+                <div class="shop">Shop</div>
+                <div class="amount">Quantity</div>
+                <div class="price">Price</div>
+            </div>
+            
+            <div class="dish-box" th:each="cartItem : ${cart.cartItems}">
+                <div class="selected-dish-box">
+                    <div class="selected-dish">
+                        <div class="custom-checkbox">
+                            <input type="checkbox" class="item-checkbox" th:data-id="${cartItem.id}" th:data-price="${cartItem.item.price}" th:data-quantity="${cartItem.quantity}" onchange="updateSummary()" />
+                            <label></label>
+                        </div>
+                        <div class="dish-picture">
+                            <img th:src="@{${cartItem.item.imageUrl}}">
+                        </div>
+                        <div class="dish-desc">
+                            <span class="name" th:text="${cartItem.item.name}"></span>
+                        </div>
                     </div>
-                    <div class="dish-picture">
-                        <img th:src="@{${cartItem.item.imageUrl}}">
-                    </div>
-                    <div class="dish-desc">
-                        <span class="name" th:text="${cartItem.item.name}"></span>
-                    </div>
-                </div>
-                <div class="shop-no" th:text="${cartItem.item.shop.shopNum}"></div>
-                <div class="dish-amount">
-                    <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/deduct'}" method="post">
-                        <button type="submit" id="deduct">-</button>
-                    </form>
-                    <div type="button" id="quantity" th:text="${cartItem.quantity}"></div>
-                    <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/add'}" method="post">
-                        <button type="submit" id="add">+</button>
-                    </form>
-                </div>
-                <div class="dish-price">
-                    <div id="dish-price">
-                        <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div>
-                        <div class="d-price item-price" th:text="${cartItem.item.price}"></div>
-                    </div>
-                    <div class="delete-button">
-                        <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/delete'}" method="post" class="delete-form">
-                            <button type="submit"><img src="/icons/icons8-delete-24.png"></button>
+                    <div class="shop-no" th:text="${cartItem.item.shop.shopNum}"></div>
+                    <div class="dish-amount">
+                        <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/deduct'}" method="post">
+                            <button type="submit" id="deduct">-</button>
                         </form>
+                        <div type="button" id="quantity" th:text="${cartItem.quantity}"></div>
+                        <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/add'}" method="post">
+                            <button type="submit" id="add">+</button>
+                        </form>
+                    </div>
+                    <div class="dish-price">
+                        <div id="dish-price">
+                            <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div>
+                            <div class="d-price item-price" th:text="${cartItem.item.price}"></div>
+                        </div>
+                        <div class="delete-button">
+                            <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/delete'}" method="post" class="delete-form">
+                                <button type="submit"><img src="/icons/icons8-delete-24.png"></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Order Summary Box (Only One Instance) -->
-        <div class="checkout-summary">
-            <div class="checkout-summary-box">
-                <h2>Check Out Summary</h2>
-                <div class="summary-item">
-                    <span>Total Quantity:</span>
-                    <span id="summary-quantity">0</span>
-                </div>
-                <div class="summary-item">
-                    <span>Total Price:</span>
-                    <span>
-                        <span class="baht-icon"><img src="/icons/icons8-thai-baht-24.png"><span id="summary-price">0.00</span></span>
-                    </span>
-                </div>
-                <div class="div-check-out">
-                    <form id="checkoutForm" th:action="@{'/user/' + ${userId} + '/cart/checkout'}" method="post">
-                        <button type="button" class="check-out-button" id="checkout-button" onclick="submitCheckoutForm()">
-                            Check Out (<span id="summary-quantity-button">0</span>) Items
-                        </button>
-                    </form>
+            <!-- Order Summary Box (Only One Instance) -->
+            <div class="checkout-summary">
+                <div class="checkout-summary-box">
+                    <h2>Check Out Summary</h2>
+                    <div class="summary-item">
+                        <span>Total Quantity:</span>
+                        <span id="summary-quantity">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total Price:</span>
+                        <span>
+                            <span class="baht-icon"><img src="/icons/icons8-thai-baht-24.png"><span id="summary-price">0.00</span></span>
+                        </span>
+                    </div>
+                    <div class="div-check-out">
+                        <form id="checkoutForm" th:action="@{'/user/' + ${userId} + '/cart/checkout'}" method="post">
+                            <button type="button" class="check-out-button" id="checkout-button" onclick="submitCheckoutForm()">
+                                Check Out (<span id="summary-quantity-button">0</span>) Items
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -218,6 +227,13 @@
 
             // Submit the form
             checkoutForm.submit();
+        }
+
+        const canteenName = localStorage.getItem("selectedCanteenName");
+    
+        // Display the canteen name in the appropriate location
+        if (canteenName) {
+            document.querySelector(".header .hleft div:nth-child(2)").textContent = canteenName;
         }
 
     </script>

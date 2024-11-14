@@ -138,3 +138,11 @@ function viewItem(itemId) {
         console.error("User ID is not available");
     }
 }
+
+document.getElementById("canteenSelect").addEventListener("change", function() {
+    const canteenName = this.options[this.selectedIndex].text;
+    localStorage.setItem("selectedCanteenName", canteenName);
+});
+
+
+

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ONE4ALL.MFU_Canteen.Entity.Cart;
 import com.ONE4ALL.MFU_Canteen.Entity.Order;
 import com.ONE4ALL.MFU_Canteen.Entity.User;
 import com.ONE4ALL.MFU_Canteen.Repository.OrderRepository;
@@ -41,6 +42,9 @@ public class OrderController {
                 order.setFormattedOrderTime(order.getOrderDate().format(timeFormatter));
             });
             model.addAttribute("orders", orders);
+
+            Cart cart = user.getCart();
+            model.addAttribute("totalCartQuantity", cart.getTotalQuantity());
         }
         return "order";
     }

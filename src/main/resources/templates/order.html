@@ -11,8 +11,8 @@
 <body>
     <div class="header">
         <div class="hleft">
-            <div>Location</div>
-            <div th:text="${firstCartItem != null ? firstCartItem.item.shop.canteen.name : ''}"></div>
+            <div>Location:</div>
+            <div class="selected-canteen-name"></div>
         </div>
         <div class="hright">
             <div class="left-section">
@@ -28,7 +28,7 @@
             </div>
             <div class="right-section">
                 <div class="cart-icon">
-                    <span class="cart-total-qty" th:text="${totalQuantity}">0</span>
+                    <span class="cart-total-qty" th:text="${totalCartQuantity}">0</span>
                     <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png" alt="Cart Icon"></a>
                 </div>
                 <div class="bell-icon">
@@ -97,5 +97,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Retrieve the selected canteen name from localStorage
+        const canteenName = localStorage.getItem("selectedCanteenName");
+    
+        // Display the canteen name in the appropriate location
+        if (canteenName) {
+            document.querySelector(".header .hleft div:nth-child(2)").textContent = canteenName;
+        }
+    </script>
+    
 </body>
 </html>

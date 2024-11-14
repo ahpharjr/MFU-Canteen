@@ -1,6 +1,20 @@
 body{
-    background-color: cadetblue;
+    background-color: rgb(233, 233, 233);
     margin: 0;
+}
+.display-message{
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.empty-cart{
+    width: 300px;
+}
+.empty-cart-msg{
+    font-size: 30px;
+
 }
 .cart-container{
     background-color: aliceblue;

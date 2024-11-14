@@ -10,8 +10,9 @@ import jakarta.persistence.*;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private String orderId;
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // private Long orderId;
     
     private LocalDateTime orderDate;
     private double totalPrice;
@@ -44,15 +45,6 @@ public class Order {
 
     public void setFormattedOrderTime(String formattedOrderTime) {
         this.formattedOrderTime = formattedOrderTime;
-    }
-
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
     }
 
     public LocalDateTime getOrderDate() {
@@ -95,8 +87,12 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    
+    public String getOrderId() {
+        return orderId;
+    }
 
-
-    
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+ 
 }
