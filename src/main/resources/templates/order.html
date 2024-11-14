@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/order.css">
+    <link rel="stylesheet" href="/styles/header.css">
+    <title>Orders</title>
+</head>
+<body>
+    <div class="header">
+        <div class="hleft">
+            <div>Location</div>
+            <div class="canteen-name">
+                <select id="canteenSelect" onchange="fetchShopsAndItems()">
+                    <!-- <option value="">Select Canteen</option> -->
+                    <th:block th:each="canteen : ${canteens}">
+                        <option th:value="${canteen.canteenId}" th:text="${canteen.name}"></option>
+                    </th:block>
+                </select>
+            </div>
+        </div>
+        <div class="hright">
+            <div class="left-section">
+                <div class="custom-circle-text">Find the <br> Food around you</div>
+                <img class="custom-circle" src="/images/Ellipse 1220.png" alt="Custom Circle">
+
+            </div>
+            <div class="middle-section">
+                <div class="search-icon"><img src="/icons/icons8-search-50 (1).png" alt="Search Icon"></div>
+                <div class="input-search">
+                    <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchItems()">
+                </div>                
+            </div>
+            <div class="right-section">
+                <div class="cart-icon">
+                    <span class="cart-total-qty" th:text="${totalQuantity}">0</span>
+                    <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png" alt="Cart Icon"></a>
+                </div>
+                <div class="bell-icon">
+                    <span class="cart-total-qty">0</span>
+                    <img src="/icons/BELL NOTI.png" alt="Notification Bell">
+                </div>
+                <div class="profile-button"><img src="/icons/profile.png" alt="Profile"></div>
+            </div>
+        </div>
+    </div>
+    <div class="order-body">
+        <h1>Your Orders</h1>
+        <div class="order-container">
+            <div class="head-order">
+                <div>
+                    <span  class="order-date">Order Placed:</span>
+                    <span>October 4</span>
+                </div>
+                <div >
+                    <span class="total-price">Total:</span>
+                    <span>B 999.00</span>
+                </div>
+                <div>
+                    <span class="order-id">OrderId:</span> <br>
+                    <span>de28fe551ceerffddd</span>
+                </div>
+            </div>
+            <div class="body-order">
+                <div class="order-item">
+                    <div class="order-item-img"><img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt=""></div>
+                    <div class="order-item-info">
+                        <span class="item-name">Fried Chicken</span> 
+                        <span>Quantity: 3</span>
+                        <span class="order-time">11:10 AM</span>
+                    </div>
+                    <div class="status">
+                        <span class="status-text">Preparing</span>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-item-img"><img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt=""></div>
+                    <div class="order-item-info">
+                        <span class="item-name">Fried Chicken</span> 
+                        <span>Quantity: 3</span>
+                        <span class="order-time">11:10 AM</span>
+                    </div>
+                    <div class="status">
+                        <span class="status-text">Preparing</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="order-container">
+            <div class="head-order">
+                <div>
+                    <span  class="order-date">Order Placed:</span>
+                    <span>October 4</span>
+                </div>
+                <div >
+                    <span class="total-price">Total:</span>
+                    <span>B 999.00</span>
+                </div>
+                <div>
+                    <span class="order-id">OrderId:</span> <br>
+                    <span>de28fe551ceerffddd</span>
+                </div>
+            </div>
+            <div class="body-order">
+                <div class="order-item">
+                    <div class="order-item-img"><img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt=""></div>
+                    <div class="order-item-info">
+                        <span class="item-name">Fried Chicken</span> 
+                        <span>Quantity: 3</span>
+                        <span class="order-time">Shop No: 11</span>
+                    </div>
+                    <div class="status">
+                        <span class="status-text">Preparing</span>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-item-img"><img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt=""></div>
+                    <div class="order-item-info">
+                        <span class="item-name">Fried Chicken</span> 
+                        <span>Quantity: 3</span>
+                        <span class="order-time">11:10 AM</span>
+                    </div>
+                    <div class="status">
+                        <span class="status-text">Preparing</span>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-item-img"><img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt=""></div>
+                    <div class="order-item-info">
+                        <span class="item-name">Fried Chicken</span> 
+                        <span>Quantity: 3</span>
+                        <span class="order-time">11:10 AM</span>
+                    </div>
+                    <div class="status">
+                        <span class="status-text">Preparing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
