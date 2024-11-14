@@ -120,8 +120,8 @@
                     </span>
                 </div>
                 <div class="div-check-out">
-                    <form th:action="@{'/user/' + ${userId} + '/cart/checkout'}" method="post">
-                        <button type="submit" class="check-out-button" id="checkout-button">
+                    <form id="checkoutForm" th:action="@{'/user/' + ${userId} + '/cart/checkout'}" method="post">
+                        <button type="button" class="check-out-button" id="checkout-button" onclick="submitCheckoutForm()">
                             Check Out (<span id="summary-quantity-button">0</span>) Items
                         </button>
                     </form>
@@ -188,8 +188,38 @@
         }
         
         function clearSelectedItemsOnCheckout() {
-            localStorage.removeItem('selectedItems');
+                    localStorage.removeItem('selectedItems');
         }
+
+        function submitCheckoutForm() {
+            const selectedItems = Array.from(document.querySelectorAll('.item-checkbox:checked'))
+                .map(checkbox => checkbox.getAttribute('data-id'));
+
+            
+            if (selectedItems.length === 0) {
+                alert("Please select items to check out!");
+                return; // Stop further execution if no items are selected
+            }
+
+            const checkoutForm = document.getElementById("checkoutForm");
+
+            // Remove any previous item inputs
+            document.querySelectorAll(".selected-item-id").forEach(input => input.remove());
+
+            // Add hidden inputs for each selected item ID
+            selectedItems.forEach(itemId => {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "selectedItemIds";
+                input.value = itemId;
+                input.classList.add("selected-item-id");
+                checkoutForm.appendChild(input);
+            });
+
+            // Submit the form
+            checkoutForm.submit();
+        }
+
     </script>
 </body>
 </html>

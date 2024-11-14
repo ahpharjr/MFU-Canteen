@@ -1,6 +1,7 @@
 package com.ONE4ALL.MFU_Canteen.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,4 +45,28 @@ public class OrderService {
         
         return orderRepository.save(order);
     }
+
+    public Order createOrderFromSelectedCartItems(Cart cart, List<CartItem> selectedCartItems) {
+        Order order = new Order();
+        order.setUser(cart.getUser());
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus("Preparing");
+    
+        double totalPrice = 0.0;
+    
+        // Copy only the selected cart items into order items
+        for (CartItem cartItem : selectedCartItems) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
+            orderItem.setItem(cartItem.getItem());
+            orderItem.setQuantity(cartItem.getQuantity());
+            totalPrice += cartItem.getItem().getPrice() * cartItem.getQuantity();
+    
+            order.getOrderItems().add(orderItem);
+        }
+    
+        order.setTotalPrice(totalPrice);
+        return orderRepository.save(order);
+    }
+    
 }

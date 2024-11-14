@@ -1,5 +1,8 @@
 package com.ONE4ALL.MFU_Canteen.Controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -141,16 +144,43 @@ public class CartController {
         return "redirect:/user/" + userId + "/cart"; // Redirect back to cart
     }
 
+    // @PostMapping("/cart/checkout")
+    // public String checkout(@PathVariable Long userId, RedirectAttributes redirectAttributes){
+
+    //     User user = userRepository.findById(userId).orElse(null);
+    //     if(user != null && user.getCart() != null){
+    //         Cart cart = user.getCart();
+
+    //         Order order = orderService.createOrderFromCart(cart);
+
+    //         cart.getCartItems().clear();
+    //         cartRepository.save(cart);
+
+    //         redirectAttributes.addFlashAttribute("message", "Order placed successfully with ID: " + order.getOrderId());
+    //     }
+
+    //     return "redirect:/user/" + userId + "/orders";
+    // }
+
     @PostMapping("/cart/checkout")
-    public String checkout(@PathVariable Long userId, RedirectAttributes redirectAttributes){
+    public String checkout(@PathVariable Long userId, 
+                        @RequestParam("selectedItemIds") List<Long> selectedItemIds,
+                        RedirectAttributes redirectAttributes) {
 
         User user = userRepository.findById(userId).orElse(null);
-        if(user != null && user.getCart() != null){
+        if (user != null && user.getCart() != null) {
             Cart cart = user.getCart();
 
-            Order order = orderService.createOrderFromCart(cart);
+            // Filter cart items to include only selected items
+            List<CartItem> selectedCartItems = cart.getCartItems().stream()
+                .filter(cartItem -> selectedItemIds.contains(cartItem.getId()))
+                .collect(Collectors.toList());
 
-            cart.getCartItems().clear();
+            // Create an order only for selected items
+            Order order = orderService.createOrderFromSelectedCartItems(cart, selectedCartItems);
+
+            // Remove only selected items from the cart after checkout
+            selectedCartItems.forEach(cartItem -> cart.getCartItems().remove(cartItem));
             cartRepository.save(cart);
 
             redirectAttributes.addFlashAttribute("message", "Order placed successfully with ID: " + order.getOrderId());
@@ -158,6 +188,7 @@ public class CartController {
 
         return "redirect:/user/" + userId + "/orders";
     }
+
 
 }
 
