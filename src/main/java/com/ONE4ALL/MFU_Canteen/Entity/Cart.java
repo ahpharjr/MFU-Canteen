@@ -26,14 +26,6 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    // @ManyToMany(cascade = CascadeType.ALL)
-    // @JoinTable(
-    //     name = "cart_item",
-    //     joinColumns = @JoinColumn(name = "cart_id"),
-    //     inverseJoinColumns = @JoinColumn(name = "item_id")
-    // )
-    // private List<Item> items = new ArrayList<>();
-
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 

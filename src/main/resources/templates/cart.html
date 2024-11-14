@@ -120,7 +120,7 @@
                     </span>
                 </div>
                 <div class="div-check-out">
-                    <form th:action="@{'/user/' + ${userId} + '/checkout'}" method="post">
+                    <form th:action="@{'/user/' + ${userId} + '/orders'}" method="post">
                         <button type="submit" class="check-out-button" id="checkout-button">
                             Check Out (<span id="summary-quantity-button">0</span>) Items
                         </button>
