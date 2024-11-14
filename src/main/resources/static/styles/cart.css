@@ -192,8 +192,33 @@ body{
 .delete-button img{
     width: 25px;
 }
+.checkout-summary{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.checkout-summary-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgb(88, 88, 88);
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+.summary-item{
+    padding-bottom: 10px;
+}
+.baht-icon{
+    width: 19px;
+}
+.baht-icon img{
+    width: 18px;
+    padding: 0;
+}
 .div-check-out{
-    padding: 60px 0 30px 0;
+    padding-top: 30px ;
     display: flex;
     justify-content: center;
     font-size: 28px;
@@ -202,13 +227,14 @@ body{
     background-color: rgb(255, 86, 24);
     padding: 15px;
     border-radius: 8px;
-    width: 400px;
+    width: 300px;
     display: flex;
     justify-content: center;
     color: white;
     cursor: pointer;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
     transform: 0.3s ease;
+    border: none;
 }
 .check-out-button:hover{
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);

@@ -8,19 +8,16 @@
     <link rel="stylesheet" href="/styles/header.css">
     <title>Your Cart</title>
 </head>
-<body >
+<body>
     <div class="header">
         <div class="hleft">
             <div>Location</div>
-            <!-- <div th:text="${firstCartItem.item.shop.canteen.name}"></div> -->
-            <div th:text="${firstCartItem != null  ? firstCartItem.item.shop.canteen.name : ''}"></div>
-
+            <div th:text="${firstCartItem != null ? firstCartItem.item.shop.canteen.name : ''}"></div>
         </div>
         <div class="hright">
             <div class="left-section">
                 <div class="custom-circle-text">Find the <br> Food around you</div>
                 <img class="custom-circle" src="/images/Ellipse 1220.png" alt="Custom Circle">
-
             </div>
             <div class="middle-section">
                 <div class="search-icon"><img src="/icons/icons8-search-50 (1).png"></div>
@@ -38,20 +35,20 @@
     </div>
     <div class="div-nav-bar">
         <div class="nav-button">
-            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
-            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
+            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon"><img src="/icons/icons8-home-48.png" alt="home button"></div></a>
+            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img src="/icons/icons8-home-48.png" alt="home button"></div></a>
         </div>
         <div class="nav-button">
-            <div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div>
-            <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon.png" alt="home button"></div>
+            <div class="nav-icon"><img id="menu-icon" src="/icons/menu-icon-color.png" alt="menu button"></div>
+            <div class="nav-icon1"><img id="menu-icon" src="/icons/menu-icon.png" alt="menu button"></div>
         </div>
         <div class="nav-button">
-            <div class="nav-icon"><img  src="/icons/icons8-heart-50 (1).png" alt="home button"></div>
-            <div class="nav-icon1"><img  src="/icons/icons8-heart-50.png" alt="home button"></div>
+            <div class="nav-icon"><img src="/icons/icons8-heart-50 (1).png" alt="heart button"></div>
+            <div class="nav-icon1"><img src="/icons/icons8-heart-50.png" alt="heart button"></div>
         </div>
         <div class="nav-button">
-            <div class="nav-icon"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
-            <div class="nav-icon1"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+            <div class="nav-icon"><img id="history-icon" src="/icons/history-icon.png" alt="history button"></div>
+            <div class="nav-icon1"><img id="history-icon" src="/icons/history-icon.png" alt="history button"></div>
         </div>
     </div>
     <div class="cart-container">
@@ -73,16 +70,10 @@
         <div class="dish-box" th:each="cartItem : ${cart.cartItems}">
             <div class="selected-dish-box">
                 <div class="selected-dish">
-                    <!-- <div class="custom-checkbox">
-                        <input type="checkbox" id="bullet1" />
-                        <label for="bullet1"></label>
-                    </div> -->
                     <div class="custom-checkbox">
-                        <input type="checkbox" class="item-checkbox" th:data-price="${cartItem.item.price}" th:data-quantity="${cartItem.quantity}"
-                        onchange="updateSummary()" />
+                        <input type="checkbox" class="item-checkbox" th:data-id="${cartItem.id}" th:data-price="${cartItem.item.price}" th:data-quantity="${cartItem.quantity}" onchange="updateSummary()" />
                         <label></label>
                     </div>
-                    
                     <div class="dish-picture">
                         <img th:src="@{${cartItem.item.imageUrl}}">
                     </div>
@@ -95,9 +86,7 @@
                     <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/deduct'}" method="post">
                         <button type="submit" id="deduct">-</button>
                     </form>
-                    <!-- <div id="deduct">-</div> -->
                     <div type="button" id="quantity" th:text="${cartItem.quantity}"></div>
-                    <!-- <div id="add">+</div> -->
                     <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/add'}" method="post">
                         <button type="submit" id="add">+</button>
                     </form>
@@ -105,64 +94,102 @@
                 <div class="dish-price">
                     <div id="dish-price">
                         <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div>
-                        <div class="d-price" th:text="${cartItem.item.price}"></div>
+                        <div class="d-price item-price" th:text="${cartItem.item.price}"></div>
                     </div>
                     <div class="delete-button">
                         <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/delete'}" method="post" class="delete-form">
-                            <button type="submit" ><img src="/icons/icons8-delete-24.png"></button>
+                            <button type="submit"><img src="/icons/icons8-delete-24.png"></button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Order Summary Box (Only One Instance) -->
         <div class="checkout-summary">
-            <div class="summary-item">
-                <span>Total Quantity:</span>
-                <!-- <span th:text="${totalQuantity}">0</span> -->
-                <span id="summary-quantity">0</span>
-            </div>
-            <div class="summary-item">
-                <span>Total Price:</span>
-                <span>
-                    <span class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></span>
-                    <!-- <span th:text="${totalPrice}">0.00</span> -->
-                    <span id="summary-price">0.00</span>
-                </span>
+            <div class="checkout-summary-box">
+                <h2>Check Out Summary</h2>
+                <div class="summary-item">
+                    <span>Total Quantity:</span>
+                    <span id="summary-quantity">0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Total Price:</span>
+                    <span>
+                        <span class="baht-icon"><img src="/icons/icons8-thai-baht-24.png"><span id="summary-price">0.00</span></span>
+                    </span>
+                </div>
+                <div class="div-check-out">
+                    <form th:action="@{'/user/' + ${userId} + '/checkout'}" method="post">
+                        <button type="submit" class="check-out-button" id="checkout-button">
+                            Check Out (<span id="summary-quantity-button">0</span>) Items
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-        
-        <div class="div-check-out">
-            <form th:action="@{'/user/' + ${userId} + '/checkout'}" method="post">
-                <button type="submit" class="check-out-button">Check Out (<span th:text="${totalQuantity}">0</span>)</button>
-            </form>
-        </div>
-        
-        <!-- <div class="div-check-out">
-            <div class="check-out-button">Check Out (5)</div>
-        </div> -->
     </div>
 
     <script>
-       function updateSummary() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const priceElements = document.querySelectorAll('.item-price');
+            priceElements.forEach(element => {
+                const price = parseFloat(element.textContent);
+                if (!isNaN(price)) {
+                    element.textContent = price.toFixed(2);
+                }
+            });
+        
+            restoreSelectedItems();
+        
+            document.querySelectorAll('.item-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    saveSelectedItems();
+                    updateSummary();
+                });
+            });
+        
+            const checkoutButton = document.getElementById('checkout-button');
+            if (checkoutButton) {
+                checkoutButton.addEventListener('click', clearSelectedItemsOnCheckout);
+            }
+        });
+        
+        function updateSummary() {
             let totalQuantity = 0;
             let totalPrice = 0;
-
+        
             document.querySelectorAll('.item-checkbox:checked').forEach(checkbox => {
                 const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
                 const quantity = parseInt(checkbox.getAttribute('data-quantity')) || 0;
-                console.log(price, quantity);
                 totalQuantity += quantity;
                 totalPrice += price * quantity;
             });
-
+        
             document.getElementById('summary-quantity').textContent = totalQuantity;
+            document.getElementById('summary-quantity-button').textContent = totalQuantity;
             document.getElementById('summary-price').textContent = totalPrice.toFixed(2);
-
-            console.log("total qty: " + totalQuantity);
-            console.log("total price: " + totalPrice);
+        }
+        
+        function saveSelectedItems() {
+            const selectedItems = Array.from(document.querySelectorAll('.item-checkbox:checked'))
+                .map(checkbox => checkbox.getAttribute('data-id'));
+            localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+        }
+        
+        function restoreSelectedItems() {
+            const selectedItems = JSON.parse(localStorage.getItem('selectedItems') || '[]');
+            document.querySelectorAll('.item-checkbox').forEach(checkbox => {
+                if (selectedItems.includes(checkbox.getAttribute('data-id'))) {
+                    checkbox.checked = true;
+                }
+            });
+            updateSummary();
+        }
+        
+        function clearSelectedItemsOnCheckout() {
+            localStorage.removeItem('selectedItems');
         }
     </script>
-    
 </body>
 </html>
