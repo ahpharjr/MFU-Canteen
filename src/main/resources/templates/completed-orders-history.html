@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/order-container.css">
+    <title>Completed Orders</title>
+</head>
+<body>
+    <h1>Completed Orders</h1>
+    <!-- <div th:if="${completedOrders.isEmpty()}">
+        <p>No completed orders yet.</p>
+    </div>
+    <div th:each="order : ${completedOrders}">
+        <div>
+            <span th:text="'Order ID: #' + ${order.orderId}"></span> /
+            <span th:text="${'Total: B ' + order.totalPrice}"></span> /
+            <span th:text="${order.status}"></span>
+        </div>
+        <div th:each="orderItem : ${order.orderItems}">
+            <span th:text="${orderItem.item.name}"></span> /
+            <span th:text="'Quantity: ' + ${orderItem.quantity}"></span>
+        </div>
+    </div> -->
+</body>
+</html>

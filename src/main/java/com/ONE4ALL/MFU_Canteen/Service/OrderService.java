@@ -48,37 +48,6 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    // public Order createOrderFromSelectedCartItems(Cart cart, List<CartItem> selectedCartItems) {
-    //     if (selectedCartItems.isEmpty()) {
-    //         throw new IllegalArgumentException("No items selected for the order");
-    //     }
-    
-    //     Order order = new Order();
-    //     order.setOrderId(UUID.randomUUID().toString().replace("-", "").substring(0, 16));  // Generate 16-char ID
-    //     order.setUser(cart.getUser());
-    //     order.setOrderDate(LocalDateTime.now());
-    //     order.setStatus("Preparing");
-    
-    //     // Get the shop from the first selected item (assuming all items in the order are from the same shop)
-    //     Shop shop = selectedCartItems.get(0).getItem().getShop();
-    //     order.setShop(shop);
-    
-    //     double totalPrice = 0.0;
-    
-    //     for (CartItem cartItem : selectedCartItems) {
-    //         OrderItem orderItem = new OrderItem();
-    //         orderItem.setOrder(order);
-    //         orderItem.setItem(cartItem.getItem());
-    //         orderItem.setQuantity(cartItem.getQuantity());
-    //         totalPrice += cartItem.getItem().getPrice() * cartItem.getQuantity();
-    
-    //         order.getOrderItems().add(orderItem);
-    //     }
-    
-    //     order.setTotalPrice(totalPrice);
-    //     return orderRepository.save(order);
-    // }
-
     public List<Order> createOrdersFromSelectedCartItems(Cart cart, List<CartItem> selectedCartItems) {
         if (selectedCartItems.isEmpty()) {
             throw new IllegalArgumentException("No items selected for the order");

@@ -47,4 +47,21 @@ public class OwnerOrderService {
         return orders;
     }
 
+    public void markOrderAsCompleted(String orderId){
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if(order != null){
+            order.setStatus("Completed");
+            orderRepository.save(order);
+        }
+    }
+
+    public List<Order> getCompletedOrdersForOwner(Long ownerId){
+        Owner owner = ownerRepository.findById(ownerId).orElse(null);
+        if(owner != null){
+            List<Shop> shops = owner.getShops();
+            return orderRepository.findByShopInAndStatus(shops, "Completed");
+        }
+        return Collections.emptyList();
+    }
+
 }

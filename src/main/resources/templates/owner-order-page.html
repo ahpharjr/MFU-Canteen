@@ -64,17 +64,20 @@
                     <div class="complete-order-button">Complete</div>
                 </div>
             </div>
-            <h2>Total Orders: <span th:text="${orders.size()}">0</span></h2>
-            <div class="order-box">
+            <h2>Total Orders: <span th:text="${orders.size()}">0</span></h2>  
+            <div  class="msg-display" th:if="${#lists.isEmpty(orders)}">
+                <span>No orders yet!</span>
+            </div>          
+            <div class="order-box" th:unless="${#lists.isEmpty(orders)}">
                 <div th:each="order : ${orders}" class="order-panel">
                     <div class="order-header">
                         <div>
-                            <span th:text="'Order ID: #' + ${order.orderId}">Order ID</span> /
+                            <span id="orderIdField" th:text="'Order ID: #' + ${order.orderId}">Order ID</span> /
                             <span th:text="${order.user.username}">Customer</span>
                         </div>
-                        <div class="complete-button">
+                        <div class="complete-button" th:data-order-id="${order.orderId}" onclick="completeOrder(this)">
                             <img src="/icons/singlegroup.png" alt="complete icon">
-                        </div>
+                        </div>                                           
                         <span class="date-time" th:text="${order.formattedOrderDate}">Order Date and Time</span>
                     </div>
                     <div class="order-items">
@@ -99,13 +102,45 @@
                 </div>
             </div>
         </div>
-        
+
+        <input type="hidden" id="userIdField" th:value="${ownerId}">
         <script>
             function toggleProfileCard() {
                 const profileCard = document.querySelector('.profile-card');
                 profileCard.style.display = profileCard.style.display === 'none' ? 'block' : 'none';
             }
-    
+            
+            function completeOrder(button) {
+                // Get orderId from the data attribute of the clicked button
+                const orderId = button.getAttribute("data-order-id");
+                
+                // Use ownerId from the hidden input field
+                const ownerId = document.getElementById("userIdField").value;
+
+                console.log('Owner ID: ' + ownerId);
+                console.log('Order ID: ' + orderId);
+
+                // Call your API to complete the order
+                fetch(`/owner/${ownerId}/complete-order/${orderId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (response.ok) {
+                        const orderPanel = button.closest('.order-panel');
+                        orderPanel.remove(); // Remove the order from the view
+                    } else {
+                        alert("Failed to complete the order. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error completing the order:", error);
+                    alert("An error occurred. Please try again.");
+                });
+            }
+
         </script>
     </body>
 </html>

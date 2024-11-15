@@ -16,4 +16,5 @@ public interface OrderRepository extends JpaRepository<Order, String>{
 
     List<Order> findByShop(Shop shop);
     List<Order> findByShopIn(List<Shop> shops);
+    List<Order> findByShopInAndStatus(List<Shop> shops, String status);
 }
