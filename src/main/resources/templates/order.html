@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/order.css">
     <link rel="stylesheet" href="/styles/header.css">
     <link rel="stylesheet" href="/styles/nav.css">
+    <link rel="stylesheet" href="/styles/order-container-u.css">
     <title>Orders</title>
 </head>
 <body>
@@ -57,47 +57,50 @@
             <div class="nav-icon1"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
         </div>
     </div>
-    <div class="order-body">
-        <h1>Your Orders</h1>
-
+    <div class="order-body">  
         <div th:if="${orders.isEmpty()}">
             <p>You have no orders yet.</p>
         </div>
-
-        <div th:each="order : ${orders}" class="order-container">
-            <div class="head-order">
-                <div>
-                    <span class="order-date">Order Placed:</span>
-                    <span th:text="${order.formattedOrderDate}"></span>
-                </div>
-                <div class="total-price-div">
-                    <span class="total-price">Total:</span>
-                    <span th:text="${'B ' + order.totalPrice}"></span>
-                </div>
-                <div>
-                    <span class="order-id">Order ID:</span>
-                    <span th:text="${order.orderId}"></span>
-                </div>
-            </div>
-
-            <div class="body-order">
-                <div th:each="orderItem : ${order.orderItems}" class="order-item">
-                    <div class="order-item-img">
-                        <img th:src="${orderItem.item.imageUrl}" alt="Item Image">
+    
+        <div class="div-order-container" th:unless="${orders.isEmpty()}">
+            <h2>Total Orders: <span th:text="${orders.size()}">0</span></h2>
+            <div class="order-box">
+                <div th:each="order : ${orders}" class="order-panel">
+                    <div class="order-header">
+                        <div>
+                            <span th:text="'Order ID: #' + ${order.orderId}">Order ID</span> /
+                            <span th:text="'Shop : ' + ${order.shop.shopNum}">Shop Number</span>/
+                            <!-- <span th:text="${'Total: B' + order.totalPrice}"><strong>Total pirce</strong></span> -->
+                            <span>Total : <strong th:text="${#numbers.formatDecimal(order.totalPrice, 2, 2)}">Total pirce</strong></span> 
+                        </div>
+                        <div class="order-status">
+                            <span class="status-text" th:text="${order.status}+'.....'">Status</span>
+                        </div>
+                        <span class="date-time" th:text="${order.formattedOrderDate}">Order Date and Time</span>
                     </div>
-                    <div class="order-item-info">
-                        <span class="item-name" th:text="${orderItem.item.name}">Item Name</span>
-                        <span th:text="'Quantity: ' + ${orderItem.quantity}">Quantity</span>
-                        <span class="order-time" th:text="'Order Time: '+${order.formattedOrderTime}">Time</span>
-                    </div>
-                    <div class="status">
-                        <span class="status-text" th:text="${order.status}">Status</span>
+                    <div class="order-items">
+                        <div th:each="orderItem : ${order.orderItems}" class="order-item">
+                            <div class="order-item-img">
+                                <img class="item-pic" th:src="${orderItem.item.imageUrl}" alt="Item Image">
+                            </div>
+                            <div class="middle-sec">
+                                <div class="info-div">
+                                    <span><strong th:text="${orderItem.item.name}">Item Name</strong></span>
+                                </div>
+                                <div class="info-div1">
+                                    <div class="price" th:text="'Price: ' + ${#numbers.formatDecimal(orderItem.item.price, 2,2)}">Price</div>
+                                </div>
+                            </div>
+                            <div class="right-sec">
+                                <span class="quantity">Quantity: <strong th:text="${orderItem.quantity}">0</strong></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <script>
         // Retrieve the selected canteen name from localStorage
         const canteenName = localStorage.getItem("selectedCanteenName");

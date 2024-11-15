@@ -68,8 +68,13 @@
             <div class="order-box">
                 <div th:each="order : ${orders}" class="order-panel">
                     <div class="order-header">
-                        <span th:text="'Order ID: #' + ${order.orderId}">Order ID</span> /
-                        <span th:text="${order.user.username}">Customer</span>
+                        <div>
+                            <span th:text="'Order ID: #' + ${order.orderId}">Order ID</span> /
+                            <span th:text="${order.user.username}">Customer</span>
+                        </div>
+                        <div class="complete-button">
+                            <img src="/icons/singlegroup.png" alt="complete icon">
+                        </div>
                         <span class="date-time" th:text="${order.formattedOrderDate}">Order Date and Time</span>
                     </div>
                     <div class="order-items">

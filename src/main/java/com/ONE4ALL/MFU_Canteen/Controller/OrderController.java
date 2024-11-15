@@ -35,7 +35,7 @@ public class OrderController {
             List <Order> orders = orderRepository.findByUserOrderByOrderDateDesc(user);
 
         // Format order dates and times
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy, hh:mm a");
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             orders.forEach(order -> {
                 order.setFormattedOrderDate(order.getOrderDate().format(dateFormatter));

@@ -1,6 +1,7 @@
 package com.ONE4ALL.MFU_Canteen.Service;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,18 @@ public class OwnerOrderService {
     @Autowired
     private OwnerRepository ownerRepository;
 
+
     public List<Order> getOrdersForOwner(Long ownerId) {
         Owner owner = ownerRepository.findById(ownerId).orElse(null);
         if (owner != null) {
             List<Shop> shops = owner.getShops();
-            return orderRepository.findByShopIn(shops); // Get orders for all owner's shops
+            List<Order> orders = orderRepository.findByShopIn(shops);
+
+            // Sort orders by orderDate in descending order
+            // orders.sort(Comparator.comparing(Order::getOrderDate).reversed());
+            orders.sort(Comparator.comparing(Order::getOrderDate));
+            
+            return orders;
         }
         return Collections.emptyList();
     }
