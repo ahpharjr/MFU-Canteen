@@ -11,4 +11,5 @@ import com.ONE4ALL.MFU_Canteen.Entity.User;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, String>{
     List<Order> findByUser(User user);
+    List<Order> findByUserOrderByOrderDateDesc(User user);
 }

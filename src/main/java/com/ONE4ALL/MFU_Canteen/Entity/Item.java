@@ -29,8 +29,6 @@ public class Item {
     private String category;
     private String description;
 
-    // private int quantity;
-
     @ManyToOne
     @JoinColumn(name = "shopId", nullable = false)
     @JsonIgnore

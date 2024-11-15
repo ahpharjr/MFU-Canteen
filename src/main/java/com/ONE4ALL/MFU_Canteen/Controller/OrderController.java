@@ -32,7 +32,7 @@ public class OrderController {
         model.addAttribute("userId", userId);
         User user = userRepository.findById(userId).orElse(null);
         if(user != null){
-            List <Order> orders = orderRepository.findByUser(user);
+            List <Order> orders = orderRepository.findByUserOrderByOrderDateDesc(user);
 
         // Format order dates and times
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");

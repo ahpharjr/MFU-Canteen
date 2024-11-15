@@ -63,7 +63,9 @@
             <div class="nav-icon1"><img  src="/icons/icons8-heart-50.png" alt="home button"></div>
         </div>
         <div class="nav-button">
-            <div class="nav-icon"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+            <a th:href="@{'/user/'+ ${userId} + '/orders'}">
+                <img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+            </a><div class="nav-icon">
             <div class="nav-icon1"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
         </div>
     </div>
