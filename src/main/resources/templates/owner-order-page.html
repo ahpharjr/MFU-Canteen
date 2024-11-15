@@ -28,7 +28,7 @@
                     <span class="tooltip">Menu</span>
                 </div>
                 <div class="order-icon">
-                    <span class="order-qty">9</span>
+                    <span class="order-qty" th:text="${orders.size()}">0</span>
                     <img src="/icons/notifications.svg" alt="order">
                     <span class="tooltip">Order</span>
                 </div>
@@ -61,37 +61,40 @@
                 <div class="order-button-div">
                     <div class="get-order-button">Get Order</div>
                     <div class="seperate-b">|</div>
-                    <div class="complete-order-button">Complete </div>
+                    <div class="complete-order-button">Complete</div>
                 </div>
             </div>
-            <h2>Total Order: 99</h2>
+            <h2>Total Orders: <span th:text="${orders.size()}">0</span></h2>
             <div class="order-box">
-                <div class="order-panel">
-                    <div class="left-section">
-                        <img class="item-pic" src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt="Item Picture">
+                <div th:each="order : ${orders}" class="order-panel">
+                    <div class="order-header">
+                        <span th:text="'Order ID: #' + ${order.orderId}">Order ID</span> /
+                        <span th:text="${order.user.username}">Customer</span>
+                        <span class="date-time" th:text="${order.formattedOrderDate}">Order Date and Time</span>
                     </div>
-                    <div class="middle-section">
-                        <div class="info-div"><span><strong>Fried Chicken</strong></span><span>#12332eeofoefjvn1 / Yoon Yoon</span></div>
-                        <div class="info-div1"><span class="quantity">Quantity: <strong>05</strong></span><span class="date-time">11/11/2024 01:00 PM</span></div>
+                    <div class="order-items">
+                        <div th:each="orderItem : ${order.orderItems}" class="order-item">
+                            <div class="left-section">
+                                <img class="item-pic" th:src="${orderItem.item.imageUrl}" alt="Item Picture">
+                            </div>
+                            <div class="middle-section">
+                                <div class="info-div">
+                                    <span><strong th:text="${orderItem.item.name}">Item Name</strong></span>
+                                </div>
+                                <div class="info-div1">
+                                    <div class="price" th:text="'Price: ' + ${orderItem.item.price}">Price</div>
+                                </div>
+                            </div>
+                            <div class="right-section">
+                                <span class="quantity">Quantity: <strong th:text="${orderItem.quantity}">0</strong></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="right-section">
-                        <div class="check-button"><img src="/icons/icons8-check-50 (1).png" alt="check icon"></div>
-                    </div>
-                </div>
-                <div class="order-panel">
-                    <div class="left-section">
-                        <img class="item-pic" src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt="Item Picture">
-                    </div>
-                    <div class="middle-section">
-                        <div class="info-div"><span><strong>Fried Chicken</strong></span><span>#12332eeofoefjvn1 / Yoon Yoon</span></div>
-                        <div class="info-div1"><span class="quantity">Quantity: <strong>05</strong></span><span class="date-time">11/11/2024 01:00 PM</span></div>
-                    </div>
-                    <div class="right-section">
-                        <div class="check-button"><img src="/icons/icons8-check-50 (1).png" alt="check icon"></div>
-                    </div>
+                    <!-- <hr/> -->
                 </div>
             </div>
         </div>
+        
         <script>
             function toggleProfileCard() {
                 const profileCard = document.querySelector('.profile-card');

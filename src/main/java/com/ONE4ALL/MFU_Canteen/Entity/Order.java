@@ -25,6 +25,10 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems= new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name= "shop_id", nullable = false)
+    private Shop shop;
+
     @Transient
     private String formattedOrderDate;
 
@@ -93,6 +97,14 @@ public class Order {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
  
 }
