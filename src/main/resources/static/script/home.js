@@ -97,7 +97,10 @@ function searchItems() {
 
 // Display recommended dishes in alternating containers for layout balance
 function displayRecommendedDishes(items) {
-    const [container1, container2] = [document.getElementById("recommendedFoodContainer1"), document.getElementById("recommendedFoodContainer2")];
+    const [container1, container2] = [
+        document.getElementById("recommendedFoodContainer1"),
+        document.getElementById("recommendedFoodContainer2"),
+    ];
     container1.innerHTML = container2.innerHTML = ""; // Clear previous items
 
     if (items.length === 0) {
@@ -107,7 +110,20 @@ function displayRecommendedDishes(items) {
 
     items.forEach((item, index) => {
         const itemBox = `
-            <div class="recommended-food-box" onclick="viewItem(${item.itemId})">
+            <div class="recommended-food-box">
+                <div class="add-to-favorite">
+                    <div class="heart-shape">
+                        <img src="/icons/icons8-heart-50.png" alt="Add to Favorite">
+                        <div class="color-heart">
+                            <img src="/icons/icons8-heart-50 (1).png" alt="Favorite Icon">
+                        </div>
+                        <span class="favorite-tooltip">Add to Favorite</span>
+                    </div>
+                </div>
+                <div class="add-button" data-item-id="${item.itemId}" onclick="addToCart(this, event)">
+                    +
+                    <span class="cart-tooltip">Add to Cart</span>
+                </div>
                 <div class="item-pic"><img src="${item.imageUrl}" alt="${item.name}"></div>
                 <div class="item-title">
                     <div class="item-name">
@@ -120,8 +136,7 @@ function displayRecommendedDishes(items) {
                     </div>
                 </div>
             </div>`;
-        
-        // Alternate items between two containers for balanced layout
+
         if (index % 2 === 0) {
             container1.innerHTML += itemBox;
         } else {
@@ -129,6 +144,7 @@ function displayRecommendedDishes(items) {
         }
     });
 }
+
 
 // Navigate to item details page for the selected item
 function viewItem(itemId) {
@@ -143,6 +159,50 @@ document.getElementById("canteenSelect").addEventListener("change", function() {
     const canteenName = this.options[this.selectedIndex].text;
     localStorage.setItem("selectedCanteenName", canteenName);
 });
+
+function addToCart(button, event) {
+    if (event) event.preventDefault(); // Prevent default action
+
+    const itemId = button.getAttribute('data-item-id');
+    const userId = document.getElementById('userIdField').value;
+
+    fetch(`/user/${userId}/cart/ajax-add?itemId=${itemId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to add item to cart.');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const cartQtyElement = document.querySelector('.cart-total-qty');
+            if (cartQtyElement) {
+                cartQtyElement.textContent = data.totalQuantity;
+            }
+            showNotification('Item added to cart successfully!');
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            showNotification('Failed to add item to cart.', 'error');
+        });
+}
+
+// Show notification
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
 
 
 

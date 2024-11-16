@@ -5,7 +5,9 @@ body{
 .order-body{
     display: flex;
     width: 100%;
-    margin: 62px 30px;
+    margin: 62px 0 ;
+    align-items: center;
+    justify-content: center;
 }
 
 .div-order-container{
@@ -14,10 +16,10 @@ body{
     background-color: aliceblue;
     /* background: linear-gradient(135deg, #4bacaf, #2a655b); */
     max-width: 1500px;
-    width: 90%;
+    width: 91%;
     border-radius: 10px;
     padding: 20px;
-    margin: 10px 20px 50px 20px;
+    margin: 10px 20px 50px 25px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
     border: 1px solid white;
 }
