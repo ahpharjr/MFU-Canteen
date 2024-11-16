@@ -1,6 +1,8 @@
 package com.ONE4ALL.MFU_Canteen.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ONE4ALL.MFU_Canteen.Entity.Cart;
@@ -146,62 +149,96 @@ public class CartController {
     }
 
     @PostMapping("/cart/checkout")
-public String checkout(@PathVariable Long userId, 
-                       @RequestParam("selectedItemIds") List<Long> selectedItemIds,
-                       RedirectAttributes redirectAttributes) {
+    public String checkout(@PathVariable Long userId, 
+                        @RequestParam("selectedItemIds") List<Long> selectedItemIds,
+                        RedirectAttributes redirectAttributes) {
 
-    User user = userRepository.findById(userId).orElse(null);
-    if (user != null && user.getCart() != null) {
-        Cart cart = user.getCart();
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null && user.getCart() != null) {
+            Cart cart = user.getCart();
 
-        // Filter cart items to include only selected items
-        List<CartItem> selectedCartItems = cart.getCartItems().stream()
-            .filter(cartItem -> selectedItemIds.contains(cartItem.getId()))
-            .collect(Collectors.toList());
+            // Filter cart items to include only selected items
+            List<CartItem> selectedCartItems = cart.getCartItems().stream()
+                .filter(cartItem -> selectedItemIds.contains(cartItem.getId()))
+                .collect(Collectors.toList());
 
-        // Create orders for selected items
-        List<Order> orders = orderService.createOrdersFromSelectedCartItems(cart, selectedCartItems);
+            // Create orders for selected items
+            List<Order> orders = orderService.createOrdersFromSelectedCartItems(cart, selectedCartItems);
 
-        // Remove selected items from the cart
-        selectedCartItems.forEach(cartItem -> cart.getCartItems().remove(cartItem));
-        cartRepository.save(cart);
+            // Remove selected items from the cart
+            selectedCartItems.forEach(cartItem -> cart.getCartItems().remove(cartItem));
+            cartRepository.save(cart);
 
-        // Add a success message for the user
-        redirectAttributes.addFlashAttribute("message", "Orders placed successfully. Order IDs: " +
-                orders.stream().map(Order::getOrderId).collect(Collectors.joining(", ")));
+            // Add a success message for the user
+            redirectAttributes.addFlashAttribute("message", "Orders placed successfully. Order IDs: " +
+                    orders.stream().map(Order::getOrderId).collect(Collectors.joining(", ")));
+        }
+
+        return "redirect:/user/" + userId + "/orders";
     }
 
-    return "redirect:/user/" + userId + "/orders";
-}
+    @PostMapping("/cart/ajax-add")
+    @ResponseBody
+    public Map<String, Integer> addItemToCartAjax(@PathVariable Long userId, @RequestParam Long itemId) {
+        User user = userRepository.findById(userId).orElse(null);
+        int totalQuantity = 0;
+    
+        if (user != null) {
+            Cart cart = user.getCart();
+            if (cart == null) {
+                cart = new Cart();
+                cart.setUser(user);
+                user.setCart(cart);
+                cartRepository.save(cart);
+            }
+    
+            Item item = itemService.getItemById(itemId);
+            if (item != null) {
+                CartItem existingCartItem = cart.getCartItems().stream()
+                    .filter(cartItem -> cartItem.getItem().getItemId().equals(itemId))
+                    .findFirst()
+                    .orElse(null);
+    
+                if (existingCartItem != null) {
+                    existingCartItem.setQuantity(existingCartItem.getQuantity() + 1);
+                } else {
+                    CartItem newCartItem = new CartItem();
+                    newCartItem.setCart(cart);
+                    newCartItem.setItem(item);
+                    newCartItem.setQuantity(1);
+                    cart.getCartItems().add(newCartItem);
+                }
+                cartRepository.save(cart);
+    
+                // Calculate the updated total quantity
+                totalQuantity = cart.getCartItems().stream()
+                    .mapToInt(CartItem::getQuantity)
+                    .sum();
+            }
+        }
+    
+        Map<String, Integer> response = new HashMap<>();
+        response.put("totalQuantity", totalQuantity); // Send updated totalQuantity
+        return response;
+    }
+    
 
+    @GetMapping("/cart/total-quantity")
+    @ResponseBody
+    public Map<String, Integer> getTotalCartQuantity(@PathVariable Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        int totalQuantity = 0;
 
-    // @PostMapping("/cart/checkout")
-    // public String checkout(@PathVariable Long userId, 
-    //                     @RequestParam("selectedItemIds") List<Long> selectedItemIds,
-    //                     RedirectAttributes redirectAttributes) {
+        if (user != null && user.getCart() != null) {
+            totalQuantity = user.getCart().getCartItems().stream()
+                .mapToInt(CartItem::getQuantity)
+                .sum();
+        }
 
-    //     User user = userRepository.findById(userId).orElse(null);
-    //     if (user != null && user.getCart() != null) {
-    //         Cart cart = user.getCart();
-
-    //         // Filter cart items to include only selected items
-    //         List<CartItem> selectedCartItems = cart.getCartItems().stream()
-    //             .filter(cartItem -> selectedItemIds.contains(cartItem.getId()))
-    //             .collect(Collectors.toList());
-
-    //         // Create an order only for selected items
-    //         Order order = orderService.createOrderFromSelectedCartItems(cart, selectedCartItems);
-
-    //         // Remove only selected items from the cart after checkout
-    //         selectedCartItems.forEach(cartItem -> cart.getCartItems().remove(cartItem));
-    //         cartRepository.save(cart);
-
-    //         redirectAttributes.addFlashAttribute("message", "Order placed successfully with ID: " + order.getOrderId());
-    //     }
-
-    //     return "redirect:/user/" + userId + "/orders";
-    // }
-
+        Map<String, Integer> response = new HashMap<>();
+        response.put("totalQuantity", totalQuantity);
+        return response;
+    }
 
 }
 
