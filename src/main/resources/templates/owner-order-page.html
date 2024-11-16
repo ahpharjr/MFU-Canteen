@@ -113,26 +113,38 @@
             }
             
             function completeOrder(button) {
-                // Get orderId from the data attribute of the clicked button
-                const orderId = button.getAttribute("data-order-id");
-                
-                // Use ownerId from the hidden input field
-                const ownerId = document.getElementById("userIdField").value;
+            // Get orderId from the data attribute of the clicked button
+            const orderId = button.getAttribute("data-order-id");
 
-                console.log('Owner ID: ' + ownerId);
-                console.log('Order ID: ' + orderId);
+            // Use ownerId from the hidden input field
+            const ownerId = document.getElementById("userIdField").value;
 
-                // Call your API to complete the order
-                fetch(`/owner/${ownerId}/complete-order/${orderId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then(response => {
-                    if (response.ok) {
+            // Call your API to complete the order
+            fetch(`/owner/${ownerId}/complete-order/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove the order from the view
                         const orderPanel = button.closest('.order-panel');
-                        orderPanel.remove(); // Remove the order from the view
+                        if (orderPanel) {
+                            orderPanel.remove();
+                        }
+
+                        // Update the total orders count
+                        const totalOrdersElement = document.querySelector('h2 span');
+                        const headerOrdersElement = document.querySelector('.order-qty');
+
+                        if (totalOrdersElement) {
+                            totalOrdersElement.textContent = data.remainingOrders; // Updated orders count
+                        }
+                        if (headerOrdersElement) {
+                            headerOrdersElement.textContent = data.remainingOrders; // Updated header count
+                        }
                     } else {
                         alert("Failed to complete the order. Please try again.");
                     }
@@ -141,7 +153,7 @@
                     console.error("Error completing the order:", error);
                     alert("An error occurred. Please try again.");
                 });
-            }
+        }
 
         </script>
     </body>

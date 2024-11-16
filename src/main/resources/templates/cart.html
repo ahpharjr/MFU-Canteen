@@ -144,11 +144,17 @@
     </div>
     <input type="hidden" id="userIdField" th:value="${userId}" />
     <script>
-        // Update cart total quantity in the header
         function updateCartTotal(totalQuantity) {
+            // Update the header's cart quantity
             const cartQtyElement = document.querySelector('.cart-total-qty');
             if (cartQtyElement) {
                 cartQtyElement.textContent = totalQuantity;
+            }
+
+            // Update the "Cart Item" display
+            const cartItemCountElement = document.querySelector('.cart-quantity span');
+            if (cartItemCountElement) {
+                cartItemCountElement.textContent = totalQuantity;
             }
         }
     
@@ -214,6 +220,7 @@
             })
             .catch(error => console.error('Error:', error));
         }
+
     </script>
     
     <script src="/script/cart.js"></script>

@@ -1,6 +1,8 @@
 package com.ONE4ALL.MFU_Canteen.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,14 +63,27 @@ public class OwnerOrderController {
 
     @PostMapping("/{ownerId}/complete-order/{orderId}")
     @ResponseBody
-    public ResponseEntity<String> completeOrder(@PathVariable Long ownerId, @PathVariable String orderId) {
+    public ResponseEntity<Map<String, Object>> completeOrder(@PathVariable Long ownerId, @PathVariable String orderId) {
+        Map<String, Object> response = new HashMap<>();
         try {
+            // Mark the order as completed
             ownerOrderService.markOrderAsCompleted(orderId);
-            return ResponseEntity.ok("Order marked as completed");
+
+            // Get the updated count of remaining orders
+            List<Order> remainingOrders = ownerOrderService.getOrdersForOwner(ownerId)
+                                                        .stream()
+                                                        .filter(order -> "Preparing".equals(order.getStatus()))
+                                                        .collect(Collectors.toList());
+
+            response.put("success", true);
+            response.put("remainingOrders", remainingOrders.size());
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to complete the order");
+            response.put("success", false);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
 
 
     @GetMapping("/{ownerId}/order-history")
