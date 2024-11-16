@@ -54,6 +54,27 @@
             </div>
         </div>
     </div>
+        <!-- Navigation Bar -->
+        <div class="div-nav-bar">
+            <div class="nav-button">
+                <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
+                <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
+            </div>
+            <div class="nav-button">
+                <div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div>
+                <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon.png" alt="home button"></div>
+            </div>
+            <div class="nav-button">
+                <div class="nav-icon"><img  src="/icons/icons8-heart-50 (1).png" alt="home button"></div>
+                <div class="nav-icon1"><img  src="/icons/icons8-heart-50.png" alt="home button"></div>
+            </div>
+            <div class="nav-button">
+                <a th:href="@{'/user/'+ ${userId} + '/orders'}">
+                    <img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+                </a><div class="nav-icon">
+                <!-- <div class="nav-icon1"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div> -->
+            </div>
+        </div>
     <div class="item-container">
         <div class="back-arrow">
             <a href="javascript:history.back()">

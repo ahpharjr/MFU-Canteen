@@ -114,36 +114,97 @@ public class CartController {
         return "redirect:/user/" + userId + "/cart";
     }
 
-    @PostMapping("/cart/{cartItemId}/add")
-    public String increaseCartItemQuantity(@PathVariable Long userId, @PathVariable Long cartItemId) {
-        CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
-        if (cartItem != null) {
-            cartItem.setQuantity(cartItem.getQuantity() + 1);
-            cartItemRepository.save(cartItem);
+    // @PostMapping("/cart/{cartItemId}/add")
+    // public String increaseCartItemQuantity(@PathVariable Long userId, @PathVariable Long cartItemId) {
+    //     CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+    //     if (cartItem != null) {
+    //         cartItem.setQuantity(cartItem.getQuantity() + 1);
+    //         cartItemRepository.save(cartItem);
+    //     }
+    //     return "redirect:/user/" + userId + "/cart";
+    // }
+
+    // @PostMapping("/cart/{cartItemId}/deduct")
+    // public String decreaseCartItemQuantity(@PathVariable Long userId, @PathVariable Long cartItemId) {
+    //     CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+    //     if (cartItem != null && cartItem.getQuantity() > 1) {
+    //         cartItem.setQuantity(cartItem.getQuantity() - 1);
+    //         cartItemRepository.save(cartItem);
+    //     } else if (cartItem != null && cartItem.getQuantity() == 1) {
+    //         cartItemRepository.delete(cartItem); // Remove item if quantity reaches zero
+    //     }
+    //     return "redirect:/user/" + userId + "/cart";
+    // }
+
+    // @PostMapping("/cart/{cartItemId}/delete")
+    // public String deleteCartItem(@PathVariable Long userId, @PathVariable Long cartItemId, RedirectAttributes redirectAttributes) {
+    //     // Call the service to delete the cart item
+    //     CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+    //     cartItemRepository.delete(cartItem);
+    //     redirectAttributes.addFlashAttribute("message", "Item removed from cart.");
+    //     return "redirect:/user/" + userId + "/cart"; // Redirect back to cart
+    // }
+
+    @PostMapping("/cart/ajax-increase")
+    @ResponseBody
+    public Map<String, Object> increaseCartItemQuantityAjax(@PathVariable Long userId, @RequestParam Long cartItemId) {
+        Map<String, Object> response = new HashMap<>();
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+            if (cartItem != null) {
+                cartItem.setQuantity(cartItem.getQuantity() + 1);
+                cartItemRepository.save(cartItem);
+                response.put("quantity", cartItem.getQuantity());
+            }
+            int totalQuantity = user.getCart().getCartItems().stream().mapToInt(CartItem::getQuantity).sum();
+            response.put("totalQuantity", totalQuantity);
         }
-        return "redirect:/user/" + userId + "/cart";
+        return response;
     }
 
-    @PostMapping("/cart/{cartItemId}/deduct")
-    public String decreaseCartItemQuantity(@PathVariable Long userId, @PathVariable Long cartItemId) {
-        CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
-        if (cartItem != null && cartItem.getQuantity() > 1) {
-            cartItem.setQuantity(cartItem.getQuantity() - 1);
-            cartItemRepository.save(cartItem);
-        } else if (cartItem != null && cartItem.getQuantity() == 1) {
-            cartItemRepository.delete(cartItem); // Remove item if quantity reaches zero
+    @PostMapping("/cart/ajax-decrease")
+    @ResponseBody
+    public Map<String, Object> decreaseCartItemQuantityAjax(@PathVariable Long userId, @RequestParam Long cartItemId) {
+        Map<String, Object> response = new HashMap<>();
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+            if (cartItem != null) {
+                if (cartItem.getQuantity() > 1) {
+                    cartItem.setQuantity(cartItem.getQuantity() - 1);
+                    cartItemRepository.save(cartItem);
+                    response.put("quantity", cartItem.getQuantity());
+                } else {
+                    cartItemRepository.delete(cartItem);
+                    response.put("quantity", 0); // Item removed
+                }
+            }
+            int totalQuantity = user.getCart().getCartItems().stream().mapToInt(CartItem::getQuantity).sum();
+            response.put("totalQuantity", totalQuantity);
         }
-        return "redirect:/user/" + userId + "/cart";
+        return response;
     }
 
-    @PostMapping("/cart/{cartItemId}/delete")
-    public String deleteCartItem(@PathVariable Long userId, @PathVariable Long cartItemId, RedirectAttributes redirectAttributes) {
-        // Call the service to delete the cart item
-        CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
-        cartItemRepository.delete(cartItem);
-        redirectAttributes.addFlashAttribute("message", "Item removed from cart.");
-        return "redirect:/user/" + userId + "/cart"; // Redirect back to cart
+    @PostMapping("/cart/ajax-delete")
+    @ResponseBody
+    public Map<String, Object> deleteCartItemAjax(@PathVariable Long userId, @RequestParam Long cartItemId) {
+        Map<String, Object> response = new HashMap<>();
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+            if (cartItem != null) {
+                cartItemRepository.delete(cartItem);
+            }
+            int totalQuantity = user.getCart().getCartItems().stream().mapToInt(CartItem::getQuantity).sum();
+            response.put("totalQuantity", totalQuantity);
+        }
+        return response;
     }
+
 
     @PostMapping("/cart/checkout")
     public String checkout(@PathVariable Long userId, 

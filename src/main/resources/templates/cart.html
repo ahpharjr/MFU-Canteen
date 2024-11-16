@@ -50,7 +50,7 @@
             <a th:href="@{'/user/'+ ${userId} + '/orders'}">
                 <img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
             </a><div class="nav-icon">
-            <div class="nav-icon1"><img id="history-icon" src="/icons/history-icon.png" alt="history button"></div>
+            <!-- <div class="nav-icon1"><img id="history-icon" src="/icons/history-icon.png" alt="history button"></div> -->
         </div>
     </div>
     <!-- Empty Cart Message -->
@@ -93,13 +93,14 @@
                     </div>
                     <div class="shop-no" th:text="${cartItem.item.shop.shopNum}"></div>
                     <div class="dish-amount">
-                        <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/deduct'}" method="post">
-                            <button type="submit" id="deduct">-</button>
-                        </form>
-                        <div type="button" id="quantity" th:text="${cartItem.quantity}"></div>
-                        <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/add'}" method="post">
-                            <button type="submit" id="add">+</button>
-                        </form>
+                        <!-- Decrease Button -->
+                        <button type="button" class="decrease-btn" 
+                                th:attr="onclick='decreaseQuantity(' + ${cartItem.id} + ')'" >-</button>
+                        <!-- Quantity Display -->
+                        <div type="button" th:id="'quantity-' + ${cartItem.id}" th:text="${cartItem.quantity}"></div>
+                        <!-- Increase Button -->
+                        <button type="button" class="increase-btn" 
+                                th:attr="onclick='increaseQuantity(' + ${cartItem.id} + ')'" >+</button>
                     </div>
                     <div class="dish-price">
                         <div id="dish-price">
@@ -107,9 +108,10 @@
                             <div class="d-price item-price" th:text="${cartItem.item.price}"></div>
                         </div>
                         <div class="delete-button">
-                            <form th:action="@{'/user/' + ${userId} + '/cart/' + ${cartItem.id} + '/delete'}" method="post" class="delete-form">
-                                <button type="submit"><img src="/icons/icons8-delete-24.png"></button>
-                            </form>
+                            <button type="button" class="delete-btn" 
+                                    th:attr="onclick='deleteItem(' + ${cartItem.id} + ')'" >
+                                <img src="/icons/icons8-delete-24.png">
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -140,104 +142,80 @@
             </div>
         </div>
     </div>
-
+    <input type="hidden" id="userIdField" th:value="${userId}" />
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const priceElements = document.querySelectorAll('.item-price');
-            priceElements.forEach(element => {
-                const price = parseFloat(element.textContent);
-                if (!isNaN(price)) {
-                    element.textContent = price.toFixed(2);
-                }
-            });
-        
-            restoreSelectedItems();
-        
-            document.querySelectorAll('.item-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', () => {
-                    saveSelectedItems();
-                    updateSummary();
-                });
-            });
-        
-            const checkoutButton = document.getElementById('checkout-button');
-            if (checkoutButton) {
-                checkoutButton.addEventListener('click', clearSelectedItemsOnCheckout);
+        // Update cart total quantity in the header
+        function updateCartTotal(totalQuantity) {
+            const cartQtyElement = document.querySelector('.cart-total-qty');
+            if (cartQtyElement) {
+                cartQtyElement.textContent = totalQuantity;
             }
-        });
-        
-        function updateSummary() {
-            let totalQuantity = 0;
-            let totalPrice = 0;
-        
-            document.querySelectorAll('.item-checkbox:checked').forEach(checkbox => {
-                const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
-                const quantity = parseInt(checkbox.getAttribute('data-quantity')) || 0;
-                totalQuantity += quantity;
-                totalPrice += price * quantity;
-            });
-        
-            document.getElementById('summary-quantity').textContent = totalQuantity;
-            document.getElementById('summary-quantity-button').textContent = totalQuantity;
-            document.getElementById('summary-price').textContent = totalPrice.toFixed(2);
         }
-        
-        function saveSelectedItems() {
-            const selectedItems = Array.from(document.querySelectorAll('.item-checkbox:checked'))
-                .map(checkbox => checkbox.getAttribute('data-id'));
-            localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
-        }
-        
-        function restoreSelectedItems() {
-            const selectedItems = JSON.parse(localStorage.getItem('selectedItems') || '[]');
-            document.querySelectorAll('.item-checkbox').forEach(checkbox => {
-                if (selectedItems.includes(checkbox.getAttribute('data-id'))) {
-                    checkbox.checked = true;
-                }
-            });
-            updateSummary();
-        }
-        
-        function clearSelectedItemsOnCheckout() {
-                    localStorage.removeItem('selectedItems');
-        }
-
-        function submitCheckoutForm() {
-            const selectedItems = Array.from(document.querySelectorAll('.item-checkbox:checked'))
-                .map(checkbox => checkbox.getAttribute('data-id'));
-
-            
-            if (selectedItems.length === 0) {
-                alert("Please select items to check out!");
-                return; // Stop further execution if no items are selected
-            }
-
-            const checkoutForm = document.getElementById("checkoutForm");
-
-            // Remove any previous item inputs
-            document.querySelectorAll(".selected-item-id").forEach(input => input.remove());
-
-            // Add hidden inputs for each selected item ID
-            selectedItems.forEach(itemId => {
-                const input = document.createElement("input");
-                input.type = "hidden";
-                input.name = "selectedItemIds";
-                input.value = itemId;
-                input.classList.add("selected-item-id");
-                checkoutForm.appendChild(input);
-            });
-
-            // Submit the form
-            checkoutForm.submit();
-        }
-
-        const canteenName = localStorage.getItem("selectedCanteenName");
     
-        // Display the canteen name in the appropriate location
-        if (canteenName) {
-            document.querySelector(".header .hleft div:nth-child(2)").textContent = canteenName;
+        // Increase item quantity
+        function increaseQuantity(cartItemId) {
+            const userId = document.getElementById('userIdField').value;
+    
+            fetch(`/user/${userId}/cart/ajax-increase?cartItemId=${cartItemId}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.quantity !== undefined) {
+                    document.getElementById(`quantity-${cartItemId}`).textContent = data.quantity;
+                }
+                if (data.totalQuantity !== undefined) {
+                    updateCartTotal(data.totalQuantity);
+                }
+            })
+            .catch(error => console.error('Error:', error));
         }
-
+    
+        // Decrease item quantity
+        function decreaseQuantity(cartItemId) {
+            const userId = document.getElementById('userIdField').value;
+    
+            fetch(`/user/${userId}/cart/ajax-decrease?cartItemId=${cartItemId}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.quantity !== undefined) {
+                    const quantityElement = document.getElementById(`quantity-${cartItemId}`);
+                    if (data.quantity === 0) {
+                        quantityElement.closest('.selected-dish-box').remove();
+                    } else {
+                        quantityElement.textContent = data.quantity;
+                    }
+                }
+                if (data.totalQuantity !== undefined) {
+                    updateCartTotal(data.totalQuantity);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    
+        // Delete item from cart
+        function deleteItem(cartItemId) {
+            const userId = document.getElementById('userIdField').value;
+    
+            fetch(`/user/${userId}/cart/ajax-delete?cartItemId=${cartItemId}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                const itemElement = document.getElementById(`quantity-${cartItemId}`);
+                if (itemElement) {
+                    itemElement.closest('.selected-dish-box').remove();
+                }
+                if (data.totalQuantity !== undefined) {
+                    updateCartTotal(data.totalQuantity);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
     </script>
+    
+    <script src="/script/cart.js"></script>
 </body>
 </html>
