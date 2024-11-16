@@ -17,4 +17,8 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
     List<Item> findItemsByCanteenId(@Param("canteenId") Long canteenId);
 
     List<Item> findByCategoryAndItemIdNot(String category, Long excludeItemId);
+
+    @Query("SELECT i FROM Item i WHERE i.shop.canteen.canteenId = :canteenId AND i.availability = true")
+    List<Item> findAvailableItemsByCanteenId(@Param("canteenId") Long canteenId);
+
 }

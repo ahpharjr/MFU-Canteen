@@ -81,9 +81,10 @@ function generateItemHTML(item, shopId) {
             <img src="${item.imageUrl}" alt="${item.name}" class="menu-image">
             <div class="toggle">
                 <label class="switch">
-                    <input type="checkbox" ${item.available ? 'checked' : ''}>
+                    <input type="checkbox" ${item.availability ? 'checked' : ''} 
+                           onclick="toggleAvailability(${item.itemId}, this, ${shopId})">
                     <span class="slider"></span>
-                    <span class="status">${item.available ? 'ON' : 'OFF'}</span>
+                    <span id="status-${item.itemId}" class="status">${item.availability ? 'ON' : 'OFF'}</span>
                 </label>
             </div>
             <div class="edit-item">
@@ -105,6 +106,34 @@ function generateItemHTML(item, shopId) {
                 </div>
             </div>
         </div>`;
+}
+
+function toggleAvailability(itemId, checkbox, shopId) {
+    const availability = checkbox.checked; // Get the new availability status
+    const statusSpan = document.getElementById(`status-${itemId}`); // Get the status span element
+
+    // Make the API call to update availability
+    fetch(`/owner/shop/${shopId}/toggle-item-availability/${itemId}?availability=${availability}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        if (response.ok) {
+            // Dynamically update the status text
+            statusSpan.textContent = availability ? 'ON' : 'OFF';
+        } else {
+            console.error("Failed to update item availability");
+            // Revert the checkbox if the update fails
+            checkbox.checked = !availability;
+        }
+    })
+    .catch(error => {
+        console.error("Error updating item availability:", error);
+        // Revert the checkbox if the update fails
+        checkbox.checked = !availability;
+    });
 }
 
 

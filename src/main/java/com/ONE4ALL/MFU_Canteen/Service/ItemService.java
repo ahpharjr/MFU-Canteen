@@ -53,4 +53,15 @@ public class ItemService {
         return itemRepository.findByCategoryAndItemIdNot(category, excludeItemId);
     }
 
+    public void updateItemAvailability(Long itemId, boolean availability) {
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Item not found"));
+        item.setAvailability(availability);
+        itemRepository.save(item);
+    }
+
+    public List<Item> getAvailableItemsByCanteenId(Long canteenId) {
+        return itemRepository.findAvailableItemsByCanteenId(canteenId);
+    }
+    
+    
 }

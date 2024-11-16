@@ -200,5 +200,20 @@ public class OwnerHomeController {
             return null;
         }
     }
+
+    @PostMapping("/shop/{shopId}/toggle-item-availability/{itemId}")
+    @ResponseBody
+    public ResponseEntity<String> toggleItemAvailability(@PathVariable Long shopId,
+                                                         @PathVariable Long itemId,
+                                                         @RequestParam boolean availability) {
+        try {
+            itemService.updateItemAvailability(itemId, availability);
+            return ResponseEntity.ok("Item availability updated successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update item availability");
+        }
+    }    
+
 }
 
