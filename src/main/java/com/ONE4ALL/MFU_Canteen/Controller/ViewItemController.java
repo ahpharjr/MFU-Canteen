@@ -31,8 +31,7 @@ public class ViewItemController {
 
     
     @GetMapping("/item/{itemId}")
-    public String viewItem(@PathVariable Long itemId, @PathVariable Long userId, Model model){
-
+    public String viewItem(@PathVariable Long itemId, @PathVariable Long userId, Model model) {
         User user = userRepository.findById(userId).orElse(null);
         
         if (user != null) {
@@ -48,16 +47,18 @@ public class ViewItemController {
             model.addAttribute("cart", cart);
             model.addAttribute("totalQuantity", cart.getTotalQuantity()); // Add totalQuantity to the model
         }
+    
         Item item = itemService.getItemById(itemId);
         model.addAttribute("item", item);
         model.addAttribute("sellerName", item.getShop().getOwner().getName());
         model.addAttribute("userId", userId);
         model.addAttribute("itemId", itemId);
-
-            // Fetch similar items by category
+    
+        // Fetch similar items by category
         List<Item> similarItems = itemService.getItemsByCategory(item.getCategory(), itemId);
         model.addAttribute("similarItems", similarItems);
         
         return "view-item";
     }
+    
 }

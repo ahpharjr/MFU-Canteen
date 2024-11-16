@@ -7,7 +7,25 @@
     <link rel="stylesheet" href="/styles/header.css">
     <link rel="stylesheet" href="/styles/view-item-box.css">
     <link rel="stylesheet" href="/styles/home.css">
+    <style>
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0.9;
+        }
 
+        .notification.error {
+            background-color: #f44336;
+        }
+    </style>
 </head>
 <body>
     <div class="header">
@@ -19,7 +37,6 @@
             <div class="left-section">
                 <div class="custom-circle-text">Find the <br> Food around you</div>
                 <img class="custom-circle" src="/images/Ellipse 1220.png" alt="Custom Circle">
-
             </div>
             <div class="middle-section">
                 <div class="search-icon"><img src="/icons/icons8-search-50 (1).png"></div>
@@ -37,29 +54,8 @@
             </div>
         </div>
     </div>
-    <div class="div-nav-bar">
-        <div class="nav-button">
-            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
-            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
-        </div>
-        <div class="nav-button">
-            <div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div>
-            <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon.png" alt="home button"></div>
-        </div>
-        <div class="nav-button">
-            <div class="nav-icon"><img  src="/icons/icons8-heart-50 (1).png" alt="home button"></div>
-            <div class="nav-icon1"><img  src="/icons/icons8-heart-50.png" alt="home button"></div>
-        </div>
-        <div class="nav-button">
-            <a th:href="@{'/user/'+ ${userId} + '/orders'}">
-                <img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
-            </a><div class="nav-icon">
-            <div class="nav-icon1"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
-        </div>
-    </div>
     <div class="item-container">
         <div class="back-arrow">
-            <!-- <a th:href="@{'/user/'+ ${userId} + '/home'}"><img src="/icons/icons8-back-50.png"></a> -->
             <a href="javascript:history.back()">
                 <img src="/icons/icons8-back-50.png" alt="Back">
             </a>
@@ -81,14 +77,7 @@
             </div>
             <div class="bottom-box">
                 <div class="seller-box">
-                    <!-- <div class="seller">Sold by:  <span class="seller-name" th:text="${item.sellerName}">Mother Su</span></div> -->
                     <div class="seller">Sold by: <span class="seller-name" th:text="${sellerName}">Seller Name</span></div>
-
-                    <div class="quantity">
-                        <div class="not-add">_</div>
-                        <div>0</div>
-                        <div class="add">+</div>
-                    </div>
                 </div>
                 <div class="button-box">
                     <div class="add-to-cart">
@@ -116,10 +105,10 @@
                             <span class="favorite-tooltip">Add to Favorite</span>
                         </div>
                     </div>
-                    <div class="add-button" th:data-item-id="${similarItem.itemId}" onclick="addToCart(this)">
+                    <div class="add-button" th:data-item-id="${similarItem.itemId}" onclick="addToCart(this, event)">
                         +
                         <span class="cart-tooltip">Add to Cart</span>
-                    </div>                    
+                    </div>
                     <div class="item-pic">
                         <img th:src="${similarItem.imageUrl}" alt="Similar Dish Image">
                     </div>
@@ -146,46 +135,49 @@
     <script>
         const userId = document.getElementById("userIdField").value;
 
-            document.getElementById('searchInput').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent the default form submission
-                document.getElementById('searchForm').submit(); // Submit the form
-            }
-        });
-        function addToCart(button) {
-    const itemId = button.getAttribute('data-item-id');
-    const userId = document.getElementById('userIdField').value;
+        // Add to cart functionality
+        function addToCart(button, event) {
+            if (event) event.preventDefault(); // Prevent default action
 
-    console.log('Adding item to cart with ID:', itemId);
+            const itemId = button.getAttribute('data-item-id');
+            const userId = document.getElementById('userIdField').value;
 
-    fetch(`/user/${userId}/cart/ajax-add?itemId=${itemId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json(); // Parse the JSON response
-        } else {
-            throw new Error('Failed to add item to cart.');
+            fetch(`/user/${userId}/cart/ajax-add?itemId=${itemId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add item to cart.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const cartQtyElement = document.querySelector('.cart-total-qty');
+                if (cartQtyElement) {
+                    cartQtyElement.textContent = data.totalQuantity;
+                }
+                showNotification('Item added to cart successfully!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Failed to add item to cart.', 'error');
+            });
         }
-    })
-    .then(data => {
-        // Update the cart quantity dynamically with the correct backend value
-        const cartQtyElement = document.querySelector('.cart-total-qty');
-        cartQtyElement.textContent = data.totalQuantity; // Set it to the actual quantity from the backend
-        console.log('Cart updated. New total quantity:', data.totalQuantity);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again.');
-    });
-}
 
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
 
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
     </script>
-    
-    <script src="/script/home.js"></script>
 </body>
 </html>

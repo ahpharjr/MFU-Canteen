@@ -14,11 +14,10 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class Cart {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cartId;
-    private Integer totalQuantity;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -27,8 +26,8 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
-    public Cart(){
-
+    public Cart() {
+        this.cartItems = new ArrayList<>(); // Explicit initialization
     }
 
     public Long getCartId() {
@@ -55,19 +54,24 @@ public class Cart {
         this.cartItems = cartItems;
     }
 
+    /**
+     * Dynamically calculate total quantity of items in the cart.
+     * @return total quantity
+     */
     public int getTotalQuantity() {
         return cartItems.stream()
-                        .mapToInt(CartItem::getQuantity)
-                        .sum();
-    }
-    
-    public void setTotalQuantity(Integer totalQuantity) {
-        this.totalQuantity = totalQuantity;
+            .mapToInt(CartItem::getQuantity)
+            .sum();
     }
 
-    public double getTotalPrice(){
+    /**
+     * Dynamically calculate the total price of items in the cart.
+     * @return total price
+     */
+    public double getTotalPrice() {
         return cartItems.stream()
-                        .mapToDouble(cartItem -> cartItem.getItem().getPrice()* cartItem.getQuantity())
-                        .sum();
+            .mapToDouble(cartItem -> cartItem.getItem().getPrice() * cartItem.getQuantity())
+            .sum();
     }
+    
 }

@@ -139,12 +139,9 @@ public class CartController {
     @PostMapping("/cart/{cartItemId}/delete")
     public String deleteCartItem(@PathVariable Long userId, @PathVariable Long cartItemId, RedirectAttributes redirectAttributes) {
         // Call the service to delete the cart item
-        System.out.println("CartController.deleteCartItem()=========================================1");
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
         cartItemRepository.delete(cartItem);
-        System.out.println("CartController.deleteCartItem()=========================================2");
         redirectAttributes.addFlashAttribute("message", "Item removed from cart.");
-        System.out.println("CartController.deleteCartItem()=========================================3");
         return "redirect:/user/" + userId + "/cart"; // Redirect back to cart
     }
 
@@ -210,19 +207,19 @@ public class CartController {
                 }
                 cartRepository.save(cart);
     
-                // Calculate the updated total quantity
+                // Calculate the total quantity
                 totalQuantity = cart.getCartItems().stream()
                     .mapToInt(CartItem::getQuantity)
                     .sum();
             }
         }
     
+        // Return updated total quantity
         Map<String, Integer> response = new HashMap<>();
-        response.put("totalQuantity", totalQuantity); // Send updated totalQuantity
+        response.put("totalQuantity", totalQuantity);
         return response;
     }
     
-
     @GetMapping("/cart/total-quantity")
     @ResponseBody
     public Map<String, Integer> getTotalCartQuantity(@PathVariable Long userId) {
