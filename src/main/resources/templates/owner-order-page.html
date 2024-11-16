@@ -59,9 +59,11 @@
         <div class="div-order-container">
             <div class="top-div">
                 <div class="order-button-div">
-                    <div class="get-order-button">Get Order</div>
+                    <div class="get-order-button  deco-uline">Get Order</div>
                     <div class="seperate-b">|</div>
-                    <div class="complete-order-button">Complete</div>
+                    <div class="complete-order-button">
+                        <a th:href="@{'/owner/'+${ownerId}+'/order-history?shopId='+${shopId}}">Complete</a>
+                    </div>
                 </div>
             </div>
             <h2>Total Orders: <span th:text="${orders.size()}">0</span></h2>  

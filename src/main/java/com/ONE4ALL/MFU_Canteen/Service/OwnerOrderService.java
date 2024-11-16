@@ -39,6 +39,27 @@ public class OwnerOrderService {
         return Collections.emptyList();
     }
 
+    public List<Order> getCompletedOrdersForOwner(Long ownerId) {
+        Owner owner = ownerRepository.findById(ownerId).orElse(null);
+        if (owner != null) {
+            List<Shop> shops = owner.getShops();
+            List<Order> completedOrders = orderRepository.findByShopInAndStatus(shops, "Completed");
+            completedOrders.sort(Comparator.comparing(Order::getOrderDate).reversed());
+            return completedOrders;
+        }
+        return Collections.emptyList();
+    }    
+
+    public List<Order> getPreparedOrdersForOwner(Long ownerId) {
+        Owner owner = ownerRepository.findById(ownerId).orElse(null);
+        if (owner != null) {
+            List<Shop> shops = owner.getShops();
+            List<Order> getOrders = orderRepository.findByShopInAndStatus(shops, "Preparing");
+            return getOrders;
+        }
+        return Collections.emptyList();
+    }  
+
     public List<Order> formatOrdersForDisplay(List<Order> orders) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy, hh:mm a");
         orders.forEach(order -> {
@@ -53,15 +74,6 @@ public class OwnerOrderService {
             order.setStatus("Completed");
             orderRepository.save(order);
         }
-    }
-
-    public List<Order> getCompletedOrdersForOwner(Long ownerId){
-        Owner owner = ownerRepository.findById(ownerId).orElse(null);
-        if(owner != null){
-            List<Shop> shops = owner.getShops();
-            return orderRepository.findByShopInAndStatus(shops, "Completed");
-        }
-        return Collections.emptyList();
     }
 
 }

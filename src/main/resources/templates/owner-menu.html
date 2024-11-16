@@ -50,7 +50,7 @@
             <!-- Order Icon with Quantity Indicator -->
              <a id="viewOrderLink" href="#">
                 <div class="order-icon">
-                    <span class="order-qty">9</span>
+                    <span class="order-qty" th:text="${getOrders.size()}">0</span>
                     <img src="/icons/notifications.svg" alt="order">
                     <span class="tooltip">Order</span>
                 </div>

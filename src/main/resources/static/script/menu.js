@@ -1,15 +1,3 @@
-// window.onload = function() {
-//     const shopSelect = document.getElementById("shopSelect");
-//     const savedShopId = localStorage.getItem('selectedShopId');
-
-//     if (shopSelect) {
-//         const shopId = savedShopId || selectFirstShop(); // use saved ID or default to first shop
-//         if (shopId) {
-//             shopSelect.value = shopId; // set the selected option in the dropdown
-//             loadItemsForShop(shopId); // load items for the selected shop
-//         }
-//     }
-// };
 
 window.onload= function(){
     const shopSelect= document.getElementById("shopSelect");

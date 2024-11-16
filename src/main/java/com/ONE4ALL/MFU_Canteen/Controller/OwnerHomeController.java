@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ONE4ALL.MFU_Canteen.Entity.Item;
+import com.ONE4ALL.MFU_Canteen.Entity.Order;
 import com.ONE4ALL.MFU_Canteen.Entity.Owner;
 import com.ONE4ALL.MFU_Canteen.Entity.Shop;
 import com.ONE4ALL.MFU_Canteen.Service.FileUploadService;
 import com.ONE4ALL.MFU_Canteen.Service.ItemService;
+import com.ONE4ALL.MFU_Canteen.Service.OwnerOrderService;
 import com.ONE4ALL.MFU_Canteen.Service.OwnerService;
 import com.ONE4ALL.MFU_Canteen.Service.ShopService;
 
@@ -42,6 +44,9 @@ public class OwnerHomeController {
     @Autowired
     private FileUploadService fileUploadService;
 
+    @Autowired
+    private OwnerOrderService ownerOrderService;
+
     @GetMapping("/{ownerId}/home")
     public String showOwnerDashboard(@PathVariable Long ownerId, Model model) {
         Owner owner = ownerService.getOwnerById(ownerId);
@@ -49,6 +54,10 @@ public class OwnerHomeController {
         model.addAttribute("shops", shops);
         model.addAttribute("owner", owner);
         model.addAttribute("ownerId", ownerId);
+
+        List<Order> getOrders = ownerOrderService.getPreparedOrdersForOwner(ownerId);
+        model.addAttribute("getOrders", getOrders);
+
         return "owner-menu";
     }
 

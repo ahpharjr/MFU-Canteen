@@ -4,23 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/order-container.css">
+    <link rel="stylesheet" href="/styles/header-o.css">
+    <link rel="stylesheet" href="/styles/toggle.css">
+    <link rel="stylesheet" href="/styles/profile-box.css">
     <title>Completed Orders</title>
 </head>
 <body>
-    <h1>Completed Orders</h1>
-    <!-- <div th:if="${completedOrders.isEmpty()}">
-        <p>No completed orders yet.</p>
+    <div class="div-header">
+        <div class="div-left-h">
+            <div class="custom-circle2"><img src="/images/Ellipse 1220.png" alt="custom"></div>
+            <div th:text="${shop.name}" class="shop-name">Shop Name</div>
+            <div class="shop-toggle">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                    <span class="status"></span>
+                </label>
+            </div>
+        </div>
+        <div class="div-right-h">
+            <div class="menu-icon">
+                <a th:href="@{'/owner/'+ ${ownerId} +'/home'}"><img src="/icons/icons8-menu-50.png" alt="menu"></a>
+                <span class="tooltip">Menu</span>
+            </div>
+            <div class="order-icon">
+                <span class="order-qty" th:text="${getOrders.size()}">0</span>
+                <img src="/icons/notifications.svg" alt="order">
+                <span class="tooltip">Order</span>
+            </div>
+            <div class="profile-container">
+                <div class="profile" onclick="toggleProfileCard()">
+                    <img th:src="${owner.profilePicture}" alt="profile">
+                    <span class="tooltip">Profile</span>
+                </div>
+                <div class="profile-card">
+                    <h2>PROFILE</h2>
+                    <a th:href="@{'/owner/' + ${ownerId} + '/edit-profile'}" class="edit-link">
+                        <img src="/icons/icons8-edit-32.png">
+                        <span class="tooltip">Edit</span>
+                    </a>
+                    <div class="profile-header">
+                        <img th:src="${owner.profilePicture}" alt="Profile Picture" class="profile-image">
+                    </div>
+                    <div class="profile-info">
+                        <h3 th:text="${owner.name}">Owner's Name</h3>
+                        <p th:text="${owner.email}">Owner's Email</p>
+                        <button class="signout-button">Sign out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div th:each="order : ${completedOrders}">
-        <div>
-            <span th:text="'Order ID: #' + ${order.orderId}"></span> /
-            <span th:text="${'Total: B ' + order.totalPrice}"></span> /
-            <span th:text="${order.status}"></span>
+    <div class="div-order-container">
+        <div class="top-div">
+            <div class="order-button-div">
+                <div class="get-order-button">
+                    <a th:href="@{'/owner/'+${ownerId}+'/orders?shopId='+${shopId}}">Get Order</a>
+                </div>
+                <div class="seperate-b">|</div>
+                <div class="complete-order-button deco-uline">Complete</div>
+            </div>
         </div>
-        <div th:each="orderItem : ${order.orderItems}">
-            <span th:text="${orderItem.item.name}"></span> /
-            <span th:text="'Quantity: ' + ${orderItem.quantity}"></span>
+        <h2>Order History</h2>
+        <!-- <h2>Total Completed Orders: <span th:text="${completedOrders.size()}">0</span></h2> -->
+        <div class="msg-display" th:if="${#lists.isEmpty(completedOrders)}">
+            <span>No completed orders yet!</span>
         </div>
-    </div> -->
+        <div class="order-box" th:unless="${#lists.isEmpty(completedOrders)}">
+            <div th:each="order : ${completedOrders}" class="order-panel">
+                <div class="order-header">
+                    <div>
+                        <span id="orderIdField" th:text="'Order ID: #' + ${order.orderId}">Order ID</span> /
+                        <span th:text="${order.user.username}">Customer</span>
+                    </div>
+                    <span class="date-time" th:text="${order.formattedOrderDate}">Order Date and Time</span>
+                </div>
+                <div class="order-items">
+                    <div th:each="orderItem : ${order.orderItems}" class="order-item">
+                        <div class="left-section">
+                            <img class="item-pic" th:src="${orderItem.item.imageUrl}" alt="Item Picture">
+                        </div>
+                        <div class="middle-section">
+                            <div class="info-div">
+                                <span><strong th:text="${orderItem.item.name}">Item Name</strong></span>
+                            </div>
+                            <div class="info-div1">
+                                <div class="price" th:text="'Price: ' + ${orderItem.item.price}">Price</div>
+                            </div>
+                        </div>
+                        <div class="right-section">
+                            <span class="quantity">Quantity: <strong th:text="${orderItem.quantity}">0</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="userIdField" th:value="${ownerId}">
+    <script>
+        function toggleProfileCard() {
+            const profileCard = document.querySelector('.profile-card');
+            profileCard.style.display = profileCard.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
 </body>
 </html>

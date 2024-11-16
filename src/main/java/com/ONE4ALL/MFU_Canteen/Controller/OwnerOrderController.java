@@ -44,6 +44,7 @@ public class OwnerOrderController {
         model.addAttribute("ownerId", ownerId);
         model.addAttribute("owner", owner);
         model.addAttribute("shop", shop);
+        model.addAttribute("shopId", shopId);
 
         List<Order> orders = ownerOrderService.getOrdersForOwner(ownerId);
 
@@ -70,13 +71,24 @@ public class OwnerOrderController {
     }
 
 
-    @GetMapping("/{ownerId}/completed-orders")
-    public String showCompletedOrders(@PathVariable Long ownerId, Model model){
-        List<Order> completeOrders = ownerOrderService.getCompletedOrdersForOwner(ownerId);
-        model.addAttribute("completeOrders", completeOrders);
-
+    @GetMapping("/{ownerId}/order-history")
+    public String showCompletedOrders(@PathVariable Long ownerId, Model model, @RequestParam Long shopId) {
+        Shop shop = shopService.getShopById(shopId);
+        Owner owner = ownerService.getOwnerById(ownerId);
+    
+        model.addAttribute("ownerId", ownerId);
+        model.addAttribute("owner", owner);
+        model.addAttribute("shop", shop);
+        model.addAttribute("shopId", shopId);
+    
+        List<Order> getOrders = ownerOrderService.getPreparedOrdersForOwner(ownerId);
+        List<Order> completedOrders = ownerOrderService.getCompletedOrdersForOwner(ownerId);
+        completedOrders = ownerOrderService.formatOrdersForDisplay(completedOrders);
+        model.addAttribute("getOrders", getOrders);
+        model.addAttribute("completedOrders", completedOrders);
+    
         return "completed-orders-history";
-    }
+    }    
     
 
 }
