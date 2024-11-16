@@ -38,13 +38,13 @@ function fetchShops(canteenId) {
         .catch(error => console.error('Error fetching shops:', error));
 }
 
-// Fetch and display recommended dishes for a given canteen
+// Fetch and display available items for a given canteen
 function fetchRecommendedDishes(canteenId) {
     fetch(`/user/canteen/shops/${canteenId}/items`)
         .then(response => response.json())
         .then(data => {
-            allItems = data; // Store fetched items for filtering
-            displayRecommendedDishes(allItems); // Display all items initially
+            allItems = data; // Store fetched available items for filtering
+            displayRecommendedDishes(allItems); // Display available items initially
         })
         .catch(error => console.error('Error fetching recommended dishes:', error));
 }

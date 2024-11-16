@@ -18,6 +18,7 @@ import com.ONE4ALL.MFU_Canteen.Repository.CartRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.ItemRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.ShopRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.UserRepository;
+import com.ONE4ALL.MFU_Canteen.Service.ItemService;
 
 @Controller
 @RequestMapping("/user")
@@ -37,6 +38,9 @@ public class HomeController {
 
     @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
+    private ItemService itemService;
 
     @GetMapping("/{id}/home")
     public String showHomePage(@PathVariable Long id,Model model){
@@ -70,11 +74,18 @@ public class HomeController {
         return shopRepo.findByCanteen_CanteenId(canteenId);
     }
 
+    // @GetMapping("/canteen/shops/{canteenId}/items")
+    // @ResponseBody
+    // public List<Item> getItemsByCanteenId(@PathVariable Long canteenId) {
+    //     return itemRepo.findItemsByCanteenId(canteenId);
+    // }
+
     @GetMapping("/canteen/shops/{canteenId}/items")
     @ResponseBody
-    public List<Item> getItemsByCanteenId(@PathVariable Long canteenId) {
-        return itemRepo.findItemsByCanteenId(canteenId);
+    public List<Item> getAvailableItemsByCanteenId(@PathVariable Long canteenId) {
+        return itemService.getAvailableItemsByCanteenId(canteenId);
     }
+
 
 }
 
