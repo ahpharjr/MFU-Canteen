@@ -73,9 +73,16 @@
                             <!-- <span th:text="${'Total: B' + order.totalPrice}"><strong>Total pirce</strong></span> -->
                             <span>Total : <strong th:text="${#numbers.formatDecimal(order.totalPrice, 2, 2)}">Total pirce</strong></span> 
                         </div>
-                        <div class="order-status">
+                        <!-- <div class="order-status">
                             <span class="status-text" th:text="${order.status}">Status</span>
-                        </div>
+                        </div> -->
+                        <div class="order-status">
+                            <span class="status-text" 
+                                  th:classappend="${order.status == 'Completed'} ? 'status-completed' : ''" 
+                                  th:text="${order.status}">
+                                Status
+                            </span>
+                        </div>                        
                         <span class="date-time" th:text="${order.formattedOrderDate}">Order Date and Time</span>
                     </div>
                     <div class="order-items">

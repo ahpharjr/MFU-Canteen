@@ -124,10 +124,16 @@ body{
 .order-status{
     margin-right: 30px;
     color: rgb(255, 0, 0);
+    font-weight: 500;
     /* background-color: #ff5c5c; */
     /* padding: 10px 20px; */
     
 }
+.status-completed {
+    color: rgb(0, 169, 0);
+    font-weight: 500;
+}
+
 .order-item{
     display: flex;
     height: 80px;
