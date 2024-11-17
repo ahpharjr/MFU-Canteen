@@ -1,17 +1,3 @@
-// document.addEventListener("DOMContentLoaded", () => {
-//     const canteenSelect = document.getElementById("canteenSelect");
-//     const defaultCanteenId = localStorage.getItem("defaultCanteenId");
-
-//     // Automatically select the first canteen if no selection is made
-//     if (defaultCanteenId) {
-//         canteenSelect.value = defaultCanteenId;
-//     } else if (canteenSelect.options.length > 1) {
-//         canteenSelect.selectedIndex = 1; // Set the first canteen as default
-//         localStorage.setItem("defaultCanteenId", canteenSelect.options[1].value);
-//     }
-
-//     fetchShopsAndItems(); // Load shops and items for the selected or default canteen
-// });
 
 document.addEventListener("DOMContentLoaded", () => {
     const canteenSelect = document.getElementById("canteenSelect");
@@ -101,17 +87,6 @@ function displayShops(shops) {
 
 let allItems = []; // Store all items fetched for the current canteen
 
-// Filter and display items by selected category
-// function filterByCategory(category) {
-//     const recommendedText = document.getElementById("recommendedText");
-//     const categoryButtons = document.querySelectorAll(".category-button");
-
-//     // Set active category button and update display
-//     categoryButtons.forEach(button => button.classList.toggle("active", button.textContent === category || (!category && button.textContent === "Recommended Dishes")));
-//     recommendedText.textContent = category || "Recommended Dishes";
-//     displayRecommendedDishes(allItems.filter(item => !category || item.category === category));
-// }
-
 function filterByCategory(category) {
     const recommendedText = document.getElementById("recommendedText");
     const categoryButtons = document.querySelectorAll(".category-button");
@@ -133,14 +108,6 @@ function filterByCategory(category) {
 
     displayRecommendedDishes(filteredItems);
 }
-
-
-// Search and display items by text input
-// function searchItems() {
-//     const searchInput = document.getElementById("searchInput").value.toLowerCase();
-//     const filteredItems = allItems.filter(item => item.name.toLowerCase().includes(searchInput) || item.category.toLowerCase().includes(searchInput));
-//     displayRecommendedDishes(filteredItems);
-// }
 
 function searchItems() {
     const searchInput = document.getElementById("searchInput").value.toLowerCase();
@@ -195,9 +162,11 @@ function displayRecommendedDishes(items) {
                         <span class="favorite-tooltip">Add to Favorite</span>
                     </div>
                 </div>
-                <div class="add-button" data-item-id="${item.itemId}" onclick="addToCart(this, event); event.stopPropagation();">
+                <div class="add-btn">
+                    <div class="add-button" data-item-id="${item.itemId}" onclick="addToCart(this, event); event.stopPropagation();">
                     +
                     <span class="cart-tooltip">Add to Cart</span>
+                </div>
                 </div>
                 <div class="item-pic"><img src="${item.imageUrl}" alt="${item.name}"></div>
                 <div class="item-title">

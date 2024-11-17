@@ -2,7 +2,7 @@
 body{
 padding: 0;
 margin: 0;
-background-color: rgb(233, 233, 233);
+background-color: rgb(234, 234, 234);
 }
 /* ==================For the navigation bar ===============================*/
 .div-nav-bar{
@@ -11,6 +11,7 @@ background-color: rgb(233, 233, 233);
     flex-direction: column;
     border: 1px solid coral;
     top: 72px;
+    left: 2px;
     justify-content: space-evenly;
     align-items: center;
     height: 200px;
@@ -40,16 +41,17 @@ background-color: rgb(233, 233, 233);
 }
 .recommended-food-container{
     background-color: aliceblue;
-border-radius: 10px;
-margin: 20px 80px;
-height: 700px;
+    border-radius: 10px;
+    margin: 20px 80px;
+    height: 700px;
 }
 /* ======================Below is for the .recommended-food in home page================ */
 .recommended-food-container1, .shops-in-canteen{
+    position: relative;
     background-color: aliceblue;
     border-radius: 10px;
-    margin: 7px 50px 20px 50px;
-    height: 700px;
+    margin: 7px 0px 20px 50px;
+    height: 650px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
 }
 .shops-in-canteen{
@@ -68,9 +70,7 @@ height: 700px;
     overflow-x: auto;  /* Enables horizontal scrolling */
     overflow-y: hidden;  /* Prevents vertical scrolling */
     white-space: nowrap;  /* Prevents wrapping of items */
-    padding: 0 20px; 
-    /* -ms-overflow-style: none;  Hides scrollbar in IE and Edge */
-    /* scrollbar-width: none;     Hides scrollbar in Firefox */
+    padding: 0 30px; 
 }
 .food-container2{
     margin-top: 20px;
@@ -112,10 +112,9 @@ height: 700px;
 .recommended-food-box{
     display: flex;
     flex-direction: column;
-    min-width: 260px;
-    max-width: 300px;
-    height: 289px;
-    margin: 0 0 10px 40px;
+    width: 235px;
+    /* height: 289px; */
+    margin: 0 0 20px 12px;
     border-radius: 10px;
     box-shadow: 0px 3px 4px rgba(0, 0,0,0.3);
     position: relative;
@@ -124,21 +123,29 @@ height: 700px;
 .recommended-food-box:hover{
     box-shadow: 5px 8px 10px rgba(0, 0,0,0.5);
 }
-/* Styling for the 'Add to Favorite' button */
-/* Styling for the 'Add to Favorite' button */
+
 .add-to-favorite {
     position: absolute;
-    top: 20px;
-    right: 7px;
+    top: 18px;
+    right: 8px;
+    background-color: aliceblue;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
-.heart-shape {
+.heart-shape{
     position: relative;
 }
 
+
 /* Default heart icon */
-.heart-icon {
-    width: 23px;
+.heart-icon, .color-heart img{
+    width: 18px;
+    padding-top: 4px;
     cursor: pointer;
     transition: transform 0.2s, filter 0.3s ease-in-out;
 }
@@ -146,13 +153,13 @@ height: 700px;
 /* When the item is marked as favorite */
 .heart-icon.favorite {
     /* filter: brightness(1.5) saturate(1.8); */
-    transform: scale(1.2); /* Slightly larger for distinction */
+    transform: scale(1); /* Slightly larger for distinction */
 }
 
 /* Hover effect for the heart icon */
 .heart-icon:hover {
     transform: scale(1.1); /* Enlarges slightly on hover */
-    filter: brightness(1.3);
+    filter: brightness(1.1);
 }
 
 /* Tooltip Styling */
@@ -198,17 +205,26 @@ height: 700px;
 }
 
 /* Add to Cart button styling */
-.add-button {
+.add-btn{
     position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    top: 50px;
+    right: 8px;
+    background-color: aliceblue;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20px;
-    height: 20px;
+}
+.add-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15px;
+    height: 15px;
     border-radius: 3px;
     border: solid 1px rgb(0, 0, 0);
-    top: 50px;
-    right: 8px;
     color: rgb(0, 0, 0);
     transition: 0.3s ease;
 }
@@ -260,22 +276,22 @@ height: 700px;
     opacity: 1;
 }
 
-
 .item-pic{
     display: flex;
-    height: 209px;
+    height: 180px;
+    width: 235px;
     border-radius: 10px;
 }
 .item-pic img{
-    width: 100%;
-    height: 209px;
+    width: 235px;
+    height: 180px;
     object-fit: cover;
     border-radius: 10px;
 }
 .item-title{
     display: flex;
     justify-content: space-between;
-    height: 80px;
+    padding: 15px 8px;
 }
 .item-name{
     display: flex;
@@ -291,9 +307,19 @@ height: 700px;
     justify-content: center;
     align-items: center;
     padding-right: 15px;
-    font-size: 20px;
+    font-size: 15px;
 }
-.thai-baht-icon img{
-    padding-top: 2px;
-    width: 20px;
+.thai-baht-icon{
+    padding-top: 0px;
+    height: 14px;
+}
+
+.custom-circle2{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.custom-circle2 img{
+    width: 80px;
+    border-top-right-radius: 10px;
 }
