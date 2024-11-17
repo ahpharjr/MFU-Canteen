@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 // import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Item {
@@ -39,7 +40,19 @@ public class Item {
     private List<CartItem> cartItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<FavoriteItem> favoritedBy = new ArrayList<>();
+
+    @Transient
+    private boolean isFavorite;
+
+    public boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
 
     public Item(){
 

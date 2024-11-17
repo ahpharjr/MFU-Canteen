@@ -1,6 +1,8 @@
 package com.ONE4ALL.MFU_Canteen.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,12 +36,18 @@ public class FavoriteController {
 
     @PostMapping("/favorite/toggle")
     @ResponseBody
-    public ResponseEntity<String> toggleFavorite(@PathVariable Long userId, @RequestParam Long itemId){
-        try{
+    public ResponseEntity<Map<String, Object>> toggleFavorite(@PathVariable Long userId, @RequestParam Long itemId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
             favoriteService.toggleFavorite(userId, itemId);
-            return ResponseEntity.ok("Favorite toggle successfully.");
-        }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to toggle favorite");
+            boolean isFavorite = favoriteService.isItemFavorite(userId, itemId);
+            response.put("message", isFavorite ? "Item added to favorites" : "Item removed from favorites");
+            response.put("isFavorite", isFavorite); // Add this
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("message", "Failed to update favorite");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
-    }
+    }    
+
 }

@@ -118,15 +118,16 @@
             <th:block th:each="similarItem : ${similarItems}">
                 <div class="recommended-food-box" th:attr="onclick='viewItem(' + ${similarItem.itemId} + ')'">
                     <div class="add-to-favorite">
-                        <div class="heart-shape">
-                            <img src="/icons/icons8-heart-50.png" alt="Add to Favorite">
-                            <div class="color-heart">
-                                <img src="/icons/icons8-heart-50 (1).png" alt="Favorite Icon">
-                            </div>
-                            <span class="favorite-tooltip">Add to Favorite</span>
-                        </div>
+                        <img 
+                        class="heart-icon" 
+                        th:src="${similarItem.isFavorite ? '/icons/icons8-heart-50 (1).png' : '/icons/icons8-heart-50.png'}" 
+                        alt="Favorite Icon"
+                        th:attr="onclick='toggleFavorite(' + ${similarItem.itemId} + ', this, event)'"
+                    />
+                    
+                        <span class="favorite-tooltip">Add to Favorite</span>
                     </div>
-                    <div class="add-button" th:data-item-id="${similarItem.itemId}" onclick="addToCart(this, event)">
+                    <div class="add-button" th:data-item-id="${similarItem.itemId}" onclick="addToCart(this, event); event.stopPropagation()">
                         +
                         <span class="cart-tooltip">Add to Cart</span>
                     </div>
@@ -148,57 +149,12 @@
                         </div>
                     </div>
                 </div>
-            </th:block>            
+            </th:block>
         </div>
     </div>
-    <input type="hidden" id="userIdField" th:value="${userId}">
     
-    <script>
-        const userId = document.getElementById("userIdField").value;
-
-        // Add to cart functionality
-        function addToCart(button, event) {
-            if (event) event.preventDefault(); // Prevent default action
-
-            const itemId = button.getAttribute('data-item-id');
-            const userId = document.getElementById('userIdField').value;
-
-            fetch(`/user/${userId}/cart/ajax-add?itemId=${itemId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to add item to cart.');
-                }
-                return response.json();
-            })
-            .then(data => {
-                const cartQtyElement = document.querySelector('.cart-total-qty');
-                if (cartQtyElement) {
-                    cartQtyElement.textContent = data.totalQuantity;
-                }
-                showNotification('Item added to cart successfully!');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('Failed to add item to cart.', 'error');
-            });
-        }
-
-        // Show notification
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-    </script>
+    <input type="hidden" id="userIdField" th:value="${userId}">
+    <script> const userId = document.getElementById("userIdField").value;</script>
+    <script src="/script/home.js"></script>
 </body>
 </html>

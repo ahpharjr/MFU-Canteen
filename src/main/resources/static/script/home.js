@@ -40,13 +40,21 @@ function fetchShops(canteenId) {
 
 // Fetch and display available items for a given canteen
 function fetchRecommendedDishes(canteenId) {
-    fetch(`/user/canteen/shops/${canteenId}/items`)
-        .then(response => response.json())
-        .then(data => {
-            allItems = data; // Store fetched available items for filtering
-            displayRecommendedDishes(allItems); // Display available items initially
-        })
-        .catch(error => console.error('Error fetching recommended dishes:', error));
+    fetch(`/user/canteen/shops/${canteenId}/items?userId=${userId}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return response.json(); // Convert response to JSON
+    })
+    .then(data => {
+        if (!Array.isArray(data)) {
+            throw new Error("Data is not an array");
+        }
+        displayRecommendedDishes(data);
+    })
+    .catch(error => console.error("Error fetching recommended dishes:", error));
+
 }
 
 // Clear the shop and recommended dish containers
@@ -97,6 +105,13 @@ function searchItems() {
 
 // Display recommended dishes in alternating containers for layout balance
 function displayRecommendedDishes(items) {
+    if (!Array.isArray(items)) {
+        console.error("Invalid data format:", items);
+        document.getElementById("recommendedFoodContainer1").innerHTML =
+            "<div>Error loading items. Please try again later.</div>";
+        return;
+    }
+
     const [container1, container2] = [
         document.getElementById("recommendedFoodContainer1"),
         document.getElementById("recommendedFoodContainer2"),
@@ -109,18 +124,25 @@ function displayRecommendedDishes(items) {
     }
 
     items.forEach((item, index) => {
+        const isFavoriteClass = item.isFavorite ? "favorite" : ""; // Add class if favorite
+        const favoriteIconSrc = item.isFavorite
+            ? "/icons/icons8-heart-50 (1).png" // Colored heart for favorite
+            : "/icons/icons8-heart-50.png"; // Default heart for non-favorite
+    
         const itemBox = `
-            <div class="recommended-food-box" onclick= viewItem(${item.itemId})>
+            <div class="recommended-food-box" onclick = "viewItem(${item.itemId})")>
                 <div class="add-to-favorite">
                     <div class="heart-shape">
-                        <img src="/icons/icons8-heart-50.png" alt="Add to Favorite">
-                        <div class="color-heart">
-                            <img src="/icons/icons8-heart-50 (1).png" alt="Favorite Icon" onclick="toggleFavorite(${item.itemId}, event)">
-                        </div>
+                        <img 
+                            class="heart-icon ${isFavoriteClass}" 
+                            src="${favoriteIconSrc}" 
+                            alt="Add to Favorite" 
+                            onclick="toggleFavorite(${item.itemId}, this, event)"
+                        >
                         <span class="favorite-tooltip">Add to Favorite</span>
                     </div>
                 </div>
-                <div class="add-button" data-item-id="${item.itemId}" onclick="addToCart(this, event)">
+                <div class="add-button" data-item-id="${item.itemId}" onclick="addToCart(this, event); event.stopPropagation();">
                     +
                     <span class="cart-tooltip">Add to Cart</span>
                 </div>
@@ -136,15 +158,15 @@ function displayRecommendedDishes(items) {
                     </div>
                 </div>
             </div>`;
-
+    
         if (index % 2 === 0) {
             container1.innerHTML += itemBox;
         } else {
             container2.innerHTML += itemBox;
         }
     });
+    
 }
-
 
 // Navigate to item details page for the selected item
 function viewItem(itemId) {
@@ -190,25 +212,37 @@ function addToCart(button, event) {
             showNotification('Failed to add item to cart.', 'error');
         });
 }
+function toggleFavorite(itemId, element, event) {
+    event.stopPropagation(); // Prevent parent element's click event
 
-function toggleFavorite(itemId, event){
-    event.stopPropagation();
+    const userId = document.getElementById("userIdField").value;
 
     fetch(`/user/${userId}/favorite/toggle?itemId=${itemId}`, {
         method: "POST",
     })
         .then((response) => {
-            if(response.ok){
-                showNotification("Favorite updated successfully!");
-            }else{
-                showNotification("Failed to update favorite.", "error");
+            if (!response.ok) {
+                throw new Error("Failed to toggle favorite.");
             }
+            return response.json();
+        })
+        .then((data) => {
+            const isFavorite = data.isFavorite;
+
+            // Dynamically update the heart icon's source
+            element.src = isFavorite
+                ? "/icons/icons8-heart-50 (1).png" // Colored heart for favorite
+                : "/icons/icons8-heart-50.png"; // Default heart for non-favorite
+
+            // Show success notification
+            showNotification(data.message || "Favorite updated successfully!");
         })
         .catch((error) => {
-            console.error("Error: ",error);
+            console.error("Error:", error);
             showNotification("Failed to update favorite.", "error");
         });
 }
+
 
 // Show notification
 function showNotification(message, type = 'success') {

@@ -44,4 +44,9 @@ public class FavoriteService {
     public List<FavoriteItem> getFavoritesByUser(Long userId){
         return favoriteItemRepository.findByUserId(userId);
     }
+
+    public boolean isItemFavorite(Long userId, Long itemId) {
+        return favoriteItemRepository.findByUserIdAndItem_ItemId(userId, itemId).isPresent();
+    }
+    
 }
