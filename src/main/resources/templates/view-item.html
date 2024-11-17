@@ -7,25 +7,7 @@
     <link rel="stylesheet" href="/styles/header.css">
     <link rel="stylesheet" href="/styles/view-item-box.css">
     <link rel="stylesheet" href="/styles/home.css">
-    <style>
-        .notification { 
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #4caf50;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 14px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            opacity: 0.9;
-        }
 
-        .notification.error {
-            background-color: #f44336;
-        }
-    </style>
 </head>
 <body>
     <div class="header">
@@ -87,7 +69,7 @@
             <div class="top-box">
                 <div class="price-box">
                     <div class="thai-baht-icon"><img src="/icons/icons8-thai-baht-24.png"></div> 
-                    <span th:text="${item.price}"></span>
+                    <span th:text="${#numbers.formatDecimal(item.price, 2, 2)}"></span>
                 </div>
                 <div class="rating">
                     <div>Ratings and Reviews: </div>
@@ -107,29 +89,32 @@
                             <button type="submit" class="add-to-cart-button">Add to Cart</button>
                         </form>
                     </div>
-                    <div class="add-on-button">Add-on</div>
                 </div>                
             </div>
         </div>
     </div>
-    <div class="recommended-food-container">
+    <div class="similar-food-container">
+        <div class=custom-circle2><img src="/images/Group 39474 (1).png" alt="custom"></div>
         <div class="recommended-text">Similar Dishes</div>
         <div class="food-container1">
             <th:block th:each="similarItem : ${similarItems}">
                 <div class="recommended-food-box" th:attr="onclick='viewItem(' + ${similarItem.itemId} + ')'">
                     <div class="add-to-favorite">
-                        <img 
-                        class="heart-icon" 
-                        th:src="${similarItem.isFavorite ? '/icons/icons8-heart-50 (1).png' : '/icons/icons8-heart-50.png'}" 
-                        alt="Favorite Icon"
-                        th:attr="onclick='toggleFavorite(' + ${similarItem.itemId} + ', this, event)'"
-                    />
-                    
+                        <div class="heart-shape">
+                            <img 
+                            class="heart-icon" 
+                            th:src="${similarItem.isFavorite ? '/icons/icons8-heart-50 (1).png' : '/icons/icons8-heart-50.png'}" 
+                            alt="Favorite Icon"
+                            th:attr="onclick='toggleFavorite(' + ${similarItem.itemId} + ', this, event)'"
+                            />
+                        </div>                    
                         <span class="favorite-tooltip">Add to Favorite</span>
                     </div>
-                    <div class="add-button" th:data-item-id="${similarItem.itemId}" onclick="addToCart(this, event); event.stopPropagation()">
-                        +
-                        <span class="cart-tooltip">Add to Cart</span>
+                    <div class="add-btn">
+                        <div class="add-button" th:data-item-id="${similarItem.itemId}" onclick="addToCart(this, event); event.stopPropagation()">
+                            +
+                            <span class="cart-tooltip">Add to Cart</span>
+                        </div>
                     </div>
                     <div class="item-pic">
                         <img th:src="${similarItem.imageUrl}" alt="Similar Dish Image">
@@ -142,10 +127,8 @@
                             </div>
                         </div>
                         <div class="item-price">
-                            <div class="thai-baht-icon">
-                                <img src="/icons/icons8-thai-baht-24.png">
-                            </div>
-                            <span th:text="${similarItem.price}">80.00</span>
+                            <img class="thai-baht-icon" src="/icons/icons8-thai-baht-24.png">
+                            <span th:text="${#numbers.formatDecimal(similarItem.price, 2, 2)}">80.00</span>
                         </div>
                     </div>
                 </div>

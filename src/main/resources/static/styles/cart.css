@@ -1,6 +1,7 @@
 body{
     background-color: rgb(233, 233, 233);
     margin: 0;
+    padding-bottom: 50px;
 }
 .display-message{
     margin-top: 150px;
@@ -26,12 +27,17 @@ body{
     padding-bottom: 30px;
     position: relative;
     box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.2);
+    min-height: 700px;
 }
 .back-arrow{
     position: relative;
-    top: 25px;
-    left: 20px;
+    top: 8px;
+    left: 5px;
     cursor: pointer;
+}
+.back-arrow img{
+    height: 30px;
+    width: 30px;
 }
 .cycles{
     position: absolute;
@@ -45,45 +51,47 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 35px;
-    padding:0 0 60px 0;
+    font-size: 30px;
+    padding:15px 0 50px 0;
+    line-height: 0;
+}
+.cart-container-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .cart-title{
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    max-width: 1000px;
+    width: 95%;
     height: 50px;
     align-items: center;
-    font-size: 23px;
+    font-size: 20px;
     margin:0 30px;
-    /* background-color: aquamarine;
-    border-bottom: 1px solid black; */
 }
 .dish{
-    display: flex;
-    padding-left: 80px;
-    flex: 3;
-    min-width: 370px;
+    padding-left: 70px;
 }
-.shop,.price{
-    flex: 1;
-    min-width: 120px;
+.price{
+    padding-left: 10px;
 }
-.amount{
-    flex: 1.2;
+.dish-box{
+    max-width: 1000px;
+    width: 95%;
 }
+
 .selected-dish-box{
-    display: flex;
-    height: 150px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     align-items: center;
     border-bottom: 1px solid rgb(177, 177, 177);
-    margin:0 30px;
 }
 .selected-dish{
     display: flex;
-    height: 150px;
-    flex: 3;
-    min-width: 370px;
+    width: 100%;
+    padding: 10px 0;
     align-items: center;
-    padding-right: 80px;
 }
 #check-mark img{
     padding-right: 15px;
@@ -128,8 +136,8 @@ body{
     cursor: pointer;
   }
 .dish-picture img{
-    width: 120px;
-    height: 120px;
+    width: 95px;
+    height: 95px;
     object-fit: cover;
     border-radius: 60px;
     margin-right: 20px;
@@ -144,35 +152,29 @@ body{
     padding-bottom: 8px;
 }
 .shop-no,.dish-price{
-    flex: 1;
+    width: 100%;
     display: flex;
-    min-width: 120px;
-    padding-bottom: 28px;
     font-size: 20px;
+    padding-left: 10px;
 }
 .dish-amount{
-    flex: 1.2;
+    width: 100%;
     display: flex;
-    min-width: 120px;
-    padding-bottom: 28px;
     font-size: 20px;
+    align-items: center;
 }
-#deduct, #add{
+.decrease-btn, .increase-btn{
     display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border: 1px solid black;
     width: 20px;
-    border-radius: 10px;
-    justify-content: center;
-    border: none;
+    height: 20px;
+    border-radius: 5px;
+    background: none;
     background-color: aliceblue;
-    padding-top: 2px;
-    font-size: 20px;
-}
-
-#quantity{
-    display: flex;
-    width: 50px;
-    font-size: 25px;
-    justify-content: center;
+    margin: 5px 10px;
 }
 .dish-price{
     display: flex;
@@ -191,7 +193,7 @@ body{
     padding-top: 2px;
 }
 .delete-button{
-    padding: 0 50px 0 20px;
+    padding: 0 20px 0 20px;
     cursor: pointer;
     transform: 0.3s ease;
 }

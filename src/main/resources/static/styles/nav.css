@@ -4,6 +4,7 @@
     flex-direction: column;
     border: 1px solid coral;
     top: 72px;
+    left: 2px;
     justify-content: space-evenly;
     align-items: center;
     height: 200px;
