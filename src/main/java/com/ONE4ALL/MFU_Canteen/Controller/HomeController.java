@@ -15,7 +15,6 @@ import com.ONE4ALL.MFU_Canteen.Entity.Shop;
 import com.ONE4ALL.MFU_Canteen.Entity.User;
 import com.ONE4ALL.MFU_Canteen.Repository.CanteenRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.CartRepository;
-import com.ONE4ALL.MFU_Canteen.Repository.ItemRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.ShopRepository;
 import com.ONE4ALL.MFU_Canteen.Repository.UserRepository;
 import com.ONE4ALL.MFU_Canteen.Service.ItemService;
@@ -29,9 +28,6 @@ public class HomeController {
 
     @Autowired
     private ShopRepository shopRepo;
-
-    @Autowired
-    private ItemRepository itemRepo;
 
     @Autowired
     private UserRepository userRepository;

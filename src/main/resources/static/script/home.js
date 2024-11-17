@@ -110,7 +110,7 @@ function displayRecommendedDishes(items) {
 
     items.forEach((item, index) => {
         const itemBox = `
-            <div class="recommended-food-box">
+            <div class="recommended-food-box" onclick= viewItem(${item.itemId})>
                 <div class="add-to-favorite">
                     <div class="heart-shape">
                         <img src="/icons/icons8-heart-50.png" alt="Add to Favorite">
