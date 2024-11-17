@@ -1,16 +1,30 @@
+// document.addEventListener("DOMContentLoaded", () => {
+//     const canteenSelect = document.getElementById("canteenSelect");
+//     const defaultCanteenId = localStorage.getItem("defaultCanteenId");
+
+//     // Automatically select the first canteen if no selection is made
+//     if (defaultCanteenId) {
+//         canteenSelect.value = defaultCanteenId;
+//     } else if (canteenSelect.options.length > 1) {
+//         canteenSelect.selectedIndex = 1; // Set the first canteen as default
+//         localStorage.setItem("defaultCanteenId", canteenSelect.options[1].value);
+//     }
+
+//     fetchShopsAndItems(); // Load shops and items for the selected or default canteen
+// });
+
 document.addEventListener("DOMContentLoaded", () => {
     const canteenSelect = document.getElementById("canteenSelect");
     const defaultCanteenId = localStorage.getItem("defaultCanteenId");
 
-    // Automatically select the first canteen if no selection is made
     if (defaultCanteenId) {
         canteenSelect.value = defaultCanteenId;
     } else if (canteenSelect.options.length > 1) {
-        canteenSelect.selectedIndex = 1; // Set the first canteen as default
+        canteenSelect.selectedIndex = 1;
         localStorage.setItem("defaultCanteenId", canteenSelect.options[1].value);
     }
 
-    fetchShopsAndItems(); // Load shops and items for the selected or default canteen
+    fetchShopsAndItems(); // Ensure this populates allItems
 });
 
 // Fetch shops and items based on selected canteen
@@ -41,21 +55,23 @@ function fetchShops(canteenId) {
 // Fetch and display available items for a given canteen
 function fetchRecommendedDishes(canteenId) {
     fetch(`/user/canteen/shops/${canteenId}/items?userId=${userId}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-        return response.json(); // Convert response to JSON
-    })
-    .then(data => {
-        if (!Array.isArray(data)) {
-            throw new Error("Data is not an array");
-        }
-        displayRecommendedDishes(data);
-    })
-    .catch(error => console.error("Error fetching recommended dishes:", error));
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json(); // Convert response to JSON
+        })
+        .then((data) => {
+            if (!Array.isArray(data)) {
+                throw new Error("Data is not an array");
+            }
 
+            allItems = data; // Populate allItems with fetched data
+            displayRecommendedDishes(allItems); // Display all items by default
+        })
+        .catch((error) => console.error("Error fetching recommended dishes:", error));
 }
+
 
 // Clear the shop and recommended dish containers
 function clearContainers() {
@@ -86,22 +102,59 @@ function displayShops(shops) {
 let allItems = []; // Store all items fetched for the current canteen
 
 // Filter and display items by selected category
+// function filterByCategory(category) {
+//     const recommendedText = document.getElementById("recommendedText");
+//     const categoryButtons = document.querySelectorAll(".category-button");
+
+//     // Set active category button and update display
+//     categoryButtons.forEach(button => button.classList.toggle("active", button.textContent === category || (!category && button.textContent === "Recommended Dishes")));
+//     recommendedText.textContent = category || "Recommended Dishes";
+//     displayRecommendedDishes(allItems.filter(item => !category || item.category === category));
+// }
+
 function filterByCategory(category) {
     const recommendedText = document.getElementById("recommendedText");
     const categoryButtons = document.querySelectorAll(".category-button");
 
-    // Set active category button and update display
-    categoryButtons.forEach(button => button.classList.toggle("active", button.textContent === category || (!category && button.textContent === "Recommended Dishes")));
-    recommendedText.textContent = category || "Recommended Dishes";
-    displayRecommendedDishes(allItems.filter(item => !category || item.category === category));
-}
+    // Set active category button
+    categoryButtons.forEach((button) =>
+        button.classList.toggle(
+            "active",
+            button.textContent === category || (!category && button.textContent === "Recommended Dishes")
+        )
+    );
 
-// Search and display items by text input
-function searchItems() {
-    const searchInput = document.getElementById("searchInput").value.toLowerCase();
-    const filteredItems = allItems.filter(item => item.name.toLowerCase().includes(searchInput) || item.category.toLowerCase().includes(searchInput));
+    recommendedText.textContent = category || "Recommended Dishes";
+
+    // Filter items based on category
+    const filteredItems = allItems.filter(
+        (item) => !category || item.category === category
+    );
+
     displayRecommendedDishes(filteredItems);
 }
+
+
+// Search and display items by text input
+// function searchItems() {
+//     const searchInput = document.getElementById("searchInput").value.toLowerCase();
+//     const filteredItems = allItems.filter(item => item.name.toLowerCase().includes(searchInput) || item.category.toLowerCase().includes(searchInput));
+//     displayRecommendedDishes(filteredItems);
+// }
+
+function searchItems() {
+    const searchInput = document.getElementById("searchInput").value.toLowerCase();
+
+    // Filter items based on search input
+    const filteredItems = allItems.filter(
+        (item) =>
+            item.name.toLowerCase().includes(searchInput) ||
+            item.category.toLowerCase().includes(searchInput)
+    );
+
+    displayRecommendedDishes(filteredItems);
+}
+
 
 // Display recommended dishes in alternating containers for layout balance
 function displayRecommendedDishes(items) {
