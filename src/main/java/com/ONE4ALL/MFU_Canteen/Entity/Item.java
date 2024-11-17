@@ -38,10 +38,12 @@ public class Item {
     @JsonIgnore
     private List<CartItem> cartItems = new ArrayList<>();
 
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FavoriteItem> favoritedBy = new ArrayList<>();
+
     public Item(){
 
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -130,5 +132,12 @@ public class Item {
         this.cartItems = cartItems;
     }
 
+    public List<FavoriteItem> getFavoritedBy() {
+        return favoritedBy;
+    }
+
+    public void setFavoritedBy(List<FavoriteItem> favoritedBy) {
+        this.favoritedBy = favoritedBy;
+    }
   
 }

@@ -115,7 +115,7 @@ function displayRecommendedDishes(items) {
                     <div class="heart-shape">
                         <img src="/icons/icons8-heart-50.png" alt="Add to Favorite">
                         <div class="color-heart">
-                            <img src="/icons/icons8-heart-50 (1).png" alt="Favorite Icon">
+                            <img src="/icons/icons8-heart-50 (1).png" alt="Favorite Icon" onclick="toggleFavorite(${item.itemId}, event)">
                         </div>
                         <span class="favorite-tooltip">Add to Favorite</span>
                     </div>
@@ -188,6 +188,25 @@ function addToCart(button, event) {
         .catch((error) => {
             console.error('Error:', error);
             showNotification('Failed to add item to cart.', 'error');
+        });
+}
+
+function toggleFavorite(itemId, event){
+    event.stopPropagation();
+
+    fetch(`/user/${userId}/favorite/toggle?itemId=${itemId}`, {
+        method: "POST",
+    })
+        .then((response) => {
+            if(response.ok){
+                showNotification("Favorite updated successfully!");
+            }else{
+                showNotification("Failed to update favorite.", "error");
+            }
+        })
+        .catch((error) => {
+            console.error("Error: ",error);
+            showNotification("Failed to update favorite.", "error");
         });
 }
 

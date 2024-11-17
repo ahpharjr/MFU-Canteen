@@ -10,92 +10,29 @@
     <link rel="stylesheet" href="/styles/profile-box.css">
 </head>
 <body>
-    <div class="div-header">
-        <div class="div-left-h">
-            <div class=custom-circle2><img src="/images/Ellipse 1220.png" alt="custom"></div>
-            <div class="shop-name">Yummy</div>
-            <div class="shop-toggle">
-                <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                    <span class="status"></span>
-                </label>
-            </div>
-        </div>
-        <div class="div-right-h">
-            <div class="menu-icon">
-                <img src="/icons/icons8-menu-50.png" alt="menu">
-                <span class="tooltip">Menu</span>
-            </div>
-            <div class="order-icon">
-                <span class="order-qty">9</span>
-                <img src="/icons/notifications.svg" alt="order">
-                <span class="tooltip">Order</span>
-            </div>
-            <div class="profile-container">
-                <div class="profile" onclick="toggleProfileCard()">
-                    <img src="/icons/profile.png" alt="profile">
-                    <span class="tooltip">Profile</span>
-                </div>
-                <div class="profile-card">
-                    <h2>PROFILE</h2>
-                    <a href="#" class="edit-link">
-                        <img src="/icons/icons8-edit-32.png">
-                        <span class="tooltip">Edit</span>
-                    </a>
-                    <div class="profile-header">
-                        <img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt="Profile Picture" class="profile-image">
-                    </div>
-                    <div class="profile-info">
-                        <h3>Jesicca Elsanar</h3>
-                        <p>Jesiccaesanar2003@gmail.com</p>
-                        <button class="signout-button">Sign out</button>
-                    </div>
-                </div>
-            </div>
-        </div>   
-    </div>
 
     <div class="div-menu-container">
-        <div class= "custom-circle">
+        <div class="custom-circle">
             <img src="/images/Group 39474 (1).png" alt="custom-circle">
         </div>
-        
-        <h2>Menu</h2>
-        <div class="create-item-button">
-                <img src="/icons/create-item-icon.png">
-                Create Item
-        </div>
+        <h2>Your Favorite Items</h2>
         <div class="div-menu-box">
-            <div class="menu-card">
-                <img src="/images/4k-mercedes-red-zcj47yx9mq7tfjed.webp" alt="Fried Rice Seafood" class="menu-image">
-                <div class="toggle">
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider"></span>
-                        <span class="status">OFF</span>
-                    </label>
-                </div>
+            <div class="menu-card" th:each="favoriteItem : ${favoriteItems}">
+                <img th:src="${favoriteItem.item.imageUrl}" alt="Item Image" class="menu-image">
                 <div class="menu-info">
-                    <p>Mercedes</p>
+                    <p th:text="${favoriteItem.item.name}">Item Name</p>
                     <div class="info-bottom">
                         <div class="rating">
                             <img src="/images/rating-star.png">
                         </div>
                         <div class="price-update">
                             <img class="thai-baht" src="/icons/icons8-thai-baht-24.png">
-                            <span class="price">45.00</span>
+                            <span class="price" th:text="${favoriteItem.item.price}">0.00</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script>
-        function toggleProfileCard(){
-            const profileCard = document.querySelector('.profile-cart');
-            profileCard.style.display = profileCard.style.display === 'none' ? 'block' : 'none';
-        }
-    </script>
+    </div>    
 </body>
 </html>

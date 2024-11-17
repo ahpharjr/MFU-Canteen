@@ -3,7 +3,9 @@ package com.ONE4ALL.MFU_Canteen.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -14,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 
@@ -40,6 +43,9 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Owner owner;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FavoriteItem> favoriteItems = new ArrayList<>();
 
     public User() {
     }
@@ -90,6 +96,14 @@ public class User {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public List<FavoriteItem> getFavoriteItems() {
+        return favoriteItems;
+    }
+
+    public void setFavoriteItems(List<FavoriteItem> favoriteItems) {
+        this.favoriteItems = favoriteItems;
     }
 
 }
