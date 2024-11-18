@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/styles/cart.css">
     <link rel="stylesheet" href="/styles/nav.css">
     <link rel="stylesheet" href="/styles/header.css">
+    <link rel="stylesheet" href="/styles/fav-add-btn.css">
     <title>Your Cart</title>
 </head>
 <body>
@@ -26,7 +27,7 @@
             <div class="right-section">
                 <div class="cart-icon">
                     <span class="cart-total-qty" th:text="${totalQuantity}">0</span>
-                    <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png"></a>
+                    <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/icons8-cart-30.png"></a>
                 </div>
                 <div class="bell-icon"><img src="/icons/BELL NOTI.png"></div>
                 <div class="profile-button"><img src="/icons/profile.png"></div>
@@ -37,20 +38,22 @@
         <div class="nav-button">
             <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon"><img src="/icons/icons8-home-48.png" alt="home button"></div></a>
             <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img src="/icons/icons8-home-50.png" alt="home button"></div></a>
+            <span class="home-tooltip">Home</span>
         </div>
         <div class="nav-button">
-            <div class="nav-icon"><img id="menu-icon" src="/icons/menu-icon-color.png" alt="menu button"></div>
-            <div class="nav-icon1"><img id="menu-icon" src="/icons/menu-icon.png" alt="menu button"></div>
+            <a th:href="@{'/user/'+${userId} + '/menu'}"><div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div></a>
+            <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon.png" alt="home button"></div>
+            <span class="home-tooltip">Menu</span>
         </div>
         <div class="nav-button">
             <a th:href="@{'/user/'+ ${userId} +'/favorite'}"><div class="nav-icon"><img  src="/icons/icons8-heart-50 (1).png" alt="home button"></div></a>
             <div class="nav-icon1"><img src="/icons/icons8-heart-50.png" alt="heart button"></div>
+            <span class="home-tooltip">Favorite</span>
         </div>
         <div class="nav-button">
-            <a th:href="@{'/user/'+ ${userId} + '/orders'}">
-                <img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
-            </a><div class="nav-icon">
-            <!-- <div class="nav-icon1"><img id="history-icon" src="/icons/history-icon.png" alt="history button"></div> -->
+            <a th:href="@{'/user/'+ ${userId} +'/orders'}"><div class="nav-icon"><img  id="history-icon" src="/icons/icons8-purchase-order-50.png" alt="home button"></div></a>
+            <div class="nav-icon1"><img  id="history-icon" src="/icons/icons8-purchase-order-50 (2).png" alt="home button"></div>
+            <span class="home-tooltip">Order</span>
         </div>
     </div>
     <!-- Empty Cart Message -->

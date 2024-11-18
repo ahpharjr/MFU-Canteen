@@ -37,7 +37,7 @@
 }
 
 /* Tooltip Styling */
-.favorite-tooltip {
+.favorite-tooltip, .home-tooltip {
     visibility: hidden;
     position: absolute;
     left: 110%; /* Tooltip beside the button */
@@ -49,14 +49,13 @@
     border-radius: 5px;
     padding: 5px;
     font-size: 12px;
-    z-index: 1;
+    z-index: 5;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     white-space: nowrap;
 }
-
 /* Tooltip arrow */
-.favorite-tooltip::before {
+.favorite-tooltip::before, .home-tooltip::before{
     content: '';
     position: absolute;
     top: 50%;
@@ -68,7 +67,7 @@
 }
 
 /* Show tooltip on hover */
-.add-to-favorite:hover .favorite-tooltip {
+.add-to-favorite:hover .favorite-tooltip, .nav-button:hover .home-tooltip{
     visibility: visible;
     opacity: 1;
 }

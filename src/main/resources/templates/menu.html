@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Menu</title>
     <link rel="stylesheet" href="/styles/home.css">
     <link rel="stylesheet" href="/styles/header.css">
     <link rel="stylesheet" href="/styles/menu.css">
     <link rel="stylesheet" href="/styles/fav-add-btn.css">
     <link rel="stylesheet" href="/styles/nav.css">
-    
+    <style>
+        body{
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     <!-- Header with Canteen Selection and User Actions -->
@@ -55,12 +59,12 @@
     <div class="div-nav-bar">
         <div class="nav-button">
             <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
-            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
+            <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img  src="/icons/icons8-home-50.png" alt="home button"></div></a>
             <span class="home-tooltip">Home</span>
         </div>
         <div class="nav-button">
-            <a th:href="@{'/user/'+${userId} + '/menu'}"><div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div></a>
-            <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon.png" alt="home button"></div>
+            <div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div>
+            <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div>
             <span class="home-tooltip">Menu</span>
         </div>
         <div class="nav-button">
@@ -76,13 +80,13 @@
     </div>
 
     <!-- Category Buttons -->
-    <!-- <div class="div-menu">
+    <div class="div-menu">
         <button class="category-button active" onclick="filterByCategory('')">Recommended Dishes</button>
         <button class="category-button" onclick="filterByCategory('Rice Bowls')">Rice Bowls</button>
         <button class="category-button" onclick="filterByCategory('Drinks')">Drinks</button>
         <button class="category-button" onclick="filterByCategory('Grilled & BBQ')">Grilled & BBQ</button>
         <button class="category-button" onclick="filterByCategory('Juice/Smoothies')">Juice/Smoothies</button>
-    </div> -->
+    </div>
 
     <!-- Recommended and Shops Sections -->
     <div class="recommended-food-container1">

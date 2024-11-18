@@ -41,20 +41,22 @@
         <div class="nav-button">
             <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon"><img src="/icons/icons8-home-48.png" alt="home button"></div></a>
             <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img src="/icons/icons8-home-50.png" alt="home button"></div></a>
+            <span class="home-tooltip">Home</span>
         </div>
         <div class="nav-button">
-            <div class="nav-icon"><img id="menu-icon" src="/icons/menu-icon-color.png" alt="menu button"></div>
-            <div class="nav-icon1"><img id="menu-icon" src="/icons/menu-icon.png" alt="menu button"></div>
+            <a th:href="@{'/user/'+${userId} + '/menu'}"><div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div></a>
+            <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon.png" alt="home button"></div>
+            <span class="home-tooltip">Menu</span>
         </div>
         <div class="nav-button">
             <a th:href="@{'/user/'+ ${userId} +'/favorite'}"><div class="nav-icon"><img  src="/icons/icons8-heart-50 (1).png" alt="home button"></div></a>
             <div class="nav-icon1"><img src="/icons/icons8-heart-50 (1).png" alt="heart button"></div>
+            <span class="home-tooltip">Favorite</span>
         </div>
         <div class="nav-button">
-            <a th:href="@{'/user/'+ ${userId} + '/orders'}">
-                <img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
-            </a><div class="nav-icon">
-            <!-- <div class="nav-icon1"><img id="history-icon" src="/icons/history-icon.png" alt="history button"></div> -->
+            <a th:href="@{'/user/'+ ${userId} +'/orders'}"><div class="nav-icon"><img  id="history-icon" src="/icons/icons8-purchase-order-50.png" alt="home button"></div></a>
+            <div class="nav-icon1"><img  id="history-icon" src="/icons/icons8-purchase-order-50 (2).png" alt="home button"></div>
+            <span class="home-tooltip">Order</span>
         </div>
     </div>
     <div class="display-msg" th:if="${isFavoriteItemEmpty}">
@@ -75,38 +77,40 @@
             <h2>Your Favorite Items</h2>
             <div class="fav-menu-box">
                 <div class="div-menu-box">
-                    <div class="menu-card" th:each="favoriteItem : ${favoriteItems}">
-                        <div class="add-to-favorite">
-                            <div class="heart-shape">
-                                <img 
-                                class="heart-icon" 
-                                th:src="${favoriteItem.isFavorite ? '/icons/icons8-heart-50 (1).png' : '/icons/icons8-heart-50.png'}" 
-                                alt="Favorite Icon"
-                                th:attr="onclick='toggleFavoriteFunc(' + ${favoriteItem.item.itemId} + ', this, event)'"
-                                />
-                            </div>                    
-                            <span class="favorite-tooltip">Add to Favorite</span>
-                        </div>
-                        <div class="add-btn">
-                            <div class="add-button" th:data-item-id="${favoriteItem.item.itemId}" onclick="addToCart(this, event); event.stopPropagation()">
-                                +
-                                <span class="cart-tooltip">Add to Cart</span>
+                    <th:block th:each="favoriteItem : ${favoriteItems}">
+                        <div class="menu-card" th:attr="onclick='viewItem(' + ${favoriteItem.item.itemId} + ')'" >
+                            <div class="add-to-favorite">
+                                <div class="heart-shape">
+                                    <img 
+                                    class="heart-icon" 
+                                    th:src="${favoriteItem.isFavorite ? '/icons/icons8-heart-50 (1).png' : '/icons/icons8-heart-50.png'}" 
+                                    alt="Favorite Icon"
+                                    th:attr="onclick='toggleFavoriteFunc(' + ${favoriteItem.item.itemId} + ', this, event)'"
+                                    />
+                                </div>                    
+                                <span class="favorite-tooltip">Add to Favorite</span>
                             </div>
-                        </div>
-                        <img th:src="${favoriteItem.item.imageUrl}" alt="Item Image" class="menu-image">
-                        <div class="menu-info">
-                            <p th:text="${favoriteItem.item.name}">Item Name</p>
-                            <div class="info-bottom">
-                                <div class="rating">
-                                    <img src="/images/rating-star.png">
-                                </div>
-                                <div class="price-update">
-                                    <img class="thai-baht" src="/icons/icons8-thai-baht-24.png">
-                                    <span class="price" th:text="${favoriteItem.item.price}">0.00</span>
+                            <div class="add-btn">
+                                <div class="add-button" th:data-item-id="${favoriteItem.item.itemId}" onclick="addToCart(this, event); event.stopPropagation()">
+                                    +
+                                    <span class="cart-tooltip">Add to Cart</span>
                                 </div>
                             </div>
+                            <img th:src="${favoriteItem.item.imageUrl}" alt="Item Image" class="menu-image">
+                            <div class="menu-info">
+                                <p th:text="${favoriteItem.item.name}">Item Name</p>
+                                <div class="info-bottom">
+                                    <div class="rating">
+                                        <img src="/images/rating-star.png">
+                                    </div>
+                                    <div class="price-update">
+                                        <img class="thai-baht" src="/icons/icons8-thai-baht-24.png">
+                                        <span class="price" th:text="${favoriteItem.item.price}">0.00</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </th:block>
                 </div>
             </div>
         </div>  

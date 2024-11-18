@@ -1,5 +1,5 @@
 .div-nav-bar{
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     border: 1px solid coral;
@@ -11,6 +11,7 @@
     width: 40px;
     border-radius: 10px;
     background-color: aliceblue;
+    z-index: 1;
 }
 .nav-button{
     position: relative;
@@ -30,8 +31,11 @@
     opacity: 1;
     cursor: pointer;
 }
-#menu-icon, #history-icon{
+#menu-icon{
     height: 15px;
+}
+#history-icon{
+    width: 20px;
 }
 .recommended-food-container{
 background-color: white;

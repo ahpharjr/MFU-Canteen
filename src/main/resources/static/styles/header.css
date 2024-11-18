@@ -239,8 +239,11 @@
 .cart-icon, .bell-icon, .profile-button{
     cursor: pointer;
 }
-.cart-icon img, .bell-icon img{
+.bell-icon img{
     width: 19px;
+}
+.cart-icon img{
+    width: 20px;
 }
 .profile-button img{
     width: 32px;

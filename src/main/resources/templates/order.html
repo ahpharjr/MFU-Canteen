@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/header.css">
-    <link rel="stylesheet" href="/styles/home.css">
     <link rel="stylesheet" href="/styles/order-container-u.css">
+    <link rel="stylesheet" href="/styles/nav.css">
+    <link rel="stylesheet" href="/styles/fav-add-btn.css">
     <title>Orders</title>
 </head>
 <body>
@@ -43,18 +44,22 @@
         <div class="nav-button">
             <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon"><img  src="/icons/icons8-home-48.png" alt="home button"></div></a>
             <a th:href="@{'/user/'+ ${userId} + '/home'}"><div class="nav-icon1"><img  src="/icons/icons8-home-50.png" alt="home button"></div></a>
+            <span class="home-tooltip">Home</span>
         </div>
         <div class="nav-button">
-            <div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div>
+            <a th:href="@{'/user/'+${userId} + '/menu'}"><div class="nav-icon"><img  id="menu-icon" src="/icons/menu-icon-color.png" alt="home button"></div></a>
             <div class="nav-icon1"><img  id="menu-icon" src="/icons/menu-icon.png" alt="home button"></div>
+            <span class="home-tooltip">Menu</span>
         </div>
         <div class="nav-button">
             <a th:href="@{'/user/'+ ${userId} +'/favorite'}"><div class="nav-icon"><img  src="/icons/icons8-heart-50 (1).png" alt="home button"></div></a>
             <div class="nav-icon1"><img  src="/icons/icons8-heart-50.png" alt="home button"></div>
+            <span class="home-tooltip">Favorite</span>
         </div>
         <div class="nav-button">
-            <div class="nav-icon"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
-            <div class="nav-icon1"><img  id="history-icon" src="/icons/history-icon.png" alt="home button"></div>
+            <a th:href="@{'/user/'+ ${userId} +'/orders'}"><div class="nav-icon"><img  id="history-icon" src="/icons/icons8-purchase-order-50.png" alt="home button"></div></a>
+            <div class="nav-icon1"><img  id="history-icon" src="/icons/icons8-purchase-order-50.png" alt="home button"></div>
+            <span class="home-tooltip">Order</span>
         </div>
     </div>
     <div class="order-body">  

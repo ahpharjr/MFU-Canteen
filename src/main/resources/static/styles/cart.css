@@ -175,6 +175,13 @@ body{
     background: none;
     background-color: aliceblue;
     margin: 5px 10px;
+    cursor: pointer;
+    transition: 0.15s ease;
+}
+.decrease-btn:hover, .increase-btn:hover{
+    background-color: #ff4e4e;
+    color: white;
+    border-color: white;
 }
 .dish-price{
     display: flex;
@@ -192,22 +199,28 @@ body{
     height: 20px;
     padding-top: 2px;
 }
-.delete-button{
-    padding: 0 20px 0 20px;
+.delete-button {
+    padding: 0 20px;
     cursor: pointer;
-    transform: 0.3s ease;
+    transition: transform 0.3s ease; /* Smooth transformation */
 }
-.delete-button button{
+
+.delete-button button {
     border: none;
     background-color: aliceblue;
     cursor: pointer;
+    transition: transform 0.3s ease; /* Apply smooth transition to button */
 }
-/* .delete-button:hover{
-    width: 32px;
-} */
-.delete-button img{
+
+.delete-button img {
     width: 25px;
+    transition: transform 0.3s ease; /* Smooth transformation for the image */
 }
+
+.delete-button:hover img {
+    transform: scale(1.07); /* Scale up the image as well for a consistent effect */
+}
+
 .checkout-summary{
     display: flex;
     align-items: center;

@@ -113,6 +113,7 @@ function deleteItem(cartItemId) {
         if (data.totalQuantity !== undefined) {
             updateCartTotal(data.totalQuantity);
         }
+        updateSummary();
     })
     .catch(error => console.error('Error:', error));
 }
