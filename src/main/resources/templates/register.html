@@ -21,7 +21,7 @@
         </div>
         <form th:action="@{/register}" th:object="${user}" method="post">
             <div>
-                <p class="input-name">NAME</p>
+                <p class="input-name">Email</p>
                 <input class="input-email" type="text" th:field="*{username}" placeholder="Enter your Name">
                 
                 <!-- Display error message if username already exists -->

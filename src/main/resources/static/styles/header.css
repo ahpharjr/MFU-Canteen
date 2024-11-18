@@ -206,7 +206,7 @@
     box-shadow: none; /* Remove any box shadow if present */
 }
 .right-section{
-    width: 180px;
+    min-width: 80px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     padding-right:15px ;
@@ -217,6 +217,9 @@
 }
 .cart-icon,.bell-icon{
     position: relative;
+}
+.cart-icon{
+    margin-right: 40px;
 }
 .cart-total-qty,.order-noti{
     position: absolute;

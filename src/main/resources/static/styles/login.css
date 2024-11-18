@@ -65,7 +65,7 @@ input {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 30px 12px 15px 12px;
+    margin: 15px 12px 15px 12px;
 
 }
 
@@ -134,12 +134,22 @@ label{
 .app-logo{
     display: flex;
     justify-content: center;
+    margin: 0 15px;
+    border-radius: 7px;
+    align-items: center;
+    border: 1px solid rgb(255,118,34);
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.app-logo:hover{
+    background-color: rgb(255, 130, 53);
+    color:  white;
 }
 
 .fb-logo, .line-logo, .google-logo{
-    height: 45px;
+    height: 28px;
     border-radius: 25px;
-    padding: 0 10px;
+    padding: 5px 10px;
 }
 .fb-logo:hover,
 .line-logo:hover,

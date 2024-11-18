@@ -46,10 +46,10 @@
                     <span class="cart-total-qty" th:text="${totalQuantity}">0</span>
                     <a th:href="@{'/user/'+${userId}+'/cart'}"><img src="/icons/cart.png" alt="Cart Icon"></a>
                 </div>
-                <div class="bell-icon">
+                <!-- <div class="bell-icon">
                     <span class="cart-total-qty">9</span>
                     <img src="/icons/BELL NOTI.png" alt="Notification Bell">
-                </div>
+                </div> -->
                 <div class="profile-button"><img src="/icons/profile.png" alt="Profile"></div>
             </div>
         </div>
@@ -82,10 +82,13 @@
     <!-- Category Buttons -->
     <div class="div-menu">
         <button class="category-button active" onclick="filterByCategory('')">Recommended Dishes</button>
+        <button class="category-button" onclick="filterByCategory('Noodles')">Noodles</button>
+        <button class="category-button" onclick="filterByCategory('Street Food Specials')">Street Food Specials</button>
+        <button class="category-button" onclick="filterByCategory('Grilled & BBQ Dishes')">Grilled & BBQ Dishes</button>
+        <button class="category-button" onclick="filterByCategory('Chicken Rice')">Chicken Rice</button>
         <button class="category-button" onclick="filterByCategory('Rice Bowls')">Rice Bowls</button>
         <button class="category-button" onclick="filterByCategory('Drinks')">Drinks</button>
-        <button class="category-button" onclick="filterByCategory('Grilled & BBQ')">Grilled & BBQ</button>
-        <button class="category-button" onclick="filterByCategory('Juice/Smoothies')">Juice/Smoothies</button>
+        <button class="category-button" onclick="filterByCategory('Desserts & Sweets')">Desserts & Sweets</button>
     </div>
 
     <!-- Recommended and Shops Sections -->
