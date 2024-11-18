@@ -1,6 +1,5 @@
 package com.ONE4ALL.MFU_Canteen.Entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -10,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "favorite_items")
@@ -28,6 +28,17 @@ public class FavoriteItem {
     private Item item;
 
     private LocalDateTime favoritedAt;
+
+        @Transient
+    private boolean isFavorite;
+
+    public boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
 
     public FavoriteItem(){
         this.favoritedAt = LocalDateTime.now();

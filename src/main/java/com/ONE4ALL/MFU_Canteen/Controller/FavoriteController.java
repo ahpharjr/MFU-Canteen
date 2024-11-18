@@ -3,6 +3,7 @@ package com.ONE4ALL.MFU_Canteen.Controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,13 @@ public class FavoriteController {
         model.addAttribute("cartQty", cart.getTotalQuantity());
         model.addAttribute("userId", userId);
         
-        List<FavoriteItem> favoriteItems = favoriteService.getFavoritesByUser(userId);
+        List<FavoriteItem> favoriteItems = favoriteService.getFavoritesByUser(userId)
+                                            .stream()
+                                            .map(favoriteItem -> {
+                                                favoriteItem.setIsFavorite(favoriteService.isItemFavorite(userId, favoriteItem.getItem().getItemId()));
+                                                return favoriteItem;
+                                            })
+                                            .collect(Collectors.toList());
         model.addAttribute("favoriteItems", favoriteItems);
         model.addAttribute("isFavoriteItemEmpty", favoriteItems.isEmpty());
 

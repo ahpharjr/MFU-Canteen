@@ -1,0 +1,174 @@
+.add-to-favorite {
+    position: absolute;
+    top: 18px;
+    right: 8px;
+    background-color: aliceblue;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.heart-shape{
+    position: relative;
+}
+
+
+/* Default heart icon */
+.heart-icon, .color-heart img{
+    width: 18px;
+    padding-top: 4px;
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.3s ease-in-out;
+}
+
+/* When the item is marked as favorite */
+.heart-icon.favorite {
+    /* filter: brightness(1.5) saturate(1.8); */
+    transform: scale(1); /* Slightly larger for distinction */
+}
+
+/* Hover effect for the heart icon */
+.heart-icon:hover {
+    transform: scale(1.1); /* Enlarges slightly on hover */
+    filter: brightness(1.1);
+}
+
+/* Tooltip Styling */
+.favorite-tooltip {
+    visibility: hidden;
+    position: absolute;
+    left: 110%; /* Tooltip beside the button */
+    top: 50%; /* Center align vertically */
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    white-space: nowrap;
+}
+
+/* Tooltip arrow */
+.favorite-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -5px; /* Adjust arrow position */
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent rgba(0, 0, 0, 0.5) transparent transparent;
+}
+
+/* Show tooltip on hover */
+.add-to-favorite:hover .favorite-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Transition for the entire heart toggle */
+.heart-icon.favorite {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Add to Cart button styling */
+.add-btn{
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    top: 50px;
+    right: 8px;
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.add-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    border: solid 1px rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+    transition: 0.3s ease;
+}
+
+.add-button:hover {
+    color: white;
+    background-color: rgba(242, 114, 28, 1);
+    border: 1px solid white;
+    cursor: pointer;
+}
+
+/* Tooltip Styling */
+.favorite-tooltip,
+.cart-tooltip {
+    visibility: hidden;
+    position: absolute;
+    left: 110%; /* Position the tooltip beside the button */
+    top: 50%; /* Center align vertically */
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+/* Tooltip arrow */
+.favorite-tooltip::before,
+.cart-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -5px; /* Adjust arrow position */
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent rgba(0, 0, 0, 0.5) transparent transparent;
+}
+
+/* Show tooltip when hovering over the button */
+.add-to-favorite:hover .favorite-tooltip,
+.add-button:hover .cart-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.notification.success {
+    background-color: #4caf50;
+}
+
+.notification.error {
+    background-color: #f44336;
+}

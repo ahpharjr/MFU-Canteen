@@ -1,6 +1,5 @@
 body{
     background-color: rgb(233, 233, 233);
-    padding-bottom: 500px;
     margin: 0;
 }
 .display-msg{
@@ -23,10 +22,11 @@ body{
     display: flex;
     flex-direction: column;
     background-color: aliceblue;
-    margin: 73px 0px 30px 50px;
+    margin: 73px 0px 20px 50px;
     border-radius: 15px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
     position: relative;
+    min-height: 630px;
 }
 .back-arrow{
     position: relative;

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/styles/toggle.css">
     <link rel="stylesheet" href="/styles/header.css">
     <link rel="stylesheet" href="/styles/nav.css">
+    <link rel="stylesheet" href="/styles/fav-add-btn.css">
 </head>
 <body>
     <div class="header">
@@ -75,6 +76,23 @@
             <div class="fav-menu-box">
                 <div class="div-menu-box">
                     <div class="menu-card" th:each="favoriteItem : ${favoriteItems}">
+                        <div class="add-to-favorite">
+                            <div class="heart-shape">
+                                <img 
+                                class="heart-icon" 
+                                th:src="${favoriteItem.isFavorite ? '/icons/icons8-heart-50 (1).png' : '/icons/icons8-heart-50.png'}" 
+                                alt="Favorite Icon"
+                                th:attr="onclick='toggleFavoriteFunc(' + ${favoriteItem.item.itemId} + ', this, event)'"
+                                />
+                            </div>                    
+                            <span class="favorite-tooltip">Add to Favorite</span>
+                        </div>
+                        <div class="add-btn">
+                            <div class="add-button" th:data-item-id="${favoriteItem.item.itemId}" onclick="addToCart(this, event); event.stopPropagation()">
+                                +
+                                <span class="cart-tooltip">Add to Cart</span>
+                            </div>
+                        </div>
                         <img th:src="${favoriteItem.item.imageUrl}" alt="Item Image" class="menu-image">
                         <div class="menu-info">
                             <p th:text="${favoriteItem.item.name}">Item Name</p>
@@ -93,5 +111,53 @@
             </div>
         </div>  
     </div>  
+    <input type="hidden" id="userIdField" th:value="${userId}">
+    <script> 
+        const userId = document.getElementById("userIdField").value;
+
+        function toggleFavoriteFunc(itemId, element, event) {
+            event.stopPropagation(); // Prevent parent element's click event
+
+            const userId = document.getElementById("userIdField").value;
+
+            fetch(`/user/${userId}/favorite/toggle?itemId=${itemId}`, {
+                method: "POST",
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Failed to toggle favorite.");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    const isFavorite = data.isFavorite;
+
+                    if (!isFavorite) {
+                        // Remove the parent menu-card element from the DOM
+                        const menuCard = element.closest('.menu-card');
+                        if (menuCard) {
+                            menuCard.remove();
+                        }
+
+                        // Check if there are any remaining favorite items
+                        const favoriteContainer = document.querySelector('.fav-menu-box');
+                        if (!favoriteContainer.querySelector('.menu-card')) {
+                            // If no favorite items are left, show the "No Favorite" message
+                            const noFavoriteMessage = document.querySelector('.display-msg');
+                            noFavoriteMessage.style.display = 'block';
+                        }
+                    }
+
+                    // Optionally show a notification
+                    showNotification(data.message || "Favorite updated successfully!");
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    showNotification("Failed to update favorite.", "error");
+                });
+        }
+
+    </script>
+    <script src="/script/home.js"></script>
 </body>
 </html>
