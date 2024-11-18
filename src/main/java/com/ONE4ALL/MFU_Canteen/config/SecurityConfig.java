@@ -9,9 +9,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.ONE4ALL.MFU_Canteen.Service.CustomOAuth2UserService;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
+        this.customOAuth2UserService = customOAuth2UserService;
+    }
 
     @Autowired
     private CustomLoginSuccessHandler customLoginSuccessHandler;
@@ -26,38 +34,30 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/register", "/login", "/styles/**", "/images/**", "/icons/**", "/uploads/**").permitAll()
-                .requestMatchers("/user/**").hasRole("CUSTOMER")
+                .requestMatchers("/user/**").hasAuthority("ROLE_CUSTOMER") // Match role naming convention
                 .requestMatchers("/ad/**").hasRole("ADMIN")
-                .requestMatchers("/owner/**").hasRole("OWNER") // Owners can access /owner/**
+                .requestMatchers("/owner/**").hasRole("OWNER")
                 .anyRequest().authenticated()
+            )
+            .oauth2Login(oauth2login -> oauth2login
+                .loginPage("/login")
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(customLoginSuccessHandler)
             )
             .formLogin(form -> form
                 .loginPage("/login")
                 .successHandler(customLoginSuccessHandler)
                 .permitAll()
             )
-            // .oauth2Login(oauth2 -> oauth2
-            //     .loginPage("/login")
-            //     .successHandler(customLoginSuccessHandler)
-            // )
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
             )
-            // .csrf(csrf -> csrf
-            //     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // Enable CSRF token in cookie, accessible to JavaScript
-            // );
-         // CSRF token in a cookie, accessible to JS
-
-
             .csrf(csrf -> csrf.disable());
 
-            // .csrf(csrf -> csrf
-            //     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            // ); // CSRF protection with tokens accessible to JavaScript
-    
         return http.build();
     }
-    
 }

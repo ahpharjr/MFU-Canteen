@@ -29,22 +29,20 @@ public class UserController {
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());
-
         return "register";
     }
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user, Model model) {
-        // Check if the username already exists
         if (userRepository.existsByUsername(user.getUsername())) {
-            model.addAttribute("error", "Username with this name already exists.");
-            return "register";  // Return to the registration page with the error message
+            model.addAttribute("error", "Username already exists.");
+            return "register";
         }
 
-        // Encrypt the password
+        // Encrypt password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Fetch or create the CUSTOMER role
+        // Assign ROLE_CUSTOMER
         Role customerRole = roleRepository.findByName("ROLE_CUSTOMER");
         if (customerRole == null) {
             customerRole = new Role();
@@ -52,7 +50,6 @@ public class UserController {
             roleRepository.save(customerRole);
         }
 
-        // Assign CUSTOMER role to the new user
         user.getRoles().add(customerRole);
         userRepository.save(user);
 
@@ -60,8 +57,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String showLoginForm(){
-
+    public String showLoginForm() {
         return "login";
     }
 }
