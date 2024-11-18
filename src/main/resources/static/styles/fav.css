@@ -1,24 +1,42 @@
 body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     background-color: rgb(233, 233, 233);
-    /* background: linear-gradient(135deg, #017c80, #3e4948);  */
+    padding-bottom: 500px;
     margin: 0;
-    position: relative;
-    padding-bottom: 50px;
 }
-.div-menu-container{
+.display-msg{
+    margin-top: 150px;
+    font-size: 30px;
+    font-weight: bold;
     display: flex;
     flex-direction: column;
-    background-color: white;
-    /* background: linear-gradient(135deg, #4bacaf, #939393);  */
-    max-width: 1000px;
-    padding: 0 20px 40px 20px;
-    margin-top: 70px;
+    justify-content: center;
+    align-items: center;
+}
+.display-msg img{
+    margin-bottom: 30px;
+    width: 250px;
+}
+.display-msg a{
+    font-size: 25px;
+}
+.div-fav-container{
+    display: flex;
+    flex-direction: column;
+    background-color: aliceblue;
+    margin: 73px 0px 30px 50px;
     border-radius: 15px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
     position: relative;
+}
+.back-arrow{
+    position: relative;
+    top: 8px;
+    left: 5px;
+    cursor: pointer;
+}
+.back-arrow img{
+    height: 30px;
+    width: 30px;
 }
 .custom-circle, .custom-circle2{
     position: absolute;
@@ -28,38 +46,18 @@ body{
 .custom-circle img, .custom-circle2 img{
     border-top-right-radius: 10px;
 }
-.div-menu-container h2{
+.div-fav-container h2{
     text-align: center;
+    font-size: 30px;
+    padding:0 0 50px 0;
+    line-height: 0;
 }
-.create-item-link{
-    text-decoration: none;
+.fav-menu-box{
+    padding: 0 50px 70px 50px;
 }
-.create-item-button{
-    display: flex;
-    /* background-color: rgba(3, 57, 79, 1); */
-    background-color: #ff5c5c;
-    color: white;
-    padding: 10px;
-    width: 100px;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 10px;
-    margin: 0 0 15px 0;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-.create-item-button img{
-    width: 20px;
-}
-.create-item-button:hover{
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #ff4040;
-}
-
 .div-menu-box{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     column-gap: 15px;
     row-gap: 20px;
 }
@@ -72,6 +70,12 @@ body{
 @media (min-width: 800px) and (  max-width: 999px){
     .div-menu-box{
         grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 1000px) and (  max-width: 1299px){
+    .div-menu-box{
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }
 

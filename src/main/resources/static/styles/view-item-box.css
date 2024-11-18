@@ -47,14 +47,15 @@
     justify-content: space-between;
     border-radius: 10px;
     height: 300px;
-    margin-top: 25px;
-    max-width: 600px;
+    margin-top: 25px;   
+    max-width: 750px;
+    min-width: 300px;
 }
 .price-box{
     display: flex;
     font-size: 28px;
     font-weight: 500;
-    padding: 10px 10px 10px 0;
+    padding: 10px 10px 5px 0;
 }
 .price-box img{
     padding-top: 2px;
@@ -73,11 +74,26 @@
 .name{
     font-size: 30px;
     padding-bottom: 15px;
+    font-weight: 600;
 }
-.description{
-    font-size: 20px;
+.description {
+    font-size: 18px;
     padding-bottom: 25px;
+    display: -webkit-box; /* Enable box layout for clamping */
+    -webkit-box-orient: vertical; /* Required for -webkit-line-clamp */
+    -webkit-line-clamp: 2; /* Limit to 3 lines for Webkit-based browsers */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Add '...' to clipped text */
+    line-height: 1.5; /* Set line spacing */
+    max-height: calc(1.5em * 3); /* Limit height to match 3 lines */
+
+    /* Standard property for modern browsers */
+    display: box;
+    box-orient: vertical; /* Non-webkit alternative */
+    line-clamp: 3; /* Modern CSS property (standard) */
 }
+ 
+
 .seller-box{
     display: flex;
     justify-content: space-between;
@@ -161,6 +177,3 @@
     cursor: pointer;
     box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.5);
 }
-
-
-

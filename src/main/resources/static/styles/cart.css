@@ -19,7 +19,7 @@ body{
 }
 .cart-container{
     background-color: aliceblue;
-    margin: 73px 80px 30px 50px;
+    margin: 73px 0px 30px 50px;
     border-radius: 10px;
     min-width: 900px;
     display: flex;
@@ -218,7 +218,7 @@ body{
     flex-direction: column;
     align-items: center;
     border: 1px solid rgb(88, 88, 88);
-    margin-top: 20px;
+    margin-top: 30px;
     padding: 20px;
     border-radius: 10px;
     font-size: 20px;

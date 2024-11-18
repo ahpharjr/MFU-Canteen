@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ONE4ALL.MFU_Canteen.Entity.Cart;
 import com.ONE4ALL.MFU_Canteen.Entity.FavoriteItem;
+import com.ONE4ALL.MFU_Canteen.Entity.User;
+import com.ONE4ALL.MFU_Canteen.Repository.UserRepository;
 import com.ONE4ALL.MFU_Canteen.Service.FavoriteService;
 
 @Controller
@@ -25,11 +28,27 @@ public class FavoriteController {
 
     @Autowired
     private FavoriteService favoriteService;
+
+    @Autowired
+    private UserRepository userRepository;
     
     @GetMapping("/favorite")
     public String showFavoriteItems(@PathVariable Long userId, Model model){
+        User user = userRepository.findById(userId).orElse(null);
+        Cart cart = user.getCart();
+        model.addAttribute("cartQty", cart.getTotalQuantity());
+        model.addAttribute("userId", userId);
+        
         List<FavoriteItem> favoriteItems = favoriteService.getFavoritesByUser(userId);
         model.addAttribute("favoriteItems", favoriteItems);
+        model.addAttribute("isFavoriteItemEmpty", favoriteItems.isEmpty());
+
+        if(!favoriteItems.isEmpty()){
+            FavoriteItem firstFavoriteItem = favoriteItems.get(0);
+            model.addAttribute("firstFavoriteItem", firstFavoriteItem);
+        }else{
+            model.addAttribute("isFavoriteItemEmpty", true);
+        }
 
         return "favorite";
     }

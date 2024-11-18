@@ -23,6 +23,83 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function updateCartTotal(totalQuantity) {
+    // Update the header's cart quantity
+    const cartQtyElement = document.querySelector('.cart-total-qty');
+    if (cartQtyElement) {
+        cartQtyElement.textContent = totalQuantity;
+    }
+
+    // Update the "Cart Item" display
+    const cartItemCountElement = document.querySelector('.cart-quantity span');
+    if (cartItemCountElement) {
+        cartItemCountElement.textContent = totalQuantity;
+    }
+}
+
+// Increase item quantity
+function increaseQuantity(cartItemId) {
+    const userId = document.getElementById('userIdField').value;
+
+    fetch(`/user/${userId}/cart/ajax-increase?cartItemId=${cartItemId}`, {
+        method: 'POST',
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.quantity !== undefined) {
+            document.getElementById(`quantity-${cartItemId}`).textContent = data.quantity;
+        }
+        if (data.totalQuantity !== undefined) {
+            updateCartTotal(data.totalQuantity);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Decrease item quantity
+function decreaseQuantity(cartItemId) {
+    const userId = document.getElementById('userIdField').value;
+
+    fetch(`/user/${userId}/cart/ajax-decrease?cartItemId=${cartItemId}`, {
+        method: 'POST',
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.quantity !== undefined) {
+            const quantityElement = document.getElementById(`quantity-${cartItemId}`);
+            if (data.quantity === 0) {
+                quantityElement.closest('.selected-dish-box').remove();
+            } else {
+                quantityElement.textContent = data.quantity;
+            }
+        }
+        if (data.totalQuantity !== undefined) {
+            updateCartTotal(data.totalQuantity);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Delete item from cart
+function deleteItem(cartItemId) {
+    const userId = document.getElementById('userIdField').value;
+
+    fetch(`/user/${userId}/cart/ajax-delete?cartItemId=${cartItemId}`, {
+        method: 'POST',
+    })
+    .then(response => response.json())
+    .then(data => {
+        const itemElement = document.getElementById(`quantity-${cartItemId}`);
+        if (itemElement) {
+            itemElement.closest('.selected-dish-box').remove();
+        }
+        if (data.totalQuantity !== undefined) {
+            updateCartTotal(data.totalQuantity);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 function updateSummary() {
     let totalQuantity = 0;
     let totalPrice = 0;
@@ -94,3 +171,5 @@ const canteenName = localStorage.getItem("selectedCanteenName");
 if (canteenName) {
     document.querySelector(".header .hleft div:nth-child(2)").textContent = canteenName;
 }
+
+

@@ -17,6 +17,7 @@ background-color: rgb(234, 234, 234);
     height: 200px;
     width: 40px;
     border-radius: 10px;
+    background-color: aliceblue;
 }
 .nav-button{
     position: relative;
@@ -40,10 +41,10 @@ background-color: rgb(234, 234, 234);
     height: 15px;
 }
 .recommended-food-container{
-    background-color: aliceblue;
-    border-radius: 10px;
-    margin: 20px 80px;
-    height: 700px;
+background-color: white;
+border-radius: 10px;
+margin: 20px 80px;
+height: 700px;
 }
 /* ======================Below is for the .recommended-food in home page================ */
 .recommended-food-container1, .shops-in-canteen, .similar-food-container{
