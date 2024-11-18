@@ -37,7 +37,6 @@ function updateCartTotal(totalQuantity) {
     }
 }
 
-// Increase item quantity
 function increaseQuantity(cartItemId) {
     const userId = document.getElementById('userIdField').value;
 
@@ -48,15 +47,23 @@ function increaseQuantity(cartItemId) {
     .then(data => {
         if (data.quantity !== undefined) {
             document.getElementById(`quantity-${cartItemId}`).textContent = data.quantity;
+
+            // Update the checkbox's data-quantity
+            const checkbox = document.querySelector(`.item-checkbox[data-id='${cartItemId}']`);
+            if (checkbox) {
+                checkbox.setAttribute('data-quantity', data.quantity);
+            }
         }
         if (data.totalQuantity !== undefined) {
             updateCartTotal(data.totalQuantity);
         }
+
+        // Update the summary dynamically
+        updateSummary();
     })
     .catch(error => console.error('Error:', error));
 }
 
-// Decrease item quantity
 function decreaseQuantity(cartItemId) {
     const userId = document.getElementById('userIdField').value;
 
@@ -71,14 +78,24 @@ function decreaseQuantity(cartItemId) {
                 quantityElement.closest('.selected-dish-box').remove();
             } else {
                 quantityElement.textContent = data.quantity;
+
+                // Update the checkbox's data-quantity
+                const checkbox = document.querySelector(`.item-checkbox[data-id='${cartItemId}']`);
+                if (checkbox) {
+                    checkbox.setAttribute('data-quantity', data.quantity);
+                }
             }
         }
         if (data.totalQuantity !== undefined) {
             updateCartTotal(data.totalQuantity);
         }
+
+        // Update the summary dynamically
+        updateSummary();
     })
     .catch(error => console.error('Error:', error));
 }
+
 
 // Delete item from cart
 function deleteItem(cartItemId) {
@@ -107,8 +124,11 @@ function updateSummary() {
     document.querySelectorAll('.item-checkbox:checked').forEach(checkbox => {
         const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
         const quantity = parseInt(checkbox.getAttribute('data-quantity')) || 0;
-        totalQuantity += quantity;
-        totalPrice += price * quantity;
+        // Exclude items with quantity 0
+        if (quantity > 0) {
+            totalQuantity += quantity;
+            totalPrice += price * quantity;
+        }
     });
 
     document.getElementById('summary-quantity').textContent = totalQuantity;

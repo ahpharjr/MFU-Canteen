@@ -63,7 +63,8 @@
         </div>
         <div class="div-order-container" th:unless="${orders.isEmpty()}">
             <div class=custom-circle2><img src="/images/Group 39474 (1).png" alt="custom"></div>
-            <h2>Total Orders: <span th:text="${orders.size()}">0</span></h2>
+            <!-- <h2>Total Orders: <span th:text="${orders.size()}">0</span></h2> -->
+            <h2>Your Orders</h2>
             <div class="order-box">
                 <div th:each="order : ${orders}" class="order-panel">
                     <div class="order-header">
