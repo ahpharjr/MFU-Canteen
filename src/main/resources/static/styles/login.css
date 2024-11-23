@@ -134,6 +134,7 @@ label{
 .app-logo{
     display: flex;
     justify-content: center;
+    align-items: center;
     margin: 0 15px;
     border-radius: 7px;
     align-items: center;
@@ -141,8 +142,11 @@ label{
     cursor: pointer;
     transition: 0.2s ease;
 }
+.google-login-link{
+    text-decoration: none;
+}
 .app-logo:hover{
-    background-color: rgb(255, 130, 53);
+    background-color: rgb(255, 157, 96);
     color:  white;
 }
 
