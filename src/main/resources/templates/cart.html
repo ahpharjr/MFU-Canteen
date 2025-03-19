@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/styles/nav.css">
     <link rel="stylesheet" href="/styles/header.css">
     <link rel="stylesheet" href="/styles/fav-add-btn.css">
+    <script src="https://js.stripe.com/v3/"></script>
+
     <title>Your Cart</title>
 </head>
 <body>
@@ -85,7 +87,7 @@
                     <div class="selected-dish-box">
                         <div class="selected-dish">
                             <div class="custom-checkbox">
-                                <input type="checkbox" class="item-checkbox" th:data-id="${cartItem.id}" th:data-price="${cartItem.item.price}" th:data-quantity="${cartItem.quantity}" onchange="updateSummary()" />
+                                <input type="checkbox" class="item-checkbox" th:data-id="${cartItem.id}" th:data-item-id="${cartItem.item.itemId}" th:data-price="${cartItem.item.price}" th:data-quantity="${cartItem.quantity}" onchange="updateSummary()" />
                                 <label></label>
                             </div>
                             <div class="dish-picture">

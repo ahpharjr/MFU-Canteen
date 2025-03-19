@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     const priceElements = document.querySelectorAll('.item-price');
     priceElements.forEach(element => {
@@ -24,13 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function updateCartTotal(totalQuantity) {
-    // Update the header's cart quantity
     const cartQtyElement = document.querySelector('.cart-total-qty');
     if (cartQtyElement) {
         cartQtyElement.textContent = totalQuantity;
     }
 
-    // Update the "Cart Item" display
     const cartItemCountElement = document.querySelector('.cart-quantity span');
     if (cartItemCountElement) {
         cartItemCountElement.textContent = totalQuantity;
@@ -48,8 +45,8 @@ function increaseQuantity(cartItemId) {
         if (data.quantity !== undefined) {
             document.getElementById(`quantity-${cartItemId}`).textContent = data.quantity;
 
-            // Update the checkbox's data-quantity
-            const checkbox = document.querySelector(`.item-checkbox[data-id='${cartItemId}']`);
+            // ✅ Always update checkbox data-quantity
+            const checkbox = document.querySelector(`.item-checkbox[data-item-id='${cartItemId}']`);
             if (checkbox) {
                 checkbox.setAttribute('data-quantity', data.quantity);
             }
@@ -58,7 +55,6 @@ function increaseQuantity(cartItemId) {
             updateCartTotal(data.totalQuantity);
         }
 
-        // Update the summary dynamically
         updateSummary();
     })
     .catch(error => console.error('Error:', error));
@@ -79,8 +75,8 @@ function decreaseQuantity(cartItemId) {
             } else {
                 quantityElement.textContent = data.quantity;
 
-                // Update the checkbox's data-quantity
-                const checkbox = document.querySelector(`.item-checkbox[data-id='${cartItemId}']`);
+                // ✅ Update the checkbox's data-quantity
+                const checkbox = document.querySelector(`.item-checkbox[data-item-id='${cartItemId}']`);
                 if (checkbox) {
                     checkbox.setAttribute('data-quantity', data.quantity);
                 }
@@ -90,14 +86,11 @@ function decreaseQuantity(cartItemId) {
             updateCartTotal(data.totalQuantity);
         }
 
-        // Update the summary dynamically
         updateSummary();
     })
     .catch(error => console.error('Error:', error));
 }
 
-
-// Delete item from cart
 function deleteItem(cartItemId) {
     const userId = document.getElementById('userIdField').value;
 
@@ -125,72 +118,89 @@ function updateSummary() {
     document.querySelectorAll('.item-checkbox:checked').forEach(checkbox => {
         const price = parseFloat(checkbox.getAttribute('data-price')) || 0;
         const quantity = parseInt(checkbox.getAttribute('data-quantity')) || 0;
-        // Exclude items with quantity 0
         if (quantity > 0) {
             totalQuantity += quantity;
             totalPrice += price * quantity;
         }
     });
 
-    document.getElementById('summary-quantity').textContent = totalQuantity;
-    document.getElementById('summary-quantity-button').textContent = totalQuantity;
-    document.getElementById('summary-price').textContent = totalPrice.toFixed(2);
+    const summaryQuantity = document.getElementById('summary-quantity');
+    if (summaryQuantity) summaryQuantity.textContent = totalQuantity;
+
+    const summaryButton = document.getElementById('summary-quantity-button');
+    if (summaryButton) summaryButton.textContent = totalQuantity;
+
+    const summaryPrice = document.getElementById('summary-price');
+    if (summaryPrice) summaryPrice.textContent = totalPrice.toFixed(2);
 }
 
 function saveSelectedItems() {
     const selectedItems = Array.from(document.querySelectorAll('.item-checkbox:checked'))
-        .map(checkbox => checkbox.getAttribute('data-id'));
+        .map(checkbox => ({
+            id: checkbox.getAttribute('data-item-id'), // ✅ Use data-item-id
+            quantity: parseInt(checkbox.getAttribute('data-quantity')) || 1
+        }));
     localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
 }
 
 function restoreSelectedItems() {
     const selectedItems = JSON.parse(localStorage.getItem('selectedItems') || '[]');
+    
     document.querySelectorAll('.item-checkbox').forEach(checkbox => {
-        if (selectedItems.includes(checkbox.getAttribute('data-id'))) {
+        const savedItem = selectedItems.find(item => item.id === checkbox.getAttribute('data-item-id')); // ✅ Use data-item-id
+        if (savedItem) {
             checkbox.checked = true;
+            checkbox.setAttribute('data-quantity', savedItem.quantity);
         }
     });
+
     updateSummary();
 }
 
 function clearSelectedItemsOnCheckout() {
-            localStorage.removeItem('selectedItems');
+    localStorage.removeItem('selectedItems');
 }
 
-function submitCheckoutForm() {
-    const selectedItems = Array.from(document.querySelectorAll('.item-checkbox:checked'))
-        .map(checkbox => checkbox.getAttribute('data-id'));
+async function submitCheckoutForm() {
+    const userId = document.getElementById('userIdField').value;
 
-    
+    const selectedItems = Array.from(document.querySelectorAll('.item-checkbox:checked'))
+        .map(checkbox => ({
+            itemId: parseInt(checkbox.getAttribute('data-item-id')),
+            quantity: parseInt(checkbox.getAttribute('data-quantity')) || 1
+        }));
+
     if (selectedItems.length === 0) {
         alert("Please select items to check out!");
-        return; // Stop further execution if no items are selected
+        return;
     }
 
-    const checkoutForm = document.getElementById("checkoutForm");
+    try {
+        const response = await fetch(`/api/payment/checkout?userId=${userId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ items: selectedItems })
+        });
 
-    // Remove any previous item inputs
-    document.querySelectorAll(".selected-item-id").forEach(input => input.remove());
+        if (!response.ok) {
+            throw new Error("Failed to checkout");
+        }
 
-    // Add hidden inputs for each selected item ID
-    selectedItems.forEach(itemId => {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "selectedItemIds";
-        input.value = itemId;
-        input.classList.add("selected-item-id");
-        checkoutForm.appendChild(input);
-    });
+        const stripeResponse = await response.json();
 
-    // Submit the form
-    checkoutForm.submit();
+        window.location.href = stripeResponse.sessionUrl;
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to checkout during payment processing.");
+    }
 }
+
 
 const canteenName = localStorage.getItem("selectedCanteenName");
 
-// Display the canteen name in the appropriate location
 if (canteenName) {
     document.querySelector(".header .hleft div:nth-child(2)").textContent = canteenName;
 }
-
-
